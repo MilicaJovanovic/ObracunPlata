@@ -29,7 +29,10 @@
                 </c:forEach>
             </table>
         </c:if>--%>
-        <button>Azuriraj podatke</button>
+        <form action="<c:url value="/test" />" method="GET">
+            <input type="submit" name="action" value="save" />
+        </form>
+
     </div>
 </div>
 <%@include file="footer.jsp" %>

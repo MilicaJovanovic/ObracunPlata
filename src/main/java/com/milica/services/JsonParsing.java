@@ -16,6 +16,8 @@ import com.milica.entities.Subject;
 import com.milica.entities.SubjectMark;
 import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 /**
  *
@@ -34,13 +36,19 @@ public class JsonParsing {
     @Autowired
     EmployeeDao employeeDao;
     
-    public Subject subjectFromNode(JsonNode jsonNodeClass) {     
+    public Subject subjectFromNode(JSONObject jsonNodeClass) {     
+        System.out.println("poziva se subjectFromNode");
+        System.out.println("Json predmet " + jsonNodeClass);
         List<SubjectMark> subjectMarkList = new ArrayList<SubjectMark>();
-        JsonNode jsonNodeAllMarks = jsonNodeClass.get("ocenePredmeta");
-        for (JsonNode jsonNodeMark : jsonNodeAllMarks) {
-          SubjectMark subjectMark = new SubjectMark(Integer.parseInt(fixText(jsonNodeMark.get("id").toString())), fixText(jsonNodeMark.get("rbr").toString()), Double.parseDouble(fixText(jsonNodeMark.get("ocena").toString())));
-          subjectMarkList.add(subjectMark);
-          subjectMarkDao.addSubjectMark(subjectMark);
+        if (jsonNodeClass.get("ocenePredmeta") != null && !jsonNodeClass.get("ocenePredmeta").equals("") && !jsonNodeClass.get("ocenePredmeta").equals("null")) {
+            JSONArray jsonNodeAllMarks = (JSONArray) jsonNodeClass.get("ocenePredmeta");
+//        for (JsonNode jsonNodeMark : jsonNodeAllMarks) {
+            for (int i = 0; i < jsonNodeAllMarks.length(); i++) {
+              JSONObject jsonNodeMark = jsonNodeAllMarks.getJSONObject(i);
+              SubjectMark subjectMark = new SubjectMark(Integer.parseInt(fixText(jsonNodeMark.get("id").toString())), fixText(jsonNodeMark.get("rbr").toString()), Double.parseDouble(fixText(jsonNodeMark.get("ocena").toString())));
+              subjectMarkList.add(subjectMark);
+//              subjectMarkDao.addSubjectMark(subjectMark);
+            }
         }
             
         Subject subject = new Subject(Integer.parseInt(fixText(jsonNodeClass.get("id").toString())), 
@@ -71,16 +79,20 @@ public class JsonParsing {
             Double.parseDouble(fixText(jsonNodeClass.get("fin2").toString())),
             Double.parseDouble(fixText(jsonNodeClass.get("fmm").toString())), 
             Double.parseDouble(fixText(jsonNodeClass.get("fkv").toString())), subjectMarkList);
-        subjectDao.addSubject(subject);
+//        subjectDao.addSubject(subject);
+        System.out.println("Moj subject " + subject.toString());
         return subject;
     }
     
-    public Employee employeeFromNode(JsonNode jsonNodePerson) {
+    public Employee employeeFromNode(JSONObject jsonNodePerson) {
         int subjectsInSpringSemester = 0;
         int subjectsInAutumnSemester = 0;
         List<Subject> subjectList = new ArrayList<Subject>();
-        JsonNode jsonNodeAllClasses = jsonNodePerson.get("classes");
-        for (JsonNode jsonNodeClass : jsonNodeAllClasses) {
+//        JSONArray jsonNodeAllClasses = jsonNodePerson.get("classes");
+        JSONArray jsonNodeAllClasses = (JSONArray) jsonNodePerson.get("classes");
+//        for (JSONObject jsonNodeClass : jsonNodeAllClasses) {
+          for (int i = 0; i < jsonNodeAllClasses.length(); i++) {
+            JSONObject jsonNodeClass = jsonNodeAllClasses.getJSONObject(i);
             if (jsonNodeClass.get("fpm") != null && jsonNodeClass.get("fob") != null && jsonNodeClass.get("fin1") != null && jsonNodeClass.get("fin2") != null && jsonNodeClass.get("fmm") != null && jsonNodeClass.get("fkv") != null) {
                 try {
                     Subject subject = subjectFromNode(jsonNodeClass);
@@ -104,43 +116,52 @@ public class JsonParsing {
 
         int functionsSumValue = 0;
         int specialAddValue = 0;
-        JsonNode jsonNodeFunctions = jsonNodePerson.get("functions");
-        for (JsonNode function : jsonNodeFunctions) {
-            if (fixText(function.get("title").toString()).equals("Specijalni dodatak")) {
-                    specialAddValue = Integer.parseInt(fixText(function.get("value").toString()));
-            } else if (fixText(function.get("title").toString()).equals("Rektor")) {
-                    functionsSumValue =  functionsSumValue + 2400;
-            } else if (fixText(function.get("title").toString()).equals("Dekan FIT")) {
-                    functionsSumValue =  functionsSumValue + 540;
-            } else if (fixText(function.get("title").toString()).equals("Dekan FDU")) {
-                    functionsSumValue =  functionsSumValue + 450;
-            } else if (fixText(function.get("title").toString()).equals("Dekan FAM")) {
-                    functionsSumValue =  functionsSumValue + 450;
-            } else if (fixText(function.get("title").toString()).equals("Rukovodilac ISUM projekta")) {
-                    functionsSumValue =  functionsSumValue + 200;
-            } else if (fixText(function.get("title").toString()).equals("Direktor centra")) {
-                    functionsSumValue =  functionsSumValue + 150;
-            } else if (fixText(function.get("title").toString()).equals("Predsednik komisije za kvalitet")) {
-                functionsSumValue =  functionsSumValue + 100;
-            } else if (fixText(function.get("title").toString()).equals("Organizator izlozbi i pomocnik VD dekana")) {
-                functionsSumValue =  functionsSumValue + 300;
-            } 
-        }
+//        if (jsonNodePerson.get("functions") != null && !jsonNodePerson.get("functions").equals("") && !jsonNodePerson.get("functions").equals("null")) {
+//            JSONArray jsonNodeFunctions = (JSONArray) jsonNodePerson.get("functions");
+//            for (int i = 0; i < jsonNodeAllClasses.length(); i++) {
+//                JSONObject function = jsonNodeAllClasses.getJSONObject(i);
+//    //        for (JsonNode function : jsonNodeFunctions) {
+//                if (fixText(function.get("title").toString()).equals("Specijalni dodatak")) {
+//                        specialAddValue = Integer.parseInt(fixText(function.get("value").toString()));
+//                } else if (fixText(function.get("title").toString()).equals("Rektor")) {
+//                        functionsSumValue =  functionsSumValue + 2400;
+//                } else if (fixText(function.get("title").toString()).equals("Dekan FIT")) {
+//                        functionsSumValue =  functionsSumValue + 540;
+//                } else if (fixText(function.get("title").toString()).equals("Dekan FDU")) {
+//                        functionsSumValue =  functionsSumValue + 450;
+//                } else if (fixText(function.get("title").toString()).equals("Dekan FAM")) {
+//                        functionsSumValue =  functionsSumValue + 450;
+//                } else if (fixText(function.get("title").toString()).equals("Rukovodilac ISUM projekta")) {
+//                        functionsSumValue =  functionsSumValue + 200;
+//                } else if (fixText(function.get("title").toString()).equals("Direktor centra")) {
+//                        functionsSumValue =  functionsSumValue + 150;
+//                } else if (fixText(function.get("title").toString()).equals("Predsednik komisije za kvalitet")) {
+//                    functionsSumValue =  functionsSumValue + 100;
+//                } else if (fixText(function.get("title").toString()).equals("Organizator izlozbi i pomocnik VD dekana")) {
+//                    functionsSumValue =  functionsSumValue + 300;
+//                } 
+//            }
+//        }
+        
 
         double isumHoursJ = 0;
         double isumHoursP = 0;
         double isumMoneyJ = 0;
         double isumMoneyP = 0;
-        JsonNode jsonNodeIsumFunctions = jsonNodePerson.get("isumFunctions");
-        for (JsonNode function : jsonNodeIsumFunctions) {
-            if (fixText(function.get("title").toString()).equals("Angažovanje na ISUM projektu, jesenji semestar")) {
-                isumHoursJ = Double.parseDouble(fixText(function.get("numberofhours").toString()));
-                isumMoneyJ = Double.parseDouble(fixText(function.get("priceperhour").toString()));
-            } else if (fixText(function.get("title").toString()).equals("Angažovanje na ISUM projektu, prolećni semestar")) {
-                isumHoursP = Double.parseDouble(fixText(function.get("numberofhours").toString()));
-                isumMoneyP = Double.parseDouble(fixText(function.get("priceperhour").toString()));
-            }
-        }
+//        if (jsonNodePerson.get("isumFunctions") != null && !jsonNodePerson.get("isumFunctions").equals("") && !jsonNodePerson.get("isumFunctions").equals("null")) {
+//            JSONArray jsonNodeIsumFunctions = (JSONArray) jsonNodePerson.get("isumFunctions");
+////          for (JsonNode function : jsonNodeIsumFunctions) {
+//            for (int i = 0; i < jsonNodeAllClasses.length(); i++) {
+//                JSONObject function = jsonNodeAllClasses.getJSONObject(i);
+//                if (fixText(function.get("title").toString()).equals("Angažovanje na ISUM projektu, jesenji semestar")) {
+//                    isumHoursJ = Double.parseDouble(fixText(function.get("numberofhours").toString()));
+//                    isumMoneyJ = Double.parseDouble(fixText(function.get("priceperhour").toString()));
+//                } else if (fixText(function.get("title").toString()).equals("Angažovanje na ISUM projektu, prolećni semestar")) {
+//                    isumHoursP = Double.parseDouble(fixText(function.get("numberofhours").toString()));
+//                    isumMoneyP = Double.parseDouble(fixText(function.get("priceperhour").toString()));
+//                }
+//            }
+//        }
 
         Employee employee = new Employee(Integer.parseInt(fixText(jsonNodePerson.get("id").toString())), 
             semesterNumber, subjectsInSpringSemester, specialAddValue, functionsSumValue, subjectsInAutumnSemester, 
@@ -158,16 +179,19 @@ public class JsonParsing {
             fixText(jsonNodePerson.get("kt").toString()),
             fixText(jsonNodePerson.get("kpr").toString()), 
             subjectList, isumHoursJ, isumHoursP, isumMoneyJ, isumMoneyP);
-        employeeDao.addEmployee(employee);
+//        employeeDao.addEmployee(employee);
+        System.out.println(employee.toString());
         return employee;
     }
 
-    public PartTimeEmployee partTimeEmployeeFromNode(JsonNode jsonNodePerson) {
+    public PartTimeEmployee partTimeEmployeeFromNode(JSONObject jsonNodePerson) {
         List<Subject> subjectList = new ArrayList<Subject>();
-        JsonNode jsonNodeAllClasses = jsonNodePerson.get("classes");
+        JSONArray jsonNodeAllClasses = (JSONArray) jsonNodePerson.get("classes");
         int subjectsInSpringSemester = 0;
         int subjectsInAutumnSemester = 0;
-        for (JsonNode jsonNodeClass : jsonNodeAllClasses) {
+//        for (JsonNode jsonNodeClass : jsonNodeAllClasses) {
+        for (int i = 0; i < jsonNodeAllClasses.length(); i++) {
+            JSONObject jsonNodeClass = jsonNodeAllClasses.getJSONObject(i);
             if (jsonNodeClass.get("fpm") != null && jsonNodeClass.get("fob") != null &&
             jsonNodeClass.get("fin1") != null && jsonNodeClass.get("fin2") != null &&
             jsonNodeClass.get("fmm") != null && jsonNodeClass.get("fkv") != null) {

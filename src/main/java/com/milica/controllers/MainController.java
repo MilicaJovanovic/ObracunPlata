@@ -9,6 +9,7 @@ package com.milica.controllers;
  *
  * @author Milica
  */
+import com.milica.services.ExcelGenerator;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,6 +42,20 @@ public class MainController {
     
     @RequestMapping(value = "/history", method = RequestMethod.GET)
     public String showHistory(ModelMap model) {
+        return "history";
+    }
+    
+//    @RequestMapping(value = "dataUpdate/doUpdate", method = RequestMethod.GET)
+//    public String doUpdate(ModelMap model) throws Exception {
+//        System.out.println("Kliknuto dugme");
+//        ExcelGenerator.createSheets();
+//        return "dataUpdate";
+//    }
+    
+    @RequestMapping(value="/test", method=RequestMethod.GET)
+    public String handlePost(ModelMap m) throws Exception {
+        System.out.println("Kliknuto dugme");
+        ExcelGenerator.createSheets();
         return "history";
     }
 }

@@ -8,13 +8,31 @@ package com.milica.services;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.milica.entities.Employee;
 import com.milica.entities.PartTimeEmployee;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -31,7 +49,28 @@ public class ExcelGenerator {
       return received.replaceAll("\"", "");
     }  
     
-//    public void createSheets() throws Exception {
+    public static void createSheets() throws Exception {
+        System.err.println("Poziva se metoda");
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(Const.ISUM_SERVICE);
+
+        HttpResponse response = httpclient.execute(httppost);
+        
+        String json = EntityUtils.toString(response.getEntity());
+        
+//        System.out.println("MOJ STRING " + json);
+        
+        JSONArray temp = new JSONArray(json);
+        
+        for (int i = 0; i < temp.length(); i++) {
+            JSONObject obj = temp.getJSONObject(i);
+//            System.out.println("Moj json " + obj);
+            JsonParsing jsonParsing = new JsonParsing();
+            if (obj.get("employmentType").equals("Radni odnos")) {
+                jsonParsing.employeeFromNode(obj);
+            }
+        }
+        
 //        Promise<WSResponse> response = WS.url(Const.ISUM_SERVICE).setHeader("Content-Type","application/json").post("");
 //        WSResponse respon = response.get(36000000);
 //
@@ -112,5 +151,5 @@ public class ExcelGenerator {
 //        FileOutputStream fileOutputStream = new FileOutputStream(new File(Const.CURRENT_FILE));
 //        workbookTemplate.write(fileOutputStream);
 //        fileOutputStream.close();
-//    }
+    }
 }

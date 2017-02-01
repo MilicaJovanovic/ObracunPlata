@@ -17,7 +17,7 @@ public class Const {
     public static final String TEMPLATE_FILE = "template.xlsx";
     public static final String SIMPLE_TEMPLATE_FILE = "simple_template.xlsx";
 
-    public static final String ISUM_SERVICE = "https://isum.metropolitan.ac.rs/rest/listaprofesora/real";
+    public static final String ISUM_SERVICE = "https://isum.metropolitan.ac.rs/rest/listaprofesora/mock";
     // public static final String ISUM_SERVICE = "http://192.168.64.128:8080/core/rest/listaprofesora/real";
 
     public static final String USER_SERVICE = "https://isum.metropolitan.ac.rs/rest/userservice/";
