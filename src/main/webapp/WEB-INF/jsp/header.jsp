@@ -22,36 +22,32 @@ String pageName = uri.substring(uri.lastIndexOf("/") + 1);
         <title>Obracun plata</title>
     </head>
     <body>
-        <div class="container">
-            <nav class="navbar navbar-default">
-                <div class="container">
-                    <!-- Brand and toggle get grouped for better
-                    mobile display -->
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="#">Obracun plata</a>
-                    </div>
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <ul class="nav navbar-nav">
-                            <c:url var="index" value="/" />
-                            <c:url var="update" value="/dataUpdate/" />
-                            <c:url var="current" value="/currentPayment/" />
-                            <c:url var="gross" value="/grossPayment/" />
-                            <c:url var="history" value="/history/" />
-                            <li class="<%=(pageName.equals("index.jsp")) ? "active" : ""%>"><a href="${index}">Pocetna strana</a></li>
-                            <li class="<%=(pageName.equals("dataUpdate.jsp")) ? "active" : ""%>"><a href="${update}">Azuriranje podataka</a></li>
-                            <li class="<%=(pageName.equals("currentPayment.jsp")) ? "active" : ""%>"><a href="${current}">Trenutna isplata</a></li>
-                            <li class="<%=(pageName.equals("grossPayment.jsp")) ? "active" : ""%>"><a href="${gross}">Bruto isplata</a></li>
-                            <li class="<%=(pageName.equals("history.jsp")) ? "active" : ""%>"><a href="${history}">Istorija isplata</a></li>
-                        </ul>
-                    </div>
+        <nav class="navbar navbar-default">
+            <div class="container"
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Obracun plata</a>
                 </div>
-            </nav>
-        </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <c:url var="index" value="/" />
+                        <c:url var="update" value="/dataUpdate/" />
+                        <c:url var="current" value="/currentPayment/" />
+                        <c:url var="gross" value="/grossPayment/" />
+                        <c:url var="history" value="/history/" />
+                        <li class="<%=(pageName.equals("index.jsp")) ? "active" : ""%>"><a href="${index}">Pocetna strana</a></li>
+                        <li class="<%=(pageName.equals("dataUpdate.jsp")) ? "active" : ""%>"><a href="${update}">Azuriranje podataka</a></li>
+                        <li class="<%=(pageName.equals("currentPayment.jsp")) ? "active" : ""%>"><a href="${current}">Trenutna isplata</a></li>
+                        <li class="<%=(pageName.equals("grossPayment.jsp")) ? "active" : ""%>"><a href="${gross}">Bruto isplata</a></li>
+                        <li class="<%=(pageName.equals("history.jsp")) ? "active" : ""%>"><a href="${history}">Istorija isplata</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </body>
 </html>

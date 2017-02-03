@@ -4,35 +4,31 @@
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <%@include file="header.jsp" %>
 <div class="container">
-    <div class="col-md-6 col-md-offset-3">
-        <h1>Product list</h1>
-        <%--<c:if test="${!empty products}">
+    <!--<div class="col-md-6 col-md-offset-3">-->
+        <h1>Lista zaposlenih</h1>
+        <c:if test="${!empty employees}">
             <table>
                 <tr>
-                    <th width="500"> name</th>
-                    <th width="500"> description</th>
-                    <th width="500"> price</th>
-                    <th width="500"> category</th>
+                    <th width="500"> Ime</th>
+                    <th width="500"> Prezime</th>
+                    <th width="500"> Tip zaposlenja</th>
+                    <th width="500"> Fakultet</th>
                 </tr>
-                <c:forEach items="${products}" var="product">
+                <c:forEach items="${employees}" var="employee">
                     <div class="row">
                         <tr>
-                            <td>${product.name}</td>
-                            <td>${product.description}</td>
-                            <td>${product.price}</td>
-                            <td>${product.category}</td>
-                            <td><a href="<c:url value='/product/${product.id}' />">see</a></td>
-                            <td><a href="<c:url value='/product/${product.id}' />">edit</a></td>
-                            <td><a href="<c:url value='/deleteproduct/${product.id}' />">delete</a></td>
+                            <td>${employee.name}</td>
+                            <td>${employee.surname}</td>
+                            <td>${employee.type}</td>
+                            <td>${employee.faculty}</td>
                         </tr>
                     </div>
                 </c:forEach>
             </table>
-        </c:if>--%>
+        </c:if>
         <form action="<c:url value="/test" />" method="GET">
             <input type="submit" name="action" value="save" />
         </form>
-
-    </div>
+    <!--</div>-->
 </div>
 <%@include file="footer.jsp" %>
