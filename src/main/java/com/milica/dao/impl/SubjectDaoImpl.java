@@ -49,7 +49,9 @@ public class SubjectDaoImpl implements SubjectDao {
 
     @Override
     public Subject addSubject(Subject subject) {
-        return (Subject)sessionFactory.getCurrentSession().merge(subject);
+        System.out.println("Pozivam add subject");
+//        return (Subject)sessionFactory.getCurrentSession().merge(subject);
+        return (Subject) sessionFactory.getCurrentSession().save(subject);
     }
 
     @Override

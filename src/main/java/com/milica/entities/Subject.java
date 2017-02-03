@@ -145,7 +145,7 @@ public class Subject {
     @ManyToOne
     private PartTimeEmployee partTimeEmployeeId;
 
-    public Subject(int id, String name, String location, String type, String semester, String code, int classNumber, int groupExerciseNumber, int individualExcerciseNumber, int espb, int groupsNumber, double changePersentage, double proc1, double proc2, double proc3, double proc4, double proc5, double proc6, double proc7, double proc8, double proc9, double proc10, double proc11, double proc12, double proc13, double proc14, double proc15, double wordsNumber, double fee, double fpm, double fob, double fin1, double fin2, double fmm, double fkv, List<SubjectMark> subjectMarkList) {
+    public Subject(int id, String name, String location, String type, String semester, String code, int classNumber, int groupExerciseNumber, int individualExcerciseNumber, int espb, int groupsNumber, double changePersentage, double proc1, double proc2, double proc3, double proc4, double proc5, double proc6, double proc7, double proc8, double proc9, double proc10, double proc11, double proc12, double proc13, double proc14, double proc15, double wordsNumber, double fee, double fpm, double fob, double fin1, double fin2, double fmm, double fkv) {
         this.subjectId = id;
         this.name = name;
         this.location = location;
@@ -181,7 +181,6 @@ public class Subject {
         this.fin2 = fin2;
         this.fmm = fmm;
         this.fkv = fkv;
-        this.subjectMarkList = subjectMarkList;
     }
 
     public int getSubjectId() {

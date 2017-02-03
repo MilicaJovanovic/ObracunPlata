@@ -12,9 +12,9 @@ package com.milica.services;
 public class Const {
     public static final String IZVESTAJ_FILE = "izvestaj.xlsx";
 
-    public static final String CURRENT_FILE = "current.xlsx";
+    public static final String CURRENT_FILE = "C:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/src/main/resources/current.xlsx";
     public static final String SIMPLE_CURRENT_FILE = "simple_current.xlsx";
-    public static final String TEMPLATE_FILE = "template.xlsx";
+    public static final String TEMPLATE_FILE = "C:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/src/main/resources/template.xlsx";
     public static final String SIMPLE_TEMPLATE_FILE = "simple_template.xlsx";
 
     public static final String ISUM_SERVICE = "https://isum.metropolitan.ac.rs/rest/listaprofesora/mock";

@@ -24,8 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Milica
  */
 public class JsonParsing {
+    
     @Autowired
-    SubjectDao subjectDao;
+    private SubjectDao subjectDao;
     
     @Autowired
     SubjectMarkDao subjectMarkDao;
@@ -36,51 +37,98 @@ public class JsonParsing {
     @Autowired
     EmployeeDao employeeDao;
     
-    public Subject subjectFromNode(JSONObject jsonNodeClass) {     
-        System.out.println("poziva se subjectFromNode");
-        System.out.println("Json predmet " + jsonNodeClass);
+    public Subject subjectFromNode(JSONObject jsonNodeClass) {
         List<SubjectMark> subjectMarkList = new ArrayList<SubjectMark>();
-        if (jsonNodeClass.get("ocenePredmeta") != null && !jsonNodeClass.get("ocenePredmeta").equals("") && !jsonNodeClass.get("ocenePredmeta").equals("null")) {
-            JSONArray jsonNodeAllMarks = (JSONArray) jsonNodeClass.get("ocenePredmeta");
-//        for (JsonNode jsonNodeMark : jsonNodeAllMarks) {
-            for (int i = 0; i < jsonNodeAllMarks.length(); i++) {
-              JSONObject jsonNodeMark = jsonNodeAllMarks.getJSONObject(i);
-              SubjectMark subjectMark = new SubjectMark(Integer.parseInt(fixText(jsonNodeMark.get("id").toString())), fixText(jsonNodeMark.get("rbr").toString()), Double.parseDouble(fixText(jsonNodeMark.get("ocena").toString())));
-              subjectMarkList.add(subjectMark);
-//              subjectMarkDao.addSubjectMark(subjectMark);
-            }
-        }
-            
-        Subject subject = new Subject(Integer.parseInt(fixText(jsonNodeClass.get("id").toString())), 
-            fixText(jsonNodeClass.get("name").toString()),
-            fixText(jsonNodeClass.get("location").toString()), 
-            fixText(jsonNodeClass.get("type").toString()),
-            fixText(jsonNodeClass.get("semester").toString()), 
-            fixText(jsonNodeClass.get("code").toString()), 
-            Integer.parseInt(fixText(jsonNodeClass.get("classNumber").toString())),
-            Integer.parseInt(fixText(jsonNodeClass.get("groupExcerciseNumber").toString())), 
-            Integer.parseInt(fixText(jsonNodeClass.get("individualExcerciseNumber").toString())),
-            Integer.parseInt(fixText(jsonNodeClass.get("espb").toString())), 
-            Integer.parseInt(fixText(jsonNodeClass.get("groupsNumber").toString())),
-            Double.parseDouble(fixText(jsonNodeClass.get("changePercentage").toString())), 
-            Double.parseDouble(fixText(jsonNodeClass.get("proc1").toString())), Double.parseDouble(fixText(jsonNodeClass.get("proc2").toString())),
-            Double.parseDouble(fixText(jsonNodeClass.get("proc3").toString())), Double.parseDouble(fixText(jsonNodeClass.get("proc4").toString())),
-            Double.parseDouble(fixText(jsonNodeClass.get("proc5").toString())), Double.parseDouble(fixText(jsonNodeClass.get("proc6").toString())),
-            Double.parseDouble(fixText(jsonNodeClass.get("proc7").toString())), Double.parseDouble(fixText(jsonNodeClass.get("proc8").toString())),
-            Double.parseDouble(fixText(jsonNodeClass.get("proc9").toString())), Double.parseDouble(fixText(jsonNodeClass.get("proc10").toString())),
-            Double.parseDouble(fixText(jsonNodeClass.get("proc11").toString())), Double.parseDouble(fixText(jsonNodeClass.get("proc12").toString())),
-            Double.parseDouble(fixText(jsonNodeClass.get("proc13").toString())), Double.parseDouble(fixText(jsonNodeClass.get("proc14").toString())),
-            Double.parseDouble(fixText(jsonNodeClass.get("proc15").toString())), 
-            Double.parseDouble(fixText(jsonNodeClass.get("numberOfWords").toString())), 
-            Double.parseDouble(fixText(jsonNodeClass.get("fee").toString())),
-            Double.parseDouble(fixText(jsonNodeClass.get("fpm").toString())), 
-            Double.parseDouble(fixText(jsonNodeClass.get("fob").toString())),
-            Double.parseDouble(fixText(jsonNodeClass.get("fin1").toString())), 
-            Double.parseDouble(fixText(jsonNodeClass.get("fin2").toString())),
-            Double.parseDouble(fixText(jsonNodeClass.get("fmm").toString())), 
-            Double.parseDouble(fixText(jsonNodeClass.get("fkv").toString())), subjectMarkList);
+//        if (jsonNodeClass.get("ocenePredmeta") != null && !jsonNodeClass.get("ocenePredmeta").equals("") && !jsonNodeClass.get("ocenePredmeta").equals("null")) {
+//            JSONArray jsonNodeAllMarks = (JSONArray) jsonNodeClass.get("ocenePredmeta");
+////        for (JsonNode jsonNodeMark : jsonNodeAllMarks) {
+//            for (int i = 0; i < jsonNodeAllMarks.length(); i++) {
+//              JSONObject jsonNodeMark = jsonNodeAllMarks.getJSONObject(i);
+//              SubjectMark subjectMark = new SubjectMark(Integer.parseInt(fixText(jsonNodeMark.get("id").toString())), fixText(jsonNodeMark.get("rbr").toString()), Double.parseDouble(fixText(jsonNodeMark.get("ocena").toString())));
+//              subjectMarkList.add(subjectMark);
+////              subjectMarkDao.addSubjectMark(subjectMark);
+//            }
+//        }
+        int id = 0;
+        String name = "";
+        String location = "";
+        String type = "";
+        String semester = "";
+        String code = "";
+        int classNumber = 0;
+        int groupExcerciseNumber = 0;
+        int individualExcerciseNumber = 0;
+        int espb = 0;
+        int groupsNumber = 0;
+        double changePercentage = 0;
+        double proc1 = 0;
+        double proc2 = 0;
+        double proc3 = 0;
+        double proc4 = 0;
+        double proc5 = 0;
+        double proc6 = 0;
+        double proc7 = 0;
+        double proc8 = 0;
+        double proc9 = 0;
+        double proc10 = 0;
+        double proc11 = 0;
+        double proc12 = 0;
+        double proc13 = 0;
+        double proc14 = 0;
+        double proc15 = 0;
+        double numberOfWords = 0;
+        double fee = 0;
+        double fpm = 0;
+        double fob = 0;
+        double fin1 = 0;
+        double fin2 = 0;
+        double fmm = 0;
+        double fkv = 0;
+        
+        id = Integer.parseInt(fixText(jsonNodeClass.get("id").toString()));
+        name =  fixText(jsonNodeClass.get("name").toString());
+        location = fixText(jsonNodeClass.get("location").toString());
+        type = fixText(jsonNodeClass.get("type").toString());
+        semester = fixText(jsonNodeClass.get("semester").toString());
+//        code = fixText(jsonNodeClass.get("code").toString());
+        classNumber = Integer.parseInt(fixText(jsonNodeClass.get("classNumber").toString()));
+        groupExcerciseNumber = Integer.parseInt(fixText(jsonNodeClass.get("groupExcerciseNumber").toString()));
+        individualExcerciseNumber = Integer.parseInt(fixText(jsonNodeClass.get("individualExcerciseNumber").toString()));
+        espb = Integer.parseInt(fixText(jsonNodeClass.get("espb").toString()));
+        groupsNumber = Integer.parseInt(fixText(jsonNodeClass.get("groupsNumber").toString()));
+        changePercentage = Double.parseDouble(fixText(jsonNodeClass.get("changePercentage").toString()));
+        proc1 = Double.parseDouble(fixText(jsonNodeClass.get("proc1").toString()));
+        proc2 = Double.parseDouble(fixText(jsonNodeClass.get("proc2").toString()));
+        proc3 = Double.parseDouble(fixText(jsonNodeClass.get("proc3").toString()));
+        proc4 = Double.parseDouble(fixText(jsonNodeClass.get("proc4").toString()));
+        proc5 = Double.parseDouble(fixText(jsonNodeClass.get("proc5").toString()));
+        proc6 = Double.parseDouble(fixText(jsonNodeClass.get("proc6").toString()));
+        proc7 = Double.parseDouble(fixText(jsonNodeClass.get("proc7").toString()));
+        proc8 = Double.parseDouble(fixText(jsonNodeClass.get("proc8").toString()));
+        proc9 = Double.parseDouble(fixText(jsonNodeClass.get("proc9").toString()));
+        proc10 = Double.parseDouble(fixText(jsonNodeClass.get("proc10").toString()));
+        proc11 = Double.parseDouble(fixText(jsonNodeClass.get("proc11").toString()));
+        proc12 = Double.parseDouble(fixText(jsonNodeClass.get("proc12").toString()));
+        proc13 = Double.parseDouble(fixText(jsonNodeClass.get("proc13").toString()));
+        proc14 = Double.parseDouble(fixText(jsonNodeClass.get("proc14").toString()));
+        proc15 = Double.parseDouble(fixText(jsonNodeClass.get("proc15").toString()));
+        numberOfWords = Double.parseDouble(fixText(jsonNodeClass.get("numberOfWords").toString()));
+        fee = Double.parseDouble(fixText(jsonNodeClass.get("fee").toString()));
+        fpm = Double.parseDouble(fixText(jsonNodeClass.get("fpm").toString()));
+        fob = Double.parseDouble(fixText(jsonNodeClass.get("fob").toString()));
+        fin1 = Double.parseDouble(fixText(jsonNodeClass.get("fin1").toString()));
+        fin2 = Double.parseDouble(fixText(jsonNodeClass.get("fin2").toString()));
+        fmm = Double.parseDouble(fixText(jsonNodeClass.get("fmm").toString()));
+        fkv = Double.parseDouble(fixText(jsonNodeClass.get("fkv").toString()));
+                
+                
+        Subject subject = new Subject(id, name, location, type, semester, code,
+            classNumber, groupExcerciseNumber, individualExcerciseNumber,
+            espb, groupsNumber, changePercentage, proc1, proc2, proc3, proc4, proc5,
+            proc6, proc7, proc8, proc9, proc10, proc11, proc12, proc13, proc14, proc15,
+            numberOfWords, fee, fpm, fob, fin1, fin2, fmm, fkv);
+        System.out.println(subject.toString());
 //        subjectDao.addSubject(subject);
-        System.out.println("Moj subject " + subject.toString());
         return subject;
     }
     
@@ -221,7 +269,8 @@ public class JsonParsing {
             fixText(jsonNodePerson.get("employmentPercentage").toString()),
             fixText(jsonNodePerson.get("subjectNumber").toString()), 
             fixText(jsonNodePerson.get("kt").toString()), subjectList);
-        partTimeEmployeeDao.addPartTimeEmployee(partTimeEmployee);
+//        partTimeEmployeeDao.addPartTimeEmployee(partTimeEmployee);
+        System.out.println(partTimeEmployee.toString());
         return partTimeEmployee;
     }
 

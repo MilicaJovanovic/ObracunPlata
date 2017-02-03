@@ -68,6 +68,8 @@ public class ExcelGenerator {
             JsonParsing jsonParsing = new JsonParsing();
             if (obj.get("employmentType").equals("Radni odnos")) {
                 jsonParsing.employeeFromNode(obj);
+            } else if (obj.get("employmentType").equals("Honorarni odnos")) {
+                jsonParsing.partTimeEmployeeFromNode(obj);
             }
         }
         
@@ -75,15 +77,15 @@ public class ExcelGenerator {
 //        WSResponse respon = response.get(36000000);
 //
 //        XSSFWorkbook workbookTemplate = new XSSFWorkbook(new File(Const.TEMPLATE_FILE));
-//
-//        FileInputStream fileInputStream = new FileInputStream(new File(Const.CURRENT_FILE));
-//        XSSFWorkbook workbookCurrent = new XSSFWorkbook(fileInputStream);
-//
+
+        FileInputStream fileInputStream = new FileInputStream(new File(Const.CURRENT_FILE));
+        XSSFWorkbook workbookCurrent = new XSSFWorkbook(fileInputStream);
+
 //        emptyWorkbook(workbookCurrent);
-//
-//        Sheet first = null;
-//        Sheet second = null;
-//
+
+        Sheet first = null;
+        Sheet second = null;
+
 //        for (JsonNode jsonNodePerson : respon.asJson()) {
 //            String type = fixText(jsonNodePerson.get("employmentType").toString());
 //
