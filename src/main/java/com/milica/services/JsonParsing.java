@@ -9,11 +9,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.milica.dao.EmployeeDao;
 import com.milica.dao.PartTimeEmployeeDao;
 import com.milica.dao.SubjectDao;
-import com.milica.dao.SubjectMarkDao;
 import com.milica.entities.Employee;
 import com.milica.entities.PartTimeEmployee;
 import com.milica.entities.Subject;
-import com.milica.entities.SubjectMark;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
@@ -27,9 +25,6 @@ public class JsonParsing {
     
     @Autowired
     private SubjectDao subjectDao;
-    
-    @Autowired
-    SubjectMarkDao subjectMarkDao;
     
     @Autowired
     PartTimeEmployeeDao partTimeEmployeeDao;

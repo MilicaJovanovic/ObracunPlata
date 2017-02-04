@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.milica.entities;
 
 import javax.persistence.Column;
@@ -13,55 +8,54 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- *
+ * Entitet klasa koja mapira tabelu "user"
  * @author Milica
  */
 @Entity
 @Table(name="user")
 public class User {
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
-    
-    @Column(name = "username")
+	
+    private int userId;
     private String username;
-    
-    @Column(name = "role")
+    private String password;
     private String role;
 
-    public User(int id, String username, String role) {
-        this.id = id;
-        this.username = username;
-        this.role = role;
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    public int getUserId() {
+        return userId;
+    }
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    @Column(name = "username")
     public String getUsername() {
         return username;
     }
-
     public void setUsername(String username) {
         this.username = username;
     }
 
+    @Column(name="password")
+    public String getPassword() {
+		return password;
+	}
+    public void setPassword(String password) {
+		this.password = password;
+	}
+    
+    @Column(name = "role")
     public String getRole() {
         return role;
     }
-
     public void setRole(String role) {
         this.role = role;
     }
-
-    @Override
-    public String toString() {
-        return "User{" + "id=" + id + ", username=" + username + ", role=" + role + '}';
-    }
+    
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", role=" + role + "]";
+	}
 }
