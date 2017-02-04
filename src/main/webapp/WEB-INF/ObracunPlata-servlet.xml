@@ -18,7 +18,7 @@
             <!--Dodavanje path-a na kome se nalaze podešavanja za Hibernate--> 
             <value>classpath:hibernate.cfg.xml</value>
         </property>
-<!--         Dodavanje path-a paketa u kome se nalaze entity
+		<!-- Dodavanje path-a paketa u kome se nalaze entity
         fajlovi na osnovu kojih
         će Hibernate kreirati bazu i upisivati u nju-->
         <property name="packagesToScan">
@@ -33,17 +33,17 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
     
-    <bean id="subjectDao" class="com.milica.dao.impl.SubjectDaoImpl"></bean>
-    <bean id="subjectMarkDao" class="com.milica.dao.impl.SubjectMarkDaoImpl"></bean>
-    <bean id="employeeDao" class="com.milica.dao.impl.EmployeeDaoImpl"></bean>
-    <bean id="partTimeEmployee" class="com.milica.dao.impl.PartTimeEmployeeDaoImpl"></bean>
+    <bean id="employeeDao" name="employeeDao" class="com.milica.dao.impl.EmployeeDaoImpl"></bean>
+    <bean id="mditaDao" name="mditaDao" class="com.milica.dao.impl.MDitaDaoImpl"></bean>
+    <bean id="userDao" name="userDao" class="com.milica.dao.impl.UserDaoImpl"></bean>
+    <bean id="partTimeEmployeeDao" name="partTimeEmployeeDao" class="com.milica.dao.impl.PartTimeEmployeeDaoImpl"></bean>
+    <bean id="subjectDao" name="subjectDao" class="com.milica.dao.impl.SubjectDaoImpl"></bean>
+    <bean id="subjectEmployeeDao" name="subjectEmployeeDao" class="com.milica.dao.impl.SubjectEmployeeDaoImpl"></bean>
+    <bean id="subjectPartTimeEmployeeDao" name="subjectPartTimeEmployeeDao" class="com.milica.dao.impl.SubjectPartTimeEmployeeDaoImpl"></bean>
     
     <bean id="persistenceExceptionTranslationPostProcessor" class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
     
     <context:component-scan base-package="com.milica" />
-    
-<!--    <mvc:resources mapping="/css/**" location="/WEB-INF/css/"/>
-    <mvc:resources mapping="/resources/**" location="/WEB-INF/"/>-->
     
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/" />
