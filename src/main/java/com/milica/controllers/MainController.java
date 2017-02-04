@@ -45,8 +45,6 @@ public class MainController {
     
     @RequestMapping(value="/test", method=RequestMethod.GET)
     public String handlePost(ModelMap m) throws Exception {
-        System.out.println("Kliknuto dugme");
-        ExcelGenerator.createSheets();
         return "history";
     }
 }

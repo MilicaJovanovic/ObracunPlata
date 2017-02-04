@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.milica.dao.impl;
 
 import java.util.List;
@@ -11,14 +6,17 @@ import com.milica.entities.Subject;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
+ * DAO sloj koji se koristi za pristup tabeli "subject" u bazi podataka
  * @author Milica
  */
+@Repository
 public class SubjectDaoImpl implements SubjectDao {
-    @Autowired
+   
+	@Autowired
     private SessionFactory sessionFactory;
 
     public SubjectDaoImpl() {}
@@ -26,42 +24,83 @@ public class SubjectDaoImpl implements SubjectDao {
     public SubjectDaoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
-    
-    @SuppressWarnings("unchecked")
-    @Transactional
-    @Override
-    public List<Subject> getSubjects() {
-        List<Subject> results = (List<Subject>)
-        sessionFactory.getCurrentSession().createCriteria(Subject.class).list();
-        return results;
-    }
 
-    @Override
-    public Subject getSubjectById(int id) {
-        Subject subject = (Subject) sessionFactory.getCurrentSession().createCriteria(Subject.class).add(Restrictions.eq("id", id)).uniqueResult();
-        return subject;
-    }
+	@Override
+	@Transactional
+	public boolean addSubject(Subject subject) {
+		Subject currentSubject = currentSubject(subject);
+		
+		if (currentSubject == null) {
+			sessionFactory.getCurrentSession().save(subject);
+			return true;
+		}
+		
+		return false;
+	}
 
-    @Override
-    public void editSubject(Subject subject) {
-        sessionFactory.getCurrentSession().saveOrUpdate(subject);
-    }
+	@Override
+	@Transactional
+	public boolean editSubject(Subject subject) {
+		Subject currentSubject = currentSubject(subject);
+		
+		if (currentSubject == null) {
+			return false;
+		}
+		
+		sessionFactory.getCurrentSession().update(subject);
+		return true;
+	}
 
-    @Override
-    public Subject addSubject(Subject subject) {
-        System.out.println("Pozivam add subject");
-//        return (Subject)sessionFactory.getCurrentSession().merge(subject);
-        return (Subject) sessionFactory.getCurrentSession().save(subject);
-    }
+	@Override
+	@Transactional
+	public boolean deleteSubject(Subject subject) {
+		Subject currentSubject = currentSubject(subject);
+		
+		if (currentSubject == null) {
+			return false;
+		}
+		
+		sessionFactory.getCurrentSession().delete(currentSubject);
+		return true;
+	}
 
-    @Override
-    public int getCountSubjects() {
-        Number result = (Number) sessionFactory.getCurrentSession().createSQLQuery("select count(*) from subject").uniqueResult();
-        return Integer.parseInt(result.toString());
-    }
+	@Override
+	@Transactional
+	public Subject getSubjectById(int id) {
+		Subject currentSubject = (Subject) sessionFactory.getCurrentSession()
+				.createCriteria(Subject.class)
+				.add(Restrictions.eq("subjectId", id))
+				.uniqueResult();
+		return currentSubject;
+	}
 
-    @Override
-    public void deleteSubject(Subject subject) {
-        sessionFactory.getCurrentSession().delete(subject);
-    }
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Subject> getSubjects() {
+		return sessionFactory.getCurrentSession()
+				.createCriteria(Subject.class)
+				.list();
+	}
+
+	@Override
+	@Transactional
+	public int getCountSubjects() {
+		List<Subject> allSubjects = getSubjects();
+		
+		if (allSubjects == null) {
+			return 0;
+		}
+		return allSubjects.size();
+	}
+
+	private Subject currentSubject(Subject subject) {
+		Subject currentSubject = (Subject) sessionFactory.getCurrentSession()
+				.createCriteria(Subject.class)
+				.add(Restrictions.eq("name", subject.getName()))
+				.add(Restrictions.eq("code", subject.getCode()))
+				.uniqueResult();
+		return currentSubject;
+	}
+	
 }
