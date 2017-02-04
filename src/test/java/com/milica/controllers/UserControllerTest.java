@@ -27,7 +27,7 @@ public class UserControllerTest {
 		user = new User();
 		user.setUsername("milicajovanovic");
 		user.setPassword("123");
-		user.setRole("ADMIN");
+		user.setEnabled(1);
 	}
 	
 	@Test

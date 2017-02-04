@@ -12,13 +12,13 @@ import javax.persistence.Table;
  * @author Milica
  */
 @Entity
-@Table(name="user")
+@Table(name="users")
 public class User {
 	
     private int userId;
     private String username;
     private String password;
-    private String role;
+    private int enabled;
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -46,16 +46,16 @@ public class User {
 		this.password = password;
 	}
     
-    @Column(name = "role")
-    public String getRole() {
-        return role;
+    @Column(name = "enabled")
+    public int getEnabled() {
+        return enabled;
     }
-    public void setRole(String role) {
-        this.role = role;
+    public void setEnabled(int enabled) {
+        this.enabled = enabled;
     }
     
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", role=" + role + "]";
+		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", enabled=" + enabled + "]";
 	}
 }

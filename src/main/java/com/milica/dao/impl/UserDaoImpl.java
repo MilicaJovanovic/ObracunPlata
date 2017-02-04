@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class UserDaoImpl implements UserDao {
     
-	@Autowired
+    @Autowired
     private SessionFactory sessionFactory;
 
     public UserDaoImpl() {}
