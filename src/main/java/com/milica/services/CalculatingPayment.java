@@ -239,8 +239,28 @@ public class CalculatingPayment {
         
         double classSum = (subject.getGroupExerciseNumber() + subject.getIndividualExcerciseNumber()) + subject.getGroupsNumber();
         
+        double firstDependence = 0;
+        if (subject.getLocation().equals("Beograd")) {
+            if (partTimeEmployee.getTeachingPosition().equals("Red. profesor") || partTimeEmployee.getTeachingPosition().equals("Vanr.profesor") || partTimeEmployee.getTeachingPosition().equals("Docent")) {
+                firstDependence = subject.getClassNumber() * 12 + 7 * classSum;
+            } else if (partTimeEmployee.getTeachingPosition().equals("Doktor nauka") || partTimeEmployee.getTeachingPosition().equals("Predavač") || partTimeEmployee.getTeachingPosition().equals("Asistent") || partTimeEmployee.getTeachingPosition().equals(("Saradnik"))) {
+                firstDependence = subject.getClassNumber() * 9 + 7 * classSum;
+            } else
+                firstDependence = (subject.getClassNumber() + classSum) * 6;
+        } else if (subject.getLocation().equals("Niš")) {
+            if (partTimeEmployee.getTeachingPosition().equals("Red. profesor") || partTimeEmployee.getTeachingPosition().equals("Vanr.profesor") || partTimeEmployee.getTeachingPosition().equals("Docent")) {
+                firstDependence = subject.getClassNumber() * 15 + 7 * classSum;
+            } else if (partTimeEmployee.getTeachingPosition().equals("Doktor nauka")) {
+                firstDependence = subject.getClassNumber() * 12 + 12 * classSum;
+            } else if (partTimeEmployee.getTeachingPosition().equals("Predavač") || partTimeEmployee.getTeachingPosition().equals("Asistent") || partTimeEmployee.getTeachingPosition().equals(("Saradnik"))) {
+                firstDependence = subject.getClassNumber() * 12 + 7 * classSum;
+            } else
+                firstDependence = subject.getClassNumber() * 6 + 6 * classSum;
+        } else
+            firstDependence = 0;
+        
         double payment = 0;
-        payment = classType * Double.parseDouble(partTimeEmployee.getKt()) * 15;
+        payment = classType * Double.parseDouble(partTimeEmployee.getKt()) * 15 * firstDependence;
         double paymentMoney = payment * 100;
         return paymentMoney;
     }
