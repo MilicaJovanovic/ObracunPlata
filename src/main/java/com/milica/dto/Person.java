@@ -18,6 +18,8 @@ public class Person {
     private double authorFeeNeto;
     private double salaryGross;
     private double authorFeeGross;
+    
+    public Person() {}
 
     public Person(String name, String lastname, String faculty, String employmentType, double salaryNeto, double authorFeeNeto) {
         this.name = name;

@@ -1,5 +1,12 @@
 package com.milica.controllers;
 
+import com.milica.dao.EmployeeDao;
+import com.milica.dto.Person;
+import com.milica.entities.Employee;
+import com.milica.services.DataUpdate;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +25,9 @@ import org.springframework.ui.ModelMap;
 @Controller
 @RequestMapping("/")
 public class MainController {
+    
+    @Autowired
+    private EmployeeDao employeeDao;
 	
     @RequestMapping(method = RequestMethod.GET)
     public String printHello(ModelMap model) {
@@ -30,18 +40,70 @@ public class MainController {
     }
     
     @RequestMapping(value = "/dataUpdate", method = RequestMethod.GET)
-    public String showUpdate(ModelMap model) {
-        return "dataUpdate";
+    public ModelAndView showUpdate(ModelAndView model) {
+        List<Employee> employeeList = employeeDao.getAllEmployees();
+        List<Person> employees = new ArrayList<>();
+        for (Employee employee : employeeList) {
+            System.out.println(employee.toString());
+            Person person = new Person();
+            person.setName(employee.getName());
+            person.setLastname(employee.getLastname());
+            person.setFaculty(employee.getFaculty());
+            person.setEmploymentType("Radni odnos");
+            employees.add(person);
+        }
+        for (Person person : employees) {
+            System.out.println(person.toString());
+        }
+        model.addObject("employees", employees);
+        model.addObject("employee", new Person());
+        return model;
     } 
     
     @RequestMapping(value = "/currentPayment", method = RequestMethod.GET)
-    public String showCurrentPayment(ModelMap model) {
-        return "currentPayment";
+    public ModelAndView showCurrentPayment(ModelAndView model) {
+        List<Employee> employeeList = employeeDao.getAllEmployees();
+        List<Person> employees = new ArrayList<>();
+        for (Employee employee : employeeList) {
+            System.out.println(employee.toString());
+            Person person = new Person();
+            person.setName(employee.getName());
+            person.setLastname(employee.getLastname());
+            person.setFaculty(employee.getFaculty());
+            person.setEmploymentType("Radni odnos");
+            person.setSalaryNeto(150000);
+            person.setAuthorFeeNeto(2000);
+            employees.add(person);
+        }
+        for (Person person : employees) {
+            System.out.println(person.toString());
+        }
+        model.addObject("employees", employees);
+        model.addObject("employee", new Person());
+        return model;
     }
     
     @RequestMapping(value = "/grossPayment", method = RequestMethod.GET)
-    public String showGrossPayment(ModelMap model) {
-        return "grossPayment";
+    public ModelAndView showGrossPayment(ModelAndView model) {
+        List<Employee> employeeList = employeeDao.getAllEmployees();
+        List<Person> employees = new ArrayList<>();
+        for (Employee employee : employeeList) {
+            System.out.println(employee.toString());
+            Person person = new Person();
+            person.setName(employee.getName());
+            person.setLastname(employee.getLastname());
+            person.setFaculty(employee.getFaculty());
+            person.setEmploymentType("Radni odnos");
+            person.setSalaryGross(60000);
+            person.setAuthorFeeGross(4000);
+            employees.add(person);
+        }
+        for (Person person : employees) {
+            System.out.println(person.toString());
+        }
+        model.addObject("employees", employees);
+        model.addObject("employee", new Person());
+        return model;
     }
     
     @RequestMapping(value = "/history", method = RequestMethod.GET)
@@ -51,6 +113,7 @@ public class MainController {
     
     @RequestMapping(value="/test", method=RequestMethod.GET)
     public String handlePost(ModelMap m) throws Exception {
+        DataUpdate.getDataFromIsum();
         return "history";
     }
     
