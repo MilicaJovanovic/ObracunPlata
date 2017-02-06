@@ -35,7 +35,7 @@ String pageName = uri.substring(uri.lastIndexOf("/") + 1);
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <c:url var="index" value="/" />
+                        <c:url var="index" value="/index" />
                         <c:url var="update" value="/dataUpdate/" />
                         <c:url var="current" value="/currentPayment/" />
                         <c:url var="gross" value="/grossPayment/" />

@@ -99,12 +99,6 @@
             <version>${spring.version}</version>
         </dependency>
         
-<!--        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
-        </dependency>-->
-        
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
@@ -218,20 +212,8 @@
             <artifactId>httpclient</artifactId>
             <version>4.5.2</version>
         </dependency>
-        
-        <!-- Dodaci za bazu podataka -->
-		<dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-	        <groupId>mysql</groupId>
-	        <artifactId>mysql-connector-java</artifactId>
-	        <version>${mysql.connector.version}</version>
-	    </dependency>
 	    
-	    <!-- Spring security dodaci -->
+        <!-- Spring security dodaci -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>

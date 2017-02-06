@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context" 
+    xmlns:mvc="http://www.springframework.org/schema/mvc" 
+    xmlns:tx="http://www.springframework.org/schema/tx" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+    http://www.springframework.org/schema/mvc 
+    http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+    http://www.springframework.org/schema/tx 
+    http://www.springframework.org/schema/tx/spring-tx.xsd">
+    
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="configLocation" >
+            <!--Dodavanje path-a na kome se nalaze podešavanja za Hibernate--> 
+            <value>classpath:hibernate.cfg.xml</value>
+        </property>
+		<!-- Dodavanje path-a paketa u kome se nalaze entity
+        fajlovi na osnovu kojih
+        će Hibernate kreirati bazu i upisivati u nju-->
+        <property name="packagesToScan">
+            <list>
+                <value>com.milica.entities</value>
+            </list>
+        </property>
+    </bean>
+    
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    
+    <bean id="employeeDao" name="employeeDao" class="com.milica.dao.impl.EmployeeDaoImpl"></bean>
+    <bean id="mditaDao" name="mditaDao" class="com.milica.dao.impl.MDitaDaoImpl"></bean>
+    <bean id="userDao" name="userDao" class="com.milica.dao.impl.UserDaoImpl"></bean>
+    <bean id="partTimeEmployeeDao" name="partTimeEmployeeDao" class="com.milica.dao.impl.PartTimeEmployeeDaoImpl"></bean>
+    <bean id="subjectDao" name="subjectDao" class="com.milica.dao.impl.SubjectDaoImpl"></bean>
+    <bean id="subjectEmployeeDao" name="subjectEmployeeDao" class="com.milica.dao.impl.SubjectEmployeeDaoImpl"></bean>
+    <bean id="subjectPartTimeEmployeeDao" name="subjectPartTimeEmployeeDao" class="com.milica.dao.impl.SubjectPartTimeEmployeeDaoImpl"></bean>
+    
+    <bean id="persistenceExceptionTranslationPostProcessor" class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+    
+    <context:component-scan base-package="com.milica" />
+    
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+    
+    
+</beans>

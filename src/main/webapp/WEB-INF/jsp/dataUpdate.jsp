@@ -25,8 +25,8 @@
             </c:forEach>
         </table>
     </c:if>
-    <form action="<c:url value="/test" />" method="GET">
-        <input type="submit" name="action" value="save" />
+    <form action="<c:url value="/dataUpdate/update" />" method="GET">
+        <input type="submit" name="action" value="Azuriraj podatke" class="btn btn-primary" style="background-color: #19B396; margin-top: 30px;" />
     </form>
 </div>
 <%@include file="footer.jsp" %>

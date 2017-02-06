@@ -3,14 +3,10 @@ package com.milica.controllers;
 import com.milica.dao.EmployeeDao;
 import com.milica.dto.Person;
 import com.milica.entities.Employee;
-import com.milica.services.DataUpdate;
+import com.milica.services.CalculatePayment;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 /**
  *
  * @author Milica
@@ -28,6 +24,8 @@ public class MainController {
     
     @Autowired
     private EmployeeDao employeeDao;
+    
+    private final CalculatePayment calculatePayment = new CalculatePayment();
 	
     @RequestMapping(method = RequestMethod.GET)
     public String printHello(ModelMap model) {
@@ -44,16 +42,12 @@ public class MainController {
         List<Employee> employeeList = employeeDao.getAllEmployees();
         List<Person> employees = new ArrayList<>();
         for (Employee employee : employeeList) {
-            System.out.println(employee.toString());
             Person person = new Person();
             person.setName(employee.getName());
             person.setLastname(employee.getLastname());
             person.setFaculty(employee.getFaculty());
             person.setEmploymentType("Radni odnos");
             employees.add(person);
-        }
-        for (Person person : employees) {
-            System.out.println(person.toString());
         }
         model.addObject("employees", employees);
         model.addObject("employee", new Person());
@@ -65,18 +59,16 @@ public class MainController {
         List<Employee> employeeList = employeeDao.getAllEmployees();
         List<Person> employees = new ArrayList<>();
         for (Employee employee : employeeList) {
-            System.out.println(employee.toString());
             Person person = new Person();
             person.setName(employee.getName());
             person.setLastname(employee.getLastname());
             person.setFaculty(employee.getFaculty());
             person.setEmploymentType("Radni odnos");
-            person.setSalaryNeto(150000);
-            person.setAuthorFeeNeto(2000);
+            person.setSalaryNeto(15000);
+            person.setAuthorFeeNeto(200);
+//            person.setSalaryNeto(calculatePayment.employeeNetoBasicPayment(employee, "Prolecni"));
+//            person.setAuthorFeeNeto(calculatePayment.empoyeeNetoAuthorFee(employee, "Prolecni"));
             employees.add(person);
-        }
-        for (Person person : employees) {
-            System.out.println(person.toString());
         }
         model.addObject("employees", employees);
         model.addObject("employee", new Person());
@@ -88,18 +80,16 @@ public class MainController {
         List<Employee> employeeList = employeeDao.getAllEmployees();
         List<Person> employees = new ArrayList<>();
         for (Employee employee : employeeList) {
-            System.out.println(employee.toString());
             Person person = new Person();
             person.setName(employee.getName());
             person.setLastname(employee.getLastname());
             person.setFaculty(employee.getFaculty());
             person.setEmploymentType("Radni odnos");
-            person.setSalaryGross(60000);
-            person.setAuthorFeeGross(4000);
+            person.setSalaryGross(2000);
+            person.setAuthorFeeGross(200);
+//            person.setSalaryGross(calculatePayment.employeeGrossBasicPayment(employee, "Prolecni"));
+//            person.setAuthorFeeGross(calculatePayment.empoyeeGrossAuthorFee(employee, "Prolecni"));
             employees.add(person);
-        }
-        for (Person person : employees) {
-            System.out.println(person.toString());
         }
         model.addObject("employees", employees);
         model.addObject("employee", new Person());
@@ -111,21 +101,21 @@ public class MainController {
         return "history";
     }
     
-    @RequestMapping(value="/test", method=RequestMethod.GET)
+    @RequestMapping(value="/dataUpdate/update", method=RequestMethod.GET)
     public String handlePost(ModelMap m) throws Exception {
-        DataUpdate.getDataFromIsum();
+//        DataUpdate.getDataFromIsum();
         return "history";
     }
     
     @RequestMapping(value = "/admin**", method = RequestMethod.GET)
-	public ModelAndView showAdminPage() {
-		ModelAndView adminPage = new ModelAndView();
-		
-		adminPage.addObject("message", "Admin stranica");
-		adminPage.setViewName("index");
-		
-		return adminPage;
-	}
+    public ModelAndView showAdminPage() {
+            ModelAndView adminPage = new ModelAndView();
+
+            adminPage.addObject("message", "Admin stranica");
+            adminPage.setViewName("index");
+
+            return adminPage;
+    }
     
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login(@RequestParam(value = "error", required = false) String error, 
@@ -143,17 +133,17 @@ public class MainController {
         return loginPage;
     }
     
-    @RequestMapping(value = "/403", method = RequestMethod.GET)
-    public ModelAndView accesssDenied() {
-		ModelAndView unauthorisedPage = new ModelAndView();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            UserDetails userDetail = (UserDetails) auth.getPrincipal();
-            unauthorisedPage.addObject("username", userDetail.getUsername());
-        }
-        unauthorisedPage.setViewName("403");
-        
-        return unauthorisedPage;
-	}
+//    @RequestMapping(value = "/403", method = RequestMethod.GET)
+//    public ModelAndView accesssDenied() {
+//		ModelAndView unauthorisedPage = new ModelAndView();
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        if (!(auth instanceof AnonymousAuthenticationToken)) {
+//            UserDetails userDetail = (UserDetails) auth.getPrincipal();
+//            unauthorisedPage.addObject("username", userDetail.getUsername());
+//        }
+//        unauthorisedPage.setViewName("403");
+//        
+//        return unauthorisedPage;
+//	}
     
 }
