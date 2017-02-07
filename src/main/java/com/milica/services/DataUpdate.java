@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.milica.services;
 
 import com.milica.entities.Employee;
@@ -37,7 +32,6 @@ public class DataUpdate {
         partTimeEmployeeList = new ArrayList<>();
         subjectEmployeePartTimeList = new ArrayList<>();
         transporters = new ArrayList<>();
-        System.err.println("Poziva se metoda");
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(Const.ISUM_SERVICE);
 

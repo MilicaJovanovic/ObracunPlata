@@ -16,7 +16,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.stereotype.Repository;
 
 /**
  *
@@ -41,7 +40,6 @@ public class JsonParser {
     SubjectPartTimeEmployeeDao subjectPartTimeEmployeeDao;
 
     public Subject subjectFromNode(JSONObject jsonNodeClass) {
-        System.err.println("Pozvala se metoda subjectFromNode");
         String name = fixText(jsonNodeClass.get("name").toString());
         String location = fixText(jsonNodeClass.get("location").toString());
         String type = fixText(jsonNodeClass.get("type").toString());
@@ -67,7 +65,7 @@ public class JsonParser {
         subject.setType(type);
         subject.setSemester(semester);
         subject.setCode(code);
-        subject.setClassNumber(2);
+        subject.setClassNumber(classNumber);
         subject.setGroupExerciseNumber(groupExcerciseNumber);
         subject.setIndividualExcerciseNumber(individualExcerciseNumber);
         subject.setEspb(espb);
@@ -79,7 +77,6 @@ public class JsonParser {
         subject.setFin2(fin2);
         subject.setFmm(fmm);
         subject.setFkv(fkv);
-        System.err.println("Kreiran je subject " + subject);
 
         return subject;
     }

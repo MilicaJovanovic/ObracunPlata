@@ -4,6 +4,7 @@ import com.milica.dao.EmployeeDao;
 import com.milica.dao.PartTimeEmployeeDao;
 import com.milica.dao.SubjectDao;
 import com.milica.dao.SubjectEmployeeDao;
+import com.milica.dao.SubjectPartTimeEmployeeDao;
 import com.milica.dto.Person;
 import com.milica.entities.Employee;
 import com.milica.entities.PartTimeEmployee;
@@ -38,6 +39,8 @@ public class MainController {
     private PartTimeEmployeeDao partTimeEmployeeDao;
     @Autowired
     private SubjectEmployeeDao subjectEmployeeDao;
+    @Autowired
+    private SubjectPartTimeEmployeeDao subjectPartTimeEmployeeDao;
     
     private final CalculatePayment calculatePayment = new CalculatePayment();
 	
@@ -53,6 +56,7 @@ public class MainController {
     
     @RequestMapping(value = "/dataUpdate", method = RequestMethod.GET)
     public ModelAndView showUpdate(ModelAndView model) {
+        List<PartTimeEmployee> partTimeEmployeeList = partTimeEmployeeDao.getPartTimeEmployees();
         List<Employee> employeeList = employeeDao.getAllEmployees();
         List<Person> employees = new ArrayList<>();
         for (Employee employee : employeeList) {
@@ -61,6 +65,16 @@ public class MainController {
             person.setLastname(employee.getLastname());
             person.setFaculty(employee.getFaculty());
             person.setEmploymentType("Radni odnos");
+            employees.add(person);
+        }
+        for (PartTimeEmployee partTimeEmployee : partTimeEmployeeList) {
+            Person person = new Person();
+            person.setName(partTimeEmployee.getName());
+            person.setLastname(partTimeEmployee.getLastname());
+            person.setFaculty(partTimeEmployee.getFaculty());
+            person.setEmploymentType("Horarni odnos");
+            person.setSalaryNeto(2000);
+            person.setAuthorFeeNeto(0);
             employees.add(person);
         }
         model.addObject("employees", employees);
@@ -71,17 +85,30 @@ public class MainController {
     @RequestMapping(value = "/currentPayment", method = RequestMethod.GET)
     public ModelAndView showCurrentPayment(ModelAndView model) {
         List<Employee> employeeList = employeeDao.getAllEmployees();
+        List<PartTimeEmployee> partTimeEmployeeList = partTimeEmployeeDao.getPartTimeEmployees();
         List<Person> employees = new ArrayList<>();
         for (Employee employee : employeeList) {
+            List<Subject> subjectList = subjectEmployeeDao.getSubjectsForEmployee(employee);
             Person person = new Person();
             person.setName(employee.getName());
             person.setLastname(employee.getLastname());
             person.setFaculty(employee.getFaculty());
             person.setEmploymentType("Radni odnos");
-            person.setSalaryNeto(15000);
-            person.setAuthorFeeNeto(200);
-//            person.setSalaryNeto(calculatePayment.employeeNetoBasicPayment(employee, "Prolecni"));
-//            person.setAuthorFeeNeto(calculatePayment.empoyeeNetoAuthorFee(employee, "Prolecni"));
+//            person.setSalaryNeto(15000);
+//            person.setAuthorFeeNeto(200);
+            person.setSalaryNeto(calculatePayment.employeeNetoBasicPayment(employee, "Prolecni", subjectList));
+            person.setAuthorFeeNeto(calculatePayment.empoyeeNetoAuthorFee(employee, "Prolecni", subjectList));
+            employees.add(person);
+        }
+        for (PartTimeEmployee partTimeEmployee : partTimeEmployeeList) {
+            List<Subject> subjectList = subjectPartTimeEmployeeDao.getSubjectsForPartTimeEmployee(partTimeEmployee);
+            Person person = new Person();
+            person.setName(partTimeEmployee.getName());
+            person.setLastname(partTimeEmployee.getLastname());
+            person.setFaculty(partTimeEmployee.getFaculty());
+            person.setEmploymentType("Honorarni odnos");
+            person.setSalaryNeto(calculatePayment.partTimeEmpoyeeBasicPayment(partTimeEmployee, "Prolecni semestar", subjectList));
+            person.setAuthorFeeNeto(0);
             employees.add(person);
         }
         model.addObject("employees", employees);
@@ -92,17 +119,30 @@ public class MainController {
     @RequestMapping(value = "/grossPayment", method = RequestMethod.GET)
     public ModelAndView showGrossPayment(ModelAndView model) {
         List<Employee> employeeList = employeeDao.getAllEmployees();
+        List<PartTimeEmployee> partTimeEmployeeList = partTimeEmployeeDao.getPartTimeEmployees();
         List<Person> employees = new ArrayList<>();
         for (Employee employee : employeeList) {
+            List<Subject> subjectList = subjectEmployeeDao.getSubjectsForEmployee(employee);
             Person person = new Person();
             person.setName(employee.getName());
             person.setLastname(employee.getLastname());
             person.setFaculty(employee.getFaculty());
             person.setEmploymentType("Radni odnos");
-            person.setSalaryGross(2000);
-            person.setAuthorFeeGross(200);
-//            person.setSalaryGross(calculatePayment.employeeGrossBasicPayment(employee, "Prolecni"));
-//            person.setAuthorFeeGross(calculatePayment.empoyeeGrossAuthorFee(employee, "Prolecni"));
+//            person.setSalaryGross(2000);
+//            person.setAuthorFeeGross(200);
+            person.setSalaryGross(calculatePayment.employeeGrossBasicPayment(employee, "Prolecni", subjectList));
+            person.setAuthorFeeGross(calculatePayment.empoyeeGrossAuthorFee(employee, "Prolecni", subjectList));
+            employees.add(person);
+        }
+        for (PartTimeEmployee partTimeEmployee : partTimeEmployeeList) {
+            List<Subject> subjectList = subjectPartTimeEmployeeDao.getSubjectsForPartTimeEmployee(partTimeEmployee);
+            Person person = new Person();
+            person.setName(partTimeEmployee.getName());
+            person.setLastname(partTimeEmployee.getLastname());
+            person.setFaculty(partTimeEmployee.getFaculty());
+            person.setEmploymentType("Honorarni odnos");
+            person.setSalaryGross(calculatePayment.partTimeEmployeeGrossBasicPayment(partTimeEmployee, "Prolecni semestar", subjectList));
+            person.setAuthorFeeGross(0);
             employees.add(person);
         }
         model.addObject("employees", employees);
@@ -166,18 +206,5 @@ public class MainController {
         
         return loginPage;
     }
-    
-//    @RequestMapping(value = "/403", method = RequestMethod.GET)
-//    public ModelAndView accesssDenied() {
-//		ModelAndView unauthorisedPage = new ModelAndView();
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        if (!(auth instanceof AnonymousAuthenticationToken)) {
-//            UserDetails userDetail = (UserDetails) auth.getPrincipal();
-//            unauthorisedPage.addObject("username", userDetail.getUsername());
-//        }
-//        unauthorisedPage.setViewName("403");
-//        
-//        return unauthorisedPage;
-//	}
     
 }

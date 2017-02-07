@@ -20,13 +20,12 @@ public class CalculatePayment {
     @Autowired
     private SubjectPartTimeEmployeeDao subjectPartTimeEmployeeDao;
     
-    public double employeeNetoBasicPayment(Employee employee, String semester) {
+    public double employeeNetoBasicPayment(Employee employee, String semester, List<Subject> subjectList) {
         double basicPayment = calculateReferencePayment(employee.getTeachingPosition()) * Double.parseDouble(employee.getKbp()) * Double.parseDouble(employee.getKro()) * Double.parseDouble(employee.getKt()) * Double.parseDouble(employee.getKpr()) + employee.getSpecialAddValue() + employee.getFunctionsAddValue();
         double basicPaymentMoney = basicPayment * 100;
         
         double subjectPaymentAutumn = 0;
         double subjectPaymentSpring = 0;
-        List<Subject> subjectList = subjectEmployeeDao.getSubjectsForEmployee(employee);
         for (int i = 0; i < subjectList.size(); i++) {
             if (subjectList.get(i).getSemester().equals("Jesenji")) {
                 subjectPaymentAutumn = subjectPaymentAutumn + subjectPayment(employee, subjectList.get(i));
@@ -44,14 +43,13 @@ public class CalculatePayment {
         return payment;
     }
     
-    public double employeeGrossBasicPayment(Employee employee, String semester) {
-        double grossPayment = employeeNetoBasicPayment(employee, semester) * 1.6452;
+    public double employeeGrossBasicPayment(Employee employee, String semester, List<Subject> subjectList) {
+        double grossPayment = employeeNetoBasicPayment(employee, semester, subjectList) * 1.6452;
         return grossPayment;
     }
     
-    public double empoyeeNetoAuthorFee(Employee employee, String semester) {
+    public double empoyeeNetoAuthorFee(Employee employee, String semester, List<Subject> subjectList) {
         double subjectFeeSum = 0;
-        List<Subject> subjectList = subjectEmployeeDao.getSubjectsForEmployee(employee);
         for (int i = 0; i < subjectList.size(); i++) {
             subjectFeeSum = subjectFeeSum + subjectAuthorFee(subjectList.get(i), employee);
         }
@@ -60,15 +58,14 @@ public class CalculatePayment {
         return fee;
     }
     
-    public double empoyeeGrossAuthorFee(Employee employee, String semester) {
-        double grossPayment = empoyeeNetoAuthorFee(employee, semester) * 1.3145;
+    public double empoyeeGrossAuthorFee(Employee employee, String semester, List<Subject> subjectList) {
+        double grossPayment = empoyeeNetoAuthorFee(employee, semester, subjectList) * 1.3145;
         return grossPayment;
     }
     
-    public double partTimeEmpoyeeBasicPayment(PartTimeEmployee partTimeEmployee, String semester) {
+    public double partTimeEmpoyeeBasicPayment(PartTimeEmployee partTimeEmployee, String semester, List<Subject> subjectList) {
         double subjectPaymentAutumn = 0;
         double subjectPaymentSpring = 0;
-        List<Subject> subjectList = subjectPartTimeEmployeeDao.getSubjectsForPartTimeEmployee(partTimeEmployee);
         for (int i = 0; i < subjectList.size(); i++) {
             if (subjectList.get(i).getSemester().equals("Jesenji")) {
                 subjectPaymentAutumn = subjectPaymentAutumn + subjectPaymentPartTime(partTimeEmployee, subjectList.get(i));
@@ -83,6 +80,11 @@ public class CalculatePayment {
             return subjectPaymentSpring;
         } else 
             return 0;
+    }
+    
+    public double partTimeEmployeeGrossBasicPayment(PartTimeEmployee partTimeEmployee, String semester, List<Subject> subjectList) {
+        double grossPayment = partTimeEmpoyeeBasicPayment(partTimeEmployee, semester, subjectList) * 1.6452;
+        return grossPayment;
     }
     
     public double subjectPayment(Employee employee, Subject subject) {
