@@ -1,9 +1,17 @@
 package com.milica.controllers;
 
 import com.milica.dao.EmployeeDao;
+import com.milica.dao.PartTimeEmployeeDao;
+import com.milica.dao.SubjectDao;
+import com.milica.dao.SubjectEmployeeDao;
 import com.milica.dto.Person;
 import com.milica.entities.Employee;
+import com.milica.entities.PartTimeEmployee;
+import com.milica.entities.Subject;
+import com.milica.entities.SubjectEmployee;
 import com.milica.services.CalculatePayment;
+import com.milica.services.DataUpdate;
+import com.milica.services.PairTransporterEmployee;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +32,12 @@ public class MainController {
     
     @Autowired
     private EmployeeDao employeeDao;
+    @Autowired
+    private SubjectDao subjectDao;
+    @Autowired
+    private PartTimeEmployeeDao partTimeEmployeeDao;
+    @Autowired
+    private SubjectEmployeeDao subjectEmployeeDao;
     
     private final CalculatePayment calculatePayment = new CalculatePayment();
 	
@@ -103,8 +117,28 @@ public class MainController {
     
     @RequestMapping(value="/dataUpdate/update", method=RequestMethod.GET)
     public String handlePost(ModelMap m) throws Exception {
-//        DataUpdate.getDataFromIsum();
-        return "history";
+        DataUpdate dataUpdate = new DataUpdate();
+        dataUpdate.getDataFromIsum();
+        List<Employee> employees = dataUpdate.returnEmployeeList();
+        List<Subject> subjects = dataUpdate.returnSubjectEmplyeeList();
+        List<PartTimeEmployee> partEmployees = dataUpdate.returnPartTimeEmployeeList();
+        List<Subject> partSubjects = dataUpdate.returnSubjectEmployeePartTimeList();
+        List<PairTransporterEmployee> transporters = dataUpdate.returnTransporterList();
+        
+        for (Employee employee : employees) {
+            employeeDao.addEmployee(employee);
+        }
+        for (PartTimeEmployee part : partEmployees) {
+            partTimeEmployeeDao.addPartTimeEmployee(part);
+        }
+        for (Subject subject : subjects) {
+            subjectDao.addSubject(subject);
+        }
+        for (Subject subject : partSubjects) {
+            subjectDao.addSubject(subject);
+        }
+        
+        return "dataUpdate";
     }
     
     @RequestMapping(value = "/admin**", method = RequestMethod.GET)

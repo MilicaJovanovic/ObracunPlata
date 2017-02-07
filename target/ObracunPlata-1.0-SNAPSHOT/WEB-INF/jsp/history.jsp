@@ -5,7 +5,7 @@
 <%@include file="header.jsp" %>
 <div class="container">
     <div class="col-md-6 col-md-offset-3">
-        <h1>istorija</h1>
+        <h1>Lista dokumenata</h1>
     </div>
 </div>
 <%@include file="footer.jsp" %>

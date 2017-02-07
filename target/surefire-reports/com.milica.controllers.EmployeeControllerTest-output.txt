@@ -1,116 +1,116 @@
-Feb 05, 2017 12:45:46 PM org.springframework.test.context.support.DefaultTestContextBootstrapper getDefaultTestExecutionListenerClassNames
+Feb 07, 2017 4:06:51 AM org.springframework.test.context.support.DefaultTestContextBootstrapper getDefaultTestExecutionListenerClassNames
 INFO: Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
-Feb 05, 2017 12:45:46 PM org.springframework.test.context.support.DefaultTestContextBootstrapper getTestExecutionListeners
+Feb 07, 2017 4:06:51 AM org.springframework.test.context.support.DefaultTestContextBootstrapper getTestExecutionListeners
 INFO: Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@1ce92674, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@5700d6b1, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@6fd02e5, org.springframework.test.context.support.DirtiesContextTestExecutionListener@5bcab519, org.springframework.test.context.transaction.TransactionalTestExecutionListener@e45f292, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@5f2108b5]
-Feb 05, 2017 12:45:46 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+Feb 07, 2017 4:06:51 AM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
 INFO: Loading XML bean definitions from URL [file:src/main/webapp/WEB-INF/ObracunPlata-servlet.xml]
-Feb 05, 2017 12:45:47 PM org.springframework.context.support.GenericApplicationContext prepareRefresh
-INFO: Refreshing org.springframework.context.support.GenericApplicationContext@3e9b1010: startup date [Sun Feb 05 12:45:47 CET 2017]; root of context hierarchy
-Feb 05, 2017 12:45:47 PM org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor <init>
+Feb 07, 2017 4:06:51 AM org.springframework.context.support.GenericApplicationContext prepareRefresh
+INFO: Refreshing org.springframework.context.support.GenericApplicationContext@3e9b1010: startup date [Tue Feb 07 04:06:51 CET 2017]; root of context hierarchy
+Feb 07, 2017 4:06:51 AM org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor <init>
 INFO: JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
-Feb 05, 2017 12:45:47 PM org.hibernate.annotations.common.reflection.java.JavaReflectionManager <clinit>
+Feb 07, 2017 4:06:52 AM org.hibernate.annotations.common.reflection.java.JavaReflectionManager <clinit>
 INFO: HCANN000001: Hibernate Commons Annotations {4.0.4.Final}
-Feb 05, 2017 12:45:47 PM org.hibernate.Version logVersion
+Feb 07, 2017 4:06:52 AM org.hibernate.Version logVersion
 INFO: HHH000412: Hibernate Core {4.3.5.Final}
-Feb 05, 2017 12:45:47 PM org.hibernate.cfg.Environment <clinit>
+Feb 07, 2017 4:06:52 AM org.hibernate.cfg.Environment <clinit>
 INFO: HHH000206: hibernate.properties not found
-Feb 05, 2017 12:45:47 PM org.hibernate.cfg.Environment buildBytecodeProvider
+Feb 07, 2017 4:06:52 AM org.hibernate.cfg.Environment buildBytecodeProvider
 INFO: HHH000021: Bytecode provider name : javassist
-Feb 05, 2017 12:45:48 PM org.hibernate.cfg.Configuration configure
+Feb 07, 2017 4:06:52 AM org.hibernate.cfg.Configuration configure
 INFO: HHH000044: Configuring from URL: file:/C:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/target/test-classes/hibernate.cfg.xml
-Feb 05, 2017 12:45:48 PM org.hibernate.internal.util.xml.DTDEntityResolver resolveEntity
+Feb 07, 2017 4:06:52 AM org.hibernate.internal.util.xml.DTDEntityResolver resolveEntity
 WARN: HHH000223: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
-Feb 05, 2017 12:45:48 PM org.hibernate.cfg.Configuration doConfigure
+Feb 07, 2017 4:06:52 AM org.hibernate.cfg.Configuration doConfigure
 INFO: HHH000041: Configured SessionFactory: null
-Feb 05, 2017 12:45:48 PM org.hibernate.c3p0.internal.C3P0ConnectionProvider configure
+Feb 07, 2017 4:06:52 AM org.hibernate.c3p0.internal.C3P0ConnectionProvider configure
 INFO: HHH010002: C3P0 using driver: com.mysql.jdbc.Driver at URL: jdbc:mysql://127.0.0.1:3306/obracunplata
-Feb 05, 2017 12:45:48 PM org.hibernate.c3p0.internal.C3P0ConnectionProvider configure
+Feb 07, 2017 4:06:52 AM org.hibernate.c3p0.internal.C3P0ConnectionProvider configure
 INFO: HHH000046: Connection properties: {user=root, password=****, autocommit=true}
-Feb 05, 2017 12:45:48 PM org.hibernate.c3p0.internal.C3P0ConnectionProvider configure
+Feb 07, 2017 4:06:52 AM org.hibernate.c3p0.internal.C3P0ConnectionProvider configure
 INFO: HHH000006: Autocommit mode: true
-Feb 05, 2017 12:45:48 PM com.mchange.v2.log.MLog <clinit>
+Feb 07, 2017 4:06:52 AM com.mchange.v2.log.MLog <clinit>
 INFO: MLog clients using java 1.4+ standard logging.
-Feb 05, 2017 12:45:48 PM com.mchange.v2.c3p0.C3P0Registry banner
+Feb 07, 2017 4:06:52 AM com.mchange.v2.c3p0.C3P0Registry banner
 INFO: Initializing c3p0-0.9.2.1 [built 20-March-2013 10:47:27 +0000; debug? true; trace: 10]
-Feb 05, 2017 12:45:48 PM com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource getPoolManager
-INFO: Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@17589072 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@5adcb52b [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> 1hge0yu9m3ws8sispbb3m|8c3619e, idleConnectionTestPeriod -> 3000, initialPoolSize -> 5, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 300, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 20, maxStatements -> 50, maxStatementsPerConnection -> 0, minPoolSize -> 5, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@a5531e8c [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> 1hge0yu9m3ws8sispbb3m|7efaad5a, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/obracunplata, properties -> {user=******, password=******, autocommit=true} ], preferredTestQuery -> null, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> 1hge0yu9m3ws8sispbb3m|3fc9504b, numHelperThreads -> 3 ]
-Feb 05, 2017 12:45:49 PM org.hibernate.dialect.Dialect <init>
+Feb 07, 2017 4:06:52 AM com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource getPoolManager
+INFO: Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@1e57a29f [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@a1a0f738 [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> 1hge0yt9m694lfz18y3g92|460ebd80, idleConnectionTestPeriod -> 3000, initialPoolSize -> 5, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 300, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 20, maxStatements -> 50, maxStatementsPerConnection -> 0, minPoolSize -> 5, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@739beea3 [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> 1hge0yt9m694lfz18y3g92|528c868, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/obracunplata, properties -> {user=******, password=******, autocommit=true} ], preferredTestQuery -> null, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> 1hge0yt9m694lfz18y3g92|71c27ee8, numHelperThreads -> 3 ]
+Feb 07, 2017 4:06:53 AM org.hibernate.dialect.Dialect <init>
 INFO: HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
-Feb 05, 2017 12:45:49 PM org.hibernate.engine.jdbc.internal.LobCreatorBuilder useContextualLobCreation
+Feb 07, 2017 4:06:53 AM org.hibernate.engine.jdbc.internal.LobCreatorBuilder useContextualLobCreation
 INFO: HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
-Feb 05, 2017 12:45:49 PM org.hibernate.engine.transaction.internal.TransactionFactoryInitiator initiateService
+Feb 07, 2017 4:06:53 AM org.hibernate.engine.transaction.internal.TransactionFactoryInitiator initiateService
 INFO: HHH000399: Using default transaction strategy (direct JDBC transactions)
-Feb 05, 2017 12:45:49 PM org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory <init>
 INFO: HHH000397: Using ASTQueryTranslatorFactory
-Feb 05, 2017 12:45:49 PM org.hibernate.tool.hbm2ddl.SchemaUpdate execute
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.SchemaUpdate execute
 INFO: HHH000228: Running hbm2ddl schema update
-Feb 05, 2017 12:45:49 PM org.hibernate.tool.hbm2ddl.SchemaUpdate execute
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.SchemaUpdate execute
 INFO: HHH000102: Fetching database metadata
-Feb 05, 2017 12:45:49 PM org.hibernate.tool.hbm2ddl.SchemaUpdate execute
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.SchemaUpdate execute
 INFO: HHH000396: Updating schema
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000261: Table found: obracunplata.employee
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000037: Columns: [subjects_in_autumn_semester, isum_hours_spring, subject_number, isum_hours_autumn, subjects_in_spring_semester, kro, kt, kpr, lastname, faculty, semester_number, special_add_value, teaching_position, isum_money_spring, employee_id, functions_add_value, name, employment_percentage, kbp, isum_money_autumn, email, bank_account]
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000108: Foreign keys: []
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000126: Indexes: [primary]
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000261: Table found: obracunplata.mdita
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000037: Columns: [picture_gallery, video, broj_objekata_ucenja, shared_resources, assesment, broj_reci, multiple_choice, forum, question_and_answers, java_grader, mditaid, chat, mdita_id, noticeboard, audio, id, submit_files, notebook]
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000108: Foreign keys: []
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000126: Indexes: [primary]
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000261: Table found: obracunplata.part_time_employee
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000037: Columns: [subjects_in_autumn_semester, subject_number, part_time_employee_id, teaching_position, name, employment_percentage, subjects_in_spring_semester, kt, email, lastname, faculty, bank_account]
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000108: Foreign keys: []
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000126: Indexes: [primary]
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000261: Table found: obracunplata.subject
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000037: Columns: [subject_id, class_number, words_number, fpm, code, fmm, fin2, individual_exercise_number, fin1, type, group_exercise_number, espb, fkv, name, fob, location, semester, groups_number]
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000108: Foreign keys: []
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000126: Indexes: [primary]
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000261: Table found: obracunplata.subject_employee
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000037: Columns: [subject_id, employee_id, subject_employee_id]
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000108: Foreign keys: [se_employee, se_subject]
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000126: Indexes: [se_employee, se_subject, primary]
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000261: Table found: obracunplata.subject_part_time_employee
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000037: Columns: [subject_part_time_employee_id, subject_id, part_time_employee_id]
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000108: Foreign keys: [sp_subject, sp_employee]
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000126: Indexes: [sp_subject, sp_employee, primary]
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000261: Table found: obracunplata.users
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000037: Columns: [password, user_id, enabled, username]
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000108: Foreign keys: []
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.TableMetadata <init>
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.TableMetadata <init>
 INFO: HHH000126: Indexes: [primary]
-Feb 05, 2017 12:45:50 PM org.hibernate.tool.hbm2ddl.SchemaUpdate execute
+Feb 07, 2017 4:06:53 AM org.hibernate.tool.hbm2ddl.SchemaUpdate execute
 INFO: HHH000232: Schema update complete
-Feb 05, 2017 12:45:50 PM org.springframework.orm.hibernate4.HibernateTransactionManager afterPropertiesSet
-INFO: Using DataSource [com.mchange.v2.c3p0.PoolBackedDataSource@17589072 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@5adcb52b [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> 1hge0yu9m3ws8sispbb3m|8c3619e, idleConnectionTestPeriod -> 3000, initialPoolSize -> 5, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 300, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 20, maxStatements -> 50, maxStatementsPerConnection -> 0, minPoolSize -> 5, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@a5531e8c [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> 1hge0yu9m3ws8sispbb3m|7efaad5a, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/obracunplata, properties -> {user=******, password=******, autocommit=true} ], preferredTestQuery -> null, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> 1hge0yu9m3ws8sispbb3m|3fc9504b, numHelperThreads -> 3 ]] of Hibernate SessionFactory for HibernateTransactionManager
-Feb 05, 2017 12:45:51 PM org.springframework.test.context.transaction.TransactionContext startTransaction
-INFO: Began transaction (1) for test context [DefaultTestContext@a10c1b5 testClass = EmployeeControllerTest, testInstance = com.milica.controllers.EmployeeControllerTest@644abb8f, testMethod = testAddEmployee@EmployeeControllerTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@15f193b8 testClass = EmployeeControllerTest, locations = '{file:src/main/webapp/WEB-INF/ObracunPlata-servlet.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]]; transaction manager [org.springframework.orm.hibernate4.HibernateTransactionManager@1a411233]; rollback [true]
+Feb 07, 2017 4:06:54 AM org.springframework.orm.hibernate4.HibernateTransactionManager afterPropertiesSet
+INFO: Using DataSource [com.mchange.v2.c3p0.PoolBackedDataSource@1e57a29f [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@a1a0f738 [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> 1hge0yt9m694lfz18y3g92|460ebd80, idleConnectionTestPeriod -> 3000, initialPoolSize -> 5, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 300, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 20, maxStatements -> 50, maxStatementsPerConnection -> 0, minPoolSize -> 5, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@739beea3 [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> 1hge0yt9m694lfz18y3g92|528c868, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/obracunplata, properties -> {user=******, password=******, autocommit=true} ], preferredTestQuery -> null, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> 1hge0yt9m694lfz18y3g92|71c27ee8, numHelperThreads -> 3 ]] of Hibernate SessionFactory for HibernateTransactionManager
+Feb 07, 2017 4:06:54 AM org.springframework.test.context.transaction.TransactionContext startTransaction
+INFO: Began transaction (1) for test context [DefaultTestContext@5432050b testClass = EmployeeControllerTest, testInstance = com.milica.controllers.EmployeeControllerTest@75f2099, testMethod = testAddEmployee@EmployeeControllerTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@1500e009 testClass = EmployeeControllerTest, locations = '{file:src/main/webapp/WEB-INF/ObracunPlata-servlet.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]]; transaction manager [org.springframework.orm.hibernate4.HibernateTransactionManager@1c12f3ee]; rollback [true]
 Hibernate: select this_.employee_id as employee1_0_0_, this_.bank_account as bank_acc2_0_0_, this_.email as email3_0_0_, this_.employment_percentage as employme4_0_0_, this_.faculty as faculty5_0_0_, this_.functions_add_value as function6_0_0_, this_.isum_hours_autumn as isum_hou7_0_0_, this_.isum_hours_spring as isum_hou8_0_0_, this_.isum_money_autumn as isum_mon9_0_0_, this_.isum_money_spring as isum_mo10_0_0_, this_.kbp as kbp11_0_0_, this_.kpr as kpr12_0_0_, this_.kro as kro13_0_0_, this_.kt as kt14_0_0_, this_.lastname as lastnam15_0_0_, this_.name as name16_0_0_, this_.semester_number as semeste17_0_0_, this_.special_add_value as special18_0_0_, this_.subject_number as subject19_0_0_, this_.subjects_in_autumn_semester as subject20_0_0_, this_.subjects_in_spring_semester as subject21_0_0_, this_.teaching_position as teachin22_0_0_ from employee this_ where this_.employee_id=?
 Hibernate: insert into employee (bank_account, email, employment_percentage, faculty, functions_add_value, isum_hours_autumn, isum_hours_spring, isum_money_autumn, isum_money_spring, kbp, kpr, kro, kt, lastname, name, semester_number, special_add_value, subject_number, subjects_in_autumn_semester, subjects_in_spring_semester, teaching_position) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-Feb 05, 2017 12:45:51 PM org.springframework.test.context.transaction.TransactionContext endTransaction
-INFO: Rolled back transaction for test context [DefaultTestContext@a10c1b5 testClass = EmployeeControllerTest, testInstance = com.milica.controllers.EmployeeControllerTest@644abb8f, testMethod = testAddEmployee@EmployeeControllerTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@15f193b8 testClass = EmployeeControllerTest, locations = '{file:src/main/webapp/WEB-INF/ObracunPlata-servlet.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]].
+Feb 07, 2017 4:06:54 AM org.springframework.test.context.transaction.TransactionContext endTransaction
+INFO: Rolled back transaction for test context [DefaultTestContext@5432050b testClass = EmployeeControllerTest, testInstance = com.milica.controllers.EmployeeControllerTest@75f2099, testMethod = testAddEmployee@EmployeeControllerTest, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@1500e009 testClass = EmployeeControllerTest, locations = '{file:src/main/webapp/WEB-INF/ObracunPlata-servlet.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]].

@@ -11,96 +11,98 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * DAO sloj koji se koristi za pristup tabeli "subject" u bazi podataka
+ *
  * @author Milica
  */
 @Repository
 public class SubjectDaoImpl implements SubjectDao {
-   
-	@Autowired
+
+    @Autowired
     private SessionFactory sessionFactory;
 
-    public SubjectDaoImpl() {}
+    public SubjectDaoImpl() {
+    }
 
     public SubjectDaoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-	@Override
-	@Transactional
-	public boolean addSubject(Subject subject) {
-		Subject currentSubject = currentSubject(subject);
-		
-		if (currentSubject == null) {
-			sessionFactory.getCurrentSession().save(subject);
-			return true;
-		}
-		
-		return false;
-	}
+    @Override
+    @Transactional
+    public boolean addSubject(Subject subject) {
+        Subject currentSubject = currentSubject(subject);
 
-	@Override
-	@Transactional
-	public boolean editSubject(Subject subject) {
-		Subject currentSubject = currentSubject(subject);
-		
-		if (currentSubject == null) {
-			return false;
-		}
-		
-		sessionFactory.getCurrentSession().update(subject);
-		return true;
-	}
+        if (currentSubject == null) {
+            sessionFactory.getCurrentSession().save(subject);
+            return true;
+        }
 
-	@Override
-	@Transactional
-	public boolean deleteSubject(Subject subject) {
-		Subject currentSubject = currentSubject(subject);
-		
-		if (currentSubject == null) {
-			return false;
-		}
-		
-		sessionFactory.getCurrentSession().delete(currentSubject);
-		return true;
-	}
+        return false;
+    }
 
-	@Override
-	@Transactional
-	public Subject getSubjectById(int id) {
-		Subject currentSubject = (Subject) sessionFactory.getCurrentSession()
-				.createCriteria(Subject.class)
-				.add(Restrictions.eq("subjectId", id))
-				.uniqueResult();
-		return currentSubject;
-	}
+    @Override
+    @Transactional
+    public boolean editSubject(Subject subject) {
+        Subject currentSubject = currentSubject(subject);
 
-	@SuppressWarnings("unchecked")
-	@Override
-	@Transactional
-	public List<Subject> getSubjects() {
-		return sessionFactory.getCurrentSession()
-				.createCriteria(Subject.class)
-				.list();
-	}
+        if (currentSubject == null) {
+            return false;
+        }
 
-	@Override
-	@Transactional
-	public int getCountSubjects() {
-		List<Subject> allSubjects = getSubjects();
-		
-		if (allSubjects == null) {
-			return 0;
-		}
-		return allSubjects.size();
-	}
+        sessionFactory.getCurrentSession().update(subject);
+        return true;
+    }
 
-	private Subject currentSubject(Subject subject) {
-		Subject currentSubject = (Subject) sessionFactory.getCurrentSession()
-				.createCriteria(Subject.class)
-				.add(Restrictions.eq("name", subject.getName()))
-				.add(Restrictions.eq("code", subject.getCode()))
-				.uniqueResult();
-		return currentSubject;
-	}
-	
+    @Override
+    @Transactional
+    public boolean deleteSubject(Subject subject) {
+        Subject currentSubject = currentSubject(subject);
+
+        if (currentSubject == null) {
+            return false;
+        }
+
+        sessionFactory.getCurrentSession().delete(currentSubject);
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public Subject getSubjectById(int id) {
+        Subject currentSubject = (Subject) sessionFactory.getCurrentSession()
+                .createCriteria(Subject.class)
+                .add(Restrictions.eq("subjectId", id))
+                .uniqueResult();
+        return currentSubject;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Transactional
+    public List<Subject> getSubjects() {
+        return sessionFactory.getCurrentSession()
+                .createCriteria(Subject.class)
+                .list();
+    }
+
+    @Override
+    @Transactional
+    public int getCountSubjects() {
+        List<Subject> allSubjects = getSubjects();
+
+        if (allSubjects == null) {
+            return 0;
+        }
+        return allSubjects.size();
+    }
+
+    private Subject currentSubject(Subject subject) {
+        Subject currentSubject = (Subject) sessionFactory.getCurrentSession()
+                .createCriteria(Subject.class)
+                .add(Restrictions.eq("name", subject.getName()))
+                .add(Restrictions.eq("code", subject.getCode()))
+                .uniqueResult();
+        return currentSubject;
+    }
+
 }

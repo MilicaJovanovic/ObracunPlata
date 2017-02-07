@@ -9,10 +9,11 @@ import javax.persistence.Table;
 
 /**
  * Entitet klasa koja mapira tabelu "subject"
+ *
  * @author Milica
  */
 @Entity
-@Table(name="subject")
+@Table(name = "subject")
 public class Subject {
 
     private int subjectId;
@@ -35,11 +36,12 @@ public class Subject {
     private double fkv;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "subject_id")
     public int getSubjectId() {
         return subjectId;
     }
+
     public void setSubjectId(int subjectId) {
         this.subjectId = subjectId;
     }
@@ -48,6 +50,7 @@ public class Subject {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -56,6 +59,7 @@ public class Subject {
     public String getLocation() {
         return location;
     }
+
     public void setLocation(String location) {
         this.location = location;
     }
@@ -64,6 +68,7 @@ public class Subject {
     public String getType() {
         return type;
     }
+
     public void setType(String type) {
         this.type = type;
     }
@@ -72,6 +77,7 @@ public class Subject {
     public String getSemester() {
         return semester;
     }
+
     public void setSemester(String semester) {
         this.semester = semester;
     }
@@ -80,6 +86,7 @@ public class Subject {
     public String getCode() {
         return code;
     }
+
     public void setCode(String code) {
         this.code = code;
     }
@@ -88,6 +95,7 @@ public class Subject {
     public double getClassNumber() {
         return classNumber;
     }
+
     public void setClassNumber(int classNumber) {
         this.classNumber = classNumber;
     }
@@ -96,6 +104,7 @@ public class Subject {
     public double getGroupExerciseNumber() {
         return groupExerciseNumber;
     }
+
     public void setGroupExerciseNumber(int groupExerciseNumber) {
         this.groupExerciseNumber = groupExerciseNumber;
     }
@@ -104,6 +113,7 @@ public class Subject {
     public double getIndividualExcerciseNumber() {
         return individualExcerciseNumber;
     }
+
     public void setIndividualExcerciseNumber(int individualExcerciseNumber) {
         this.individualExcerciseNumber = individualExcerciseNumber;
     }
@@ -112,6 +122,7 @@ public class Subject {
     public double getEspb() {
         return espb;
     }
+
     public void setEspb(int espb) {
         this.espb = espb;
     }
@@ -120,6 +131,7 @@ public class Subject {
     public double getGroupsNumber() {
         return groupsNumber;
     }
+
     public void setGroupsNumber(int groupsNumber) {
         this.groupsNumber = groupsNumber;
     }
@@ -128,6 +140,7 @@ public class Subject {
     public double getWordsNumber() {
         return wordsNumber;
     }
+
     public void setWordsNumber(double wordsNumber) {
         this.wordsNumber = wordsNumber;
     }
@@ -136,6 +149,7 @@ public class Subject {
     public double getFpm() {
         return fpm;
     }
+
     public void setFpm(double fpm) {
         this.fpm = fpm;
     }
@@ -144,14 +158,16 @@ public class Subject {
     public double getFob() {
         return fob;
     }
+
     public void setFob(double fob) {
         this.fob = fob;
     }
-    
+
     @Column(name = "fin1")
     public double getFin1() {
         return fin1;
     }
+
     public void setFin1(double fin1) {
         this.fin1 = fin1;
     }
@@ -160,6 +176,7 @@ public class Subject {
     public double getFin2() {
         return fin2;
     }
+
     public void setFin2(double fin2) {
         this.fin2 = fin2;
     }
@@ -168,6 +185,7 @@ public class Subject {
     public double getFmm() {
         return fmm;
     }
+
     public void setFmm(double fmm) {
         this.fmm = fmm;
     }
@@ -176,17 +194,18 @@ public class Subject {
     public double getFkv() {
         return fkv;
     }
+
     public void setFkv(double fkv) {
         this.fkv = fkv;
     }
-    
-	@Override
-	public String toString() {
-		return "Subject [subjectId=" + subjectId + ", name=" + name + ", location=" + location + ", type=" + type
-				+ ", semester=" + semester + ", code=" + code + ", classNumber=" + classNumber
-				+ ", groupExerciseNumber=" + groupExerciseNumber + ", individualExcerciseNumber="
-				+ individualExcerciseNumber + ", espb=" + espb + ", groupsNumber=" + groupsNumber + ", wordsNumber="
-				+ wordsNumber + ", fpm=" + fpm + ", fob=" + fob + ", fin1=" + fin1 + ", fin2=" + fin2 + ", fmm=" + fmm
-				+ ", fkv=" + fkv + "]";
-	}
+
+    @Override
+    public String toString() {
+        return "Subject [subjectId=" + subjectId + ", name=" + name + ", location=" + location + ", type=" + type
+                + ", semester=" + semester + ", code=" + code + ", classNumber=" + classNumber
+                + ", groupExerciseNumber=" + groupExerciseNumber + ", individualExcerciseNumber="
+                + individualExcerciseNumber + ", espb=" + espb + ", groupsNumber=" + groupsNumber + ", wordsNumber="
+                + wordsNumber + ", fpm=" + fpm + ", fob=" + fob + ", fin1=" + fin1 + ", fin2=" + fin2 + ", fmm=" + fmm
+                + ", fkv=" + fkv + "]";
+    }
 }

@@ -13,6 +13,7 @@
     http://www.springframework.org/schema/tx 
     http://www.springframework.org/schema/tx/spring-tx.xsd">
     
+    <context:spring-configured/>
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="configLocation" >
             <!--Dodavanje path-a na kome se nalaze podešavanja za Hibernate--> 

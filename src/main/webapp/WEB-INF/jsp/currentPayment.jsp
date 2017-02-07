@@ -29,5 +29,8 @@
             </c:forEach>
         </table>
     </c:if>
+    <form action="<c:url value="/currentPayment/pay" />" method="GET">
+        <input type="submit" name="action" value="Isplati" class="btn btn-primary" style="background-color: #19B396; margin-top: 30px;" />
+    </form>
 </div>
 <%@include file="footer.jsp" %>

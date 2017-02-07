@@ -15,28 +15,33 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.stereotype.Repository;
+
 /**
  *
  * @author Milica
  */
+@Configurable
 public class JsonParser {
-    
+
     @Autowired
     private SubjectDao subjectDao;
-    
+
     @Autowired
     PartTimeEmployeeDao partTimeEmployeeDao;
-    
+
     @Autowired
     EmployeeDao employeeDao;
-    
+
     @Autowired
     SubjectEmployeeDao subjectEmployeeDao;
-    
+
     @Autowired
     SubjectPartTimeEmployeeDao subjectPartTimeEmployeeDao;
-    
+
     public Subject subjectFromNode(JSONObject jsonNodeClass) {
+        System.err.println("Pozvala se metoda subjectFromNode");
         String name = fixText(jsonNodeClass.get("name").toString());
         String location = fixText(jsonNodeClass.get("location").toString());
         String type = fixText(jsonNodeClass.get("type").toString());
@@ -55,14 +60,14 @@ public class JsonParser {
         double fin2 = Double.parseDouble(fixText(jsonNodeClass.get("fin2").toString()));
         double fmm = Double.parseDouble(fixText(jsonNodeClass.get("fmm").toString()));
         double fkv = Double.parseDouble(fixText(jsonNodeClass.get("fkv").toString()));
-                
+
         Subject subject = new Subject();
         subject.setName(name);
         subject.setLocation(location);
         subject.setType(type);
         subject.setSemester(semester);
         subject.setCode(code);
-        subject.setClassNumber(classNumber);
+        subject.setClassNumber(2);
         subject.setGroupExerciseNumber(groupExcerciseNumber);
         subject.setIndividualExcerciseNumber(individualExcerciseNumber);
         subject.setEspb(espb);
@@ -74,34 +79,39 @@ public class JsonParser {
         subject.setFin2(fin2);
         subject.setFmm(fmm);
         subject.setFkv(fkv);
-        
-        boolean result = subjectDao.addSubject(subject);
+        System.err.println("Kreiran je subject " + subject);
+
         return subject;
     }
-   
+
+    List<Subject> subjectListEmployee;
+    List<SubjectEmployee> partList;
+    int subjectsInSpringSemesterEmployee = 0;
+    int subjectsInAutumnSemesterEmployee = 0;
     public Employee employeeFromNode(JSONObject jsonNodePerson) {
-        int subjectsInSpringSemester = 0;
-        int subjectsInAutumnSemester = 0;
-        List<Subject> subjectList = new ArrayList<>();
+        subjectListEmployee = new ArrayList<>();
+        partList = new ArrayList<>();
         JSONArray jsonNodeAllClasses = (JSONArray) jsonNodePerson.get("classes");
         for (int i = 0; i < jsonNodeAllClasses.length(); i++) {
             JSONObject jsonNodeClass = jsonNodeAllClasses.getJSONObject(i);
             if (jsonNodeClass.get("fpm") != null && jsonNodeClass.get("fob") != null && jsonNodeClass.get("fin1") != null && jsonNodeClass.get("fin2") != null && jsonNodeClass.get("fmm") != null && jsonNodeClass.get("fkv") != null) {
                 try {
                     Subject subject = subjectFromNode(jsonNodeClass);
-                    subjectList.add(subject);
+                    subjectListEmployee.add(subject);
                     if (subject.getSemester().equals("J")) {
-                        subjectsInAutumnSemester++;
+                        subjectsInAutumnSemesterEmployee++;
                     } else if (subject.getSemester().equals("P")) {
-                        subjectsInSpringSemester++;
+                        subjectsInSpringSemesterEmployee++;
                     }
-                } catch(Exception e) {
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
-        
+
         int semesterNumber;
-        if ( (subjectsInSpringSemester > 0 && subjectsInAutumnSemester == 0) || (subjectsInAutumnSemester > 0 && subjectsInSpringSemester == 0)) {
+        if ((subjectsInSpringSemesterEmployee > 0 && subjectsInAutumnSemesterEmployee == 0) 
+                || (subjectsInAutumnSemesterEmployee > 0 && subjectsInSpringSemesterEmployee == 0)) {
             semesterNumber = 1;
         } else {
             semesterNumber = 2;
@@ -164,11 +174,11 @@ public class JsonParser {
 //                }
 //            }
 //        }
-        
+
         Employee employee = new Employee();
         employee.setSemesterNumber(semesterNumber);
-        employee.setSubjectsInSpringSemester(subjectsInSpringSemester);
-        employee.setSubjectsInAutumnSemester(subjectsInAutumnSemester);
+        employee.setSubjectsInSpringSemester(subjectsInSpringSemesterEmployee);
+        employee.setSubjectsInAutumnSemester(subjectsInAutumnSemesterEmployee);
         employee.setSpecialAddValue(specialAddValue);
         employee.setFunctionsAddValue(functionsSumValue);
         employee.setName(fixText(jsonNodePerson.get("name").toString()));
@@ -187,48 +197,53 @@ public class JsonParser {
         employee.setIsumHoursSpring(isumHoursP);
         employee.setIsumMoneyAutumn(isumMoneyJ);
         employee.setIsumMoneySpring(isumMoneyP);
-        
-        System.out.println(employee.toString());
-//        boolean result = employeeDao.addEmployee(employee);
-        
-        for (Subject subject : subjectList) {
+
+        for (Subject subject : subjectListEmployee) {
             SubjectEmployee pair = new SubjectEmployee();
             pair.setEmployeeId(employee);
             pair.setSubjectId(subject);
-            
-//            boolean res = subjectEmployeeDao.addSubjectEmployee(pair);
+            partList.add(pair);
         }
         
         return employee;
     }
+    public List<Subject> returnSubjectEmployee() {
+        return subjectListEmployee;
+    }
+    public List<SubjectEmployee> returnPairList() {
+        return partList;
+    }
 
+    List<Subject> subjectListPartTime;
+    List<SubjectPartTimeEmployee> partListPart;
+    int subjectsInSpringSemesterPartTime = 0;
+    int subjectsInAutumnSemesterPartTime = 0;
     public PartTimeEmployee partTimeEmployeeFromNode(JSONObject jsonNodePerson) {
+        subjectListPartTime = new ArrayList<>();
+        partListPart = new ArrayList<>();
         JSONArray jsonNodeAllClasses = (JSONArray) jsonNodePerson.get("classes");
-        int subjectsInSpringSemester = 0;
-        int subjectsInAutumnSemester = 0;
-        List<Subject> subjectList = new ArrayList<>();
         for (int i = 0; i < jsonNodeAllClasses.length(); i++) {
             JSONObject jsonNodeClass = jsonNodeAllClasses.getJSONObject(i);
-            if (jsonNodeClass.get("fpm") != null && jsonNodeClass.get("fob") != null &&
-            jsonNodeClass.get("fin1") != null && jsonNodeClass.get("fin2") != null &&
-            jsonNodeClass.get("fmm") != null && jsonNodeClass.get("fkv") != null) {
+            if (jsonNodeClass.get("fpm") != null && jsonNodeClass.get("fob") != null
+                    && jsonNodeClass.get("fin1") != null && jsonNodeClass.get("fin2") != null
+                    && jsonNodeClass.get("fmm") != null && jsonNodeClass.get("fkv") != null) {
                 try {
                     Subject subject = subjectFromNode(jsonNodeClass);
-                    subjectList.add(subject);
+                    subjectListPartTime.add(subject);
                     if (subject.getSemester().equals("J")) {
-                        subjectsInAutumnSemester++;
+                        subjectsInAutumnSemesterPartTime++;
                     } else if (subject.getSemester().equals("P")) {
-                        subjectsInSpringSemester++;
+                        subjectsInSpringSemesterPartTime++;
                     }
-                } catch(Exception e) {
+                } catch (Exception e) {
 
                 }
             }
         }
-        
+
         PartTimeEmployee partTimeEmployee = new PartTimeEmployee();
-        partTimeEmployee.setSubjectsInAutumnSemester(subjectsInAutumnSemester);
-        partTimeEmployee.setSubjectsInSpringSemester(subjectsInSpringSemester);
+        partTimeEmployee.setSubjectsInAutumnSemester(subjectsInAutumnSemesterPartTime);
+        partTimeEmployee.setSubjectsInSpringSemester(subjectsInSpringSemesterPartTime);
         partTimeEmployee.setName(fixText(jsonNodePerson.get("name").toString()));
         partTimeEmployee.setLastname(fixText(jsonNodePerson.get("lastname").toString()));
         partTimeEmployee.setFaculty(fixText(jsonNodePerson.get("faculty").toString()));
@@ -238,21 +253,24 @@ public class JsonParser {
         partTimeEmployee.setEmploymentPercentage(fixText(jsonNodePerson.get("employmentPercentage").toString()));
         partTimeEmployee.setSubjectNumber(fixText(jsonNodePerson.get("subjectNumber").toString()));
         partTimeEmployee.setKt(fixText(jsonNodePerson.get("kt").toString()));
-        
-//        boolean result = partTimeEmployeeDao.addPartTimeEmployee(partTimeEmployee);
-        
-        for (Subject subject : subjectList) {
+
+        for (Subject subject : subjectListPartTime) {
             SubjectPartTimeEmployee pair = new SubjectPartTimeEmployee();
             pair.setPartTimeEmployeeId(partTimeEmployee);
             pair.setSubjectId(subject);
-            
-//            boolean res = subjectPartTimeEmployeeDao.addSubjectPartTimeEmployee(pair);
+            partListPart.add(pair);
         }
         
         return partTimeEmployee;
     }
+    public List<Subject> returnSujbectListPartTime() {
+        return subjectListPartTime;
+    }
+    public List<SubjectPartTimeEmployee> returnPairListPart() {
+        return partListPart;
+    }
 
     public static String fixText(String received) {
         return received.replaceAll("\"", "");
-    }    
+    }
 }

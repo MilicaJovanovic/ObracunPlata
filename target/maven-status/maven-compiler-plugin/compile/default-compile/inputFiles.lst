@@ -5,6 +5,7 @@ C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica
 C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica\dao\SubjectPartTimeEmployeeDao.java
 C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica\dao\UserDao.java
 C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica\dto\Person.java
+C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica\services\CalculatePayment.java
 C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica\controllers\SubjectPartTimeEmployeeController.java
 C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica\dao\EmployeeDao.java
 C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica\dao\impl\SubjectDaoImpl.java
@@ -12,6 +13,7 @@ C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica
 C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica\dao\MDitaDao.java
 C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica\dao\impl\PartTimeEmployeeDaoImpl.java
 C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica\controllers\EmployeeController.java
+C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica\services\PairTransporterEmployee.java
 C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica\controllers\PartTimeEmployeeController.java
 C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica\dao\impl\MDitaDaoImpl.java
 C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica\services\DataUpdate.java
@@ -25,7 +27,6 @@ C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica
 C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica\dao\impl\SubjectPartTimeEmployeeDaoImpl.java
 C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica\services\Const.java
 C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica\dao\PartTimeEmployeeDao.java
-C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica\services\CalculatingPayment.java
 C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica\controllers\SubjectController.java
 C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica\dao\SubjectDao.java
 C:\Users\Milica\Documents\NetBeansProjects\ObracunPlata\src\main\java\com\milica\dao\SubjectEmployeeDao.java
