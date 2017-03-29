@@ -92,7 +92,7 @@ public class Subject {
     }
 
     @Column(name = "class_number")
-    public double getClassNumber() {
+    public int getClassNumber() {
         return classNumber;
     }
 
@@ -101,7 +101,7 @@ public class Subject {
     }
 
     @Column(name = "group_exercise_number")
-    public double getGroupExerciseNumber() {
+    public int getGroupExerciseNumber() {
         return groupExerciseNumber;
     }
 
@@ -110,7 +110,7 @@ public class Subject {
     }
 
     @Column(name = "individual_exercise_number")
-    public double getIndividualExcerciseNumber() {
+    public int getIndividualExcerciseNumber() {
         return individualExcerciseNumber;
     }
 
@@ -119,7 +119,7 @@ public class Subject {
     }
 
     @Column(name = "espb")
-    public double getEspb() {
+    public int getEspb() {
         return espb;
     }
 
@@ -128,7 +128,7 @@ public class Subject {
     }
 
     @Column(name = "groups_number")
-    public double getGroupsNumber() {
+    public int getGroupsNumber() {
         return groupsNumber;
     }
 
