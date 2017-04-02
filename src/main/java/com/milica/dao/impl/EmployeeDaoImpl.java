@@ -24,80 +24,80 @@ public class EmployeeDaoImpl implements EmployeeDao {
         this.sessionFactory = sessionFactory;
     }
 
-	@Override
-	@Transactional
-	public boolean addEmployee(Employee employee) {
-		Employee currentEmployee = currentEmployee(employee);
-		
-		if (currentEmployee == null) {
-			sessionFactory.getCurrentSession().save(employee);
-			return true;
-		}
-		
-		return false;
-	}
+    @Override
+    @Transactional
+    public boolean addEmployee(Employee employee) {
+        Employee currentEmployee = currentEmployee(employee);
 
-	@Override
-	@Transactional
-	public boolean editEmployee(Employee employee) {
-		Employee currentEmployee = currentEmployee(employee);
-		
-		if (currentEmployee == null) {
-			return false;
-		}
-		
-		sessionFactory.getCurrentSession().update(employee);
-		return true;
-	}
+        if (currentEmployee == null) {
+                sessionFactory.getCurrentSession().save(employee);
+                return true;
+        }
 
-	@Override
-	@Transactional
-	public boolean deleteEmployee(Employee employee) {
-		Employee currentEmployee = currentEmployee(employee);
-		
-		if (currentEmployee == null) {
-			return false;
-		}
-		
-		sessionFactory.getCurrentSession().delete(currentEmployee);
-		return true;
-	}
+        return false;
+    }
 
-	@Override
-	@Transactional
-	public Employee getEmployeeById(int id) {
-		Employee currentEmployee = (Employee) sessionFactory.getCurrentSession()
-				.createCriteria(Employee.class)
-				.add(Restrictions.eq("employeeId", id))
-				.uniqueResult();
-		return currentEmployee;
-	}
+    @Override
+    @Transactional
+    public boolean editEmployee(Employee employee) {
+        Employee currentEmployee = currentEmployee(employee);
 
-	@SuppressWarnings("unchecked")
-	@Override
-	@Transactional
-	public List<Employee> getAllEmployees() {
-		return sessionFactory.getCurrentSession()
-				.createCriteria(Employee.class)
-				.list();
-	}
+        if (currentEmployee == null) {
+                return false;
+        }
 
-	@Override
-	@Transactional
-	public int getCountEmployees() {
-		List<Employee> allEmployees = getAllEmployees();
-		
-		if (allEmployees == null) {
-			return 0;
-		}
-		return allEmployees.size();
-	}
-    
-	private Employee currentEmployee(Employee employee) {
-		Employee currentEmployee = (Employee) sessionFactory.getCurrentSession()
-				.createCriteria(Employee.class)
-				.add(Restrictions.eq("employeeId", employee.getEmployeeId()))
-				.uniqueResult();
-		return currentEmployee;
-	}
+        sessionFactory.getCurrentSession().update(employee);
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteEmployee(Employee employee) {
+        Employee currentEmployee = currentEmployee(employee);
+
+        if (currentEmployee == null) {
+                return false;
+        }
+
+        sessionFactory.getCurrentSession().delete(currentEmployee);
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public Employee getEmployeeById(int id) {
+        Employee currentEmployee = (Employee) sessionFactory.getCurrentSession()
+                        .createCriteria(Employee.class)
+                        .add(Restrictions.eq("employeeId", id))
+                        .uniqueResult();
+        return currentEmployee;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Transactional
+    public List<Employee> getAllEmployees() {
+        return sessionFactory.getCurrentSession()
+            .createCriteria(Employee.class)
+            .list();
+    }
+
+    @Override
+    @Transactional
+    public int getCountEmployees() {
+        List<Employee> allEmployees = getAllEmployees();
+
+        if (allEmployees == null) {
+            return 0;
+        }
+        return allEmployees.size();
+    }
+
+    private Employee currentEmployee(Employee employee) {
+        Employee currentEmployee = (Employee) sessionFactory.getCurrentSession()
+            .createCriteria(Employee.class)
+            .add(Restrictions.eq("employeeId", employee.getEmployeeId()))
+            .uniqueResult();
+        return currentEmployee;
+    }
 }

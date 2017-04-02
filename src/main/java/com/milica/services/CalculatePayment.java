@@ -27,25 +27,25 @@ public class CalculatePayment {
         double subjectPaymentAutumn = 0;
         double subjectPaymentSpring = 0;
         for (int i = 0; i < subjectList.size(); i++) {
-            if (subjectList.get(i).getSemester().equals("Jesenji")) {
+            if (subjectList.get(i).getSemester().equals("Jesenji semestar")) {
                 subjectPaymentAutumn = subjectPaymentAutumn + subjectPayment(employee, subjectList.get(i));
-            } else if (subjectList.get(i).getSemester().equals("Prolecni")) {
+            } else if (subjectList.get(i).getSemester().equals("Prolecni semestar")) {
                 subjectPaymentSpring = subjectPaymentSpring + subjectPayment(employee, subjectList.get(i));
             } 
         }
         
         double payment = 0;
-        if (semester.equals("Jesenji")) {
+        if (semester.equals("Jesenji semestar")) {
             payment = basicPaymentMoney * 6 + subjectPaymentAutumn * 15;
-        } else if (semester.equals("Prolecni")) {
+        } else if (semester.equals("Prolecni semestar")) {
             payment = basicPaymentMoney * 6 + subjectPaymentSpring * 15;
         }
-        return payment;
+        return Math.round(payment);
     }
     
     public double employeeGrossBasicPayment(Employee employee, String semester, List<Subject> subjectList) {
         double grossPayment = employeeNetoBasicPayment(employee, semester, subjectList) * 1.6452;
-        return grossPayment;
+        return Math.round(grossPayment);
     }
     
     public double empoyeeNetoAuthorFee(Employee employee, String semester, List<Subject> subjectList) {
@@ -55,36 +55,38 @@ public class CalculatePayment {
         }
         
         double fee = subjectFeeSum * 1.3145;
-        return fee;
+        return Math.round(fee);
     }
     
     public double empoyeeGrossAuthorFee(Employee employee, String semester, List<Subject> subjectList) {
         double grossPayment = empoyeeNetoAuthorFee(employee, semester, subjectList) * 1.3145;
-        return grossPayment;
+        return Math.round(grossPayment);
     }
     
     public double partTimeEmpoyeeBasicPayment(PartTimeEmployee partTimeEmployee, String semester, List<Subject> subjectList) {
         double subjectPaymentAutumn = 0;
         double subjectPaymentSpring = 0;
         for (int i = 0; i < subjectList.size(); i++) {
-            if (subjectList.get(i).getSemester().equals("Jesenji")) {
+            if (subjectList.get(i).getSemester().equals("Jesenji semestar")) {
                 subjectPaymentAutumn = subjectPaymentAutumn + subjectPaymentPartTime(partTimeEmployee, subjectList.get(i));
-            } else if (subjectList.get(i).getSemester().equals("Prolecni")) {
+            } else if (subjectList.get(i).getSemester().equals("Prolecni semestar")) {
                 subjectPaymentSpring = subjectPaymentSpring + subjectPaymentPartTime(partTimeEmployee, subjectList.get(i));
             } 
         }
         
-        if (semester.equals("Jesenji")) {
-            return subjectPaymentAutumn;
-        } else if (semester.equals("Prolecni")) {
-            return subjectPaymentSpring;
-        } else 
-            return 0;
+        switch (semester) {
+            case "Jesenji semestar":
+                return Math.round(subjectPaymentAutumn);
+            case "Prolecni semestar":
+                return Math.round(subjectPaymentSpring);
+            default:
+                return 0;
+        }
     }
     
     public double partTimeEmployeeGrossBasicPayment(PartTimeEmployee partTimeEmployee, String semester, List<Subject> subjectList) {
         double grossPayment = partTimeEmpoyeeBasicPayment(partTimeEmployee, semester, subjectList) * 1.6452;
-        return grossPayment;
+        return Math.round(grossPayment);
     }
     
     public double subjectPayment(Employee employee, Subject subject) {
@@ -137,14 +139,14 @@ public class CalculatePayment {
         
         double classSum = (subject.getGroupExerciseNumber() + subject.getIndividualExcerciseNumber()) + subject.getGroupsNumber();
         
-        double payment = 0;
+        double payment;
         payment = Double.parseDouble(employee.getKpr()) * Double.parseDouble(employee.getKt()) * classType * subject.getClassNumber() * teachingPossition * 1 * classSum * 9;
         double paymentMoney = payment * 100;
         return paymentMoney;
     }
     
     public double calculateReferencePayment(String teachingPosition) {
-        double refPayment = 0;
+        double refPayment;
         switch (teachingPosition) {
             case "Demonstrator":  
                 refPayment = 0;
@@ -175,7 +177,7 @@ public class CalculatePayment {
                 break;
         }
         
-         return refPayment;
+        return refPayment;
     }
     
     public double subjectAuthorFee(Subject subject, Employee employee) {
@@ -246,27 +248,52 @@ public class CalculatePayment {
         
         double classSum = (subject.getGroupExerciseNumber() + subject.getIndividualExcerciseNumber()) + subject.getGroupsNumber();
         
-        double firstDependence = 0;
-        if (subject.getLocation().equals("Beograd")) {
-            if (partTimeEmployee.getTeachingPosition().equals("Red. profesor") || partTimeEmployee.getTeachingPosition().equals("Vanr.profesor") || partTimeEmployee.getTeachingPosition().equals("Docent")) {
+        double firstDependence;
+        switch (subject.getLocation()) {
+            case "Beograd":
+        switch (partTimeEmployee.getTeachingPosition()) {
+            case "Red. profesor":
+            case "Vanr.profesor":
+            case "Docent":
                 firstDependence = subject.getClassNumber() * 12 + 7 * classSum;
-            } else if (partTimeEmployee.getTeachingPosition().equals("Doktor nauka") || partTimeEmployee.getTeachingPosition().equals("Predavač") || partTimeEmployee.getTeachingPosition().equals("Asistent") || partTimeEmployee.getTeachingPosition().equals(("Saradnik"))) {
+                break;
+            case "Doktor nauka":
+            case "Predavač":
+            case "Asistent":
+            case "Saradnik":
                 firstDependence = subject.getClassNumber() * 9 + 7 * classSum;
-            } else
+                break;
+            default:
                 firstDependence = (subject.getClassNumber() + classSum) * 6;
-        } else if (subject.getLocation().equals("Niš")) {
-            if (partTimeEmployee.getTeachingPosition().equals("Red. profesor") || partTimeEmployee.getTeachingPosition().equals("Vanr.profesor") || partTimeEmployee.getTeachingPosition().equals("Docent")) {
+                break;
+        }
+                break;
+            case "Niš":
+        switch (partTimeEmployee.getTeachingPosition()) {
+            case "Red. profesor":
+            case "Vanr.profesor":
+            case "Docent":
                 firstDependence = subject.getClassNumber() * 15 + 7 * classSum;
-            } else if (partTimeEmployee.getTeachingPosition().equals("Doktor nauka")) {
+                break;
+            case "Doktor nauka":
                 firstDependence = subject.getClassNumber() * 12 + 12 * classSum;
-            } else if (partTimeEmployee.getTeachingPosition().equals("Predavač") || partTimeEmployee.getTeachingPosition().equals("Asistent") || partTimeEmployee.getTeachingPosition().equals(("Saradnik"))) {
+                break;
+            case "Predavač":
+            case "Asistent":
+            case "Saradnik":
                 firstDependence = subject.getClassNumber() * 12 + 7 * classSum;
-            } else
+                break;
+            default:
                 firstDependence = subject.getClassNumber() * 6 + 6 * classSum;
-        } else
-            firstDependence = 0;
+                break;
+        }
+                break;
+            default:
+                firstDependence = 0;
+                break;
+        }
         
-        double payment = 0;
+        double payment;
         payment = classType * Double.parseDouble(partTimeEmployee.getKt()) * 15 * firstDependence;
         double paymentMoney = payment * 100;
         return paymentMoney;

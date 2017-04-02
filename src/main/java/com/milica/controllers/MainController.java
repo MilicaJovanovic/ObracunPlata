@@ -9,12 +9,15 @@ import com.milica.dto.Person;
 import com.milica.entities.Employee;
 import com.milica.entities.PartTimeEmployee;
 import com.milica.entities.Subject;
-import com.milica.entities.SubjectEmployee;
 import com.milica.services.CalculatePayment;
 import com.milica.services.DataUpdate;
 import com.milica.services.PairTransporterEmployee;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 /**
  *
@@ -72,7 +75,7 @@ public class MainController {
             person.setName(partTimeEmployee.getName());
             person.setLastname(partTimeEmployee.getLastname());
             person.setFaculty(partTimeEmployee.getFaculty());
-            person.setEmploymentType("Horarni odnos");
+            person.setEmploymentType("Honorarni odnos");
             person.setSalaryNeto(2000);
             person.setAuthorFeeNeto(0);
             employees.add(person);
@@ -89,19 +92,23 @@ public class MainController {
         List<Person> employees = new ArrayList<>();
         for (Employee employee : employeeList) {
             List<Subject> subjectList = subjectEmployeeDao.getSubjectsForEmployee(employee);
+            for (int i = 0; i < subjectList.size(); i++) {
+                System.err.println("Employee: " +  subjectList.get(i).toString());
+            }
             Person person = new Person();
             person.setName(employee.getName());
             person.setLastname(employee.getLastname());
             person.setFaculty(employee.getFaculty());
             person.setEmploymentType("Radni odnos");
-//            person.setSalaryNeto(15000);
-//            person.setAuthorFeeNeto(200);
-            person.setSalaryNeto(calculatePayment.employeeNetoBasicPayment(employee, "Prolecni", subjectList));
-            person.setAuthorFeeNeto(calculatePayment.empoyeeNetoAuthorFee(employee, "Prolecni", subjectList));
+            person.setSalaryNeto(calculatePayment.employeeNetoBasicPayment(employee, "Prolecni semestar", subjectList));
+            person.setAuthorFeeNeto(calculatePayment.empoyeeNetoAuthorFee(employee, "Prolecni semestar", subjectList));
             employees.add(person);
         }
         for (PartTimeEmployee partTimeEmployee : partTimeEmployeeList) {
             List<Subject> subjectList = subjectPartTimeEmployeeDao.getSubjectsForPartTimeEmployee(partTimeEmployee);
+            for (int i = 0; i < subjectList.size(); i++) {
+                System.err.println("PartTime employee: " + subjectList.get(i).toString());
+            }
             Person person = new Person();
             person.setName(partTimeEmployee.getName());
             person.setLastname(partTimeEmployee.getLastname());
@@ -128,10 +135,8 @@ public class MainController {
             person.setLastname(employee.getLastname());
             person.setFaculty(employee.getFaculty());
             person.setEmploymentType("Radni odnos");
-//            person.setSalaryGross(2000);
-//            person.setAuthorFeeGross(200);
-            person.setSalaryGross(calculatePayment.employeeGrossBasicPayment(employee, "Prolecni", subjectList));
-            person.setAuthorFeeGross(calculatePayment.empoyeeGrossAuthorFee(employee, "Prolecni", subjectList));
+            person.setSalaryGross(calculatePayment.employeeGrossBasicPayment(employee, "Prolecni semestar", subjectList));
+            person.setAuthorFeeGross(calculatePayment.empoyeeGrossAuthorFee(employee, "Prolecni semestar", subjectList));
             employees.add(person);
         }
         for (PartTimeEmployee partTimeEmployee : partTimeEmployeeList) {
@@ -167,9 +172,11 @@ public class MainController {
         
         for (Employee employee : employees) {
             employeeDao.addEmployee(employee);
+            System.out.println("Upisan je employee");
         }
         for (PartTimeEmployee part : partEmployees) {
             partTimeEmployeeDao.addPartTimeEmployee(part);
+            System.out.println("Upisan je part time employee");
         }
         for (Subject subject : subjects) {
             subjectDao.addSubject(subject);
@@ -192,8 +199,7 @@ public class MainController {
     }
     
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView login(@RequestParam(value = "error", required = false) String error, 
-    		@RequestParam(value = "logout", required = false) String logout) {
+    public ModelAndView login(@RequestParam(value = "error", required = false) String error, @RequestParam(value = "logout", required = false) String logout) {
 		
         ModelAndView loginPage = new ModelAndView();
         if (error != null) {
