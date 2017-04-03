@@ -14,7 +14,7 @@
     </head>
     <body style="background-color: #EDEDED; -webkit-font-smoothing: antialiased; font: normal 14px Roboto,arial,sans-serif;">
         <div class="container">
-            <div style="width: 40%; margin-left: auto; margin-right: auto; margin-top: 100px; height: 50px; color: #2C3E50; text-align: center; font-size: 26px; text-shadow: 2px 2px #fff;">
+            <div style="width: 40%; margin-left: auto; margin-right: auto; margin-top: 60px; height: 50px; color: #2C3E50; text-align: center; font-size: 26px; text-shadow: 2px 2px #fff;">
                 <c:if test="${not empty error}">
                     <div class="error">${error}</div>
                 </c:if>

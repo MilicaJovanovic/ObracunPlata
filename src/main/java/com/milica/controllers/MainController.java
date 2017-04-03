@@ -92,9 +92,6 @@ public class MainController {
         List<Person> employees = new ArrayList<>();
         for (Employee employee : employeeList) {
             List<Subject> subjectList = subjectEmployeeDao.getSubjectsForEmployee(employee);
-            for (int i = 0; i < subjectList.size(); i++) {
-                System.err.println("Employee: " +  subjectList.get(i).toString());
-            }
             Person person = new Person();
             person.setName(employee.getName());
             person.setLastname(employee.getLastname());
@@ -106,15 +103,12 @@ public class MainController {
         }
         for (PartTimeEmployee partTimeEmployee : partTimeEmployeeList) {
             List<Subject> subjectList = subjectPartTimeEmployeeDao.getSubjectsForPartTimeEmployee(partTimeEmployee);
-            for (int i = 0; i < subjectList.size(); i++) {
-                System.err.println("PartTime employee: " + subjectList.get(i).toString());
-            }
             Person person = new Person();
             person.setName(partTimeEmployee.getName());
             person.setLastname(partTimeEmployee.getLastname());
             person.setFaculty(partTimeEmployee.getFaculty());
             person.setEmploymentType("Honorarni odnos");
-            person.setSalaryNeto(calculatePayment.partTimeEmpoyeeBasicPayment(partTimeEmployee, "Prolecni semestar", subjectList));
+            person.setSalaryNeto(calculatePayment.partTimeEmpoyeeBasicPayment(partTimeEmployee, "Jesenji semestar", subjectList));
             person.setAuthorFeeNeto(0);
             employees.add(person);
         }

@@ -27,9 +27,9 @@ public class CalculatePayment {
         double subjectPaymentAutumn = 0;
         double subjectPaymentSpring = 0;
         for (int i = 0; i < subjectList.size(); i++) {
-            if (subjectList.get(i).getSemester().equals("Jesenji semestar")) {
+            if (subjectList.get(i).getSemester().equals("J")) {
                 subjectPaymentAutumn = subjectPaymentAutumn + subjectPayment(employee, subjectList.get(i));
-            } else if (subjectList.get(i).getSemester().equals("Prolecni semestar")) {
+            } else if (subjectList.get(i).getSemester().equals("P")) {
                 subjectPaymentSpring = subjectPaymentSpring + subjectPayment(employee, subjectList.get(i));
             } 
         }
@@ -66,13 +66,17 @@ public class CalculatePayment {
     public double partTimeEmpoyeeBasicPayment(PartTimeEmployee partTimeEmployee, String semester, List<Subject> subjectList) {
         double subjectPaymentAutumn = 0;
         double subjectPaymentSpring = 0;
+        System.out.println("BROJ PREDMETA U LISTI ZA PART: " + subjectList.size());
         for (int i = 0; i < subjectList.size(); i++) {
-            if (subjectList.get(i).getSemester().equals("Jesenji semestar")) {
+            if (subjectList.get(i).getSemester().equals("J")) {
                 subjectPaymentAutumn = subjectPaymentAutumn + subjectPaymentPartTime(partTimeEmployee, subjectList.get(i));
-            } else if (subjectList.get(i).getSemester().equals("Prolecni semestar")) {
+            } else if (subjectList.get(i).getSemester().equals("P")) {
                 subjectPaymentSpring = subjectPaymentSpring + subjectPaymentPartTime(partTimeEmployee, subjectList.get(i));
             } 
         }
+        
+        System.out.println("subject payment autumn: " + subjectPaymentAutumn);
+        System.out.println("subject payment spring: " + subjectPaymentSpring);
         
         switch (semester) {
             case "Jesenji semestar":
@@ -92,10 +96,10 @@ public class CalculatePayment {
     public double subjectPayment(Employee employee, Subject subject) {
         double classType;
         switch (subject.getType()) {
-            case "Klasicno":  
+            case "Klas.":  
                 classType = 1;
                 break;
-            case "Hibridno":
+            case "Hibr.":
                 classType = 0.9;
                 break;
             case "Onlajn":
@@ -201,10 +205,10 @@ public class CalculatePayment {
     public double subjectPaymentPartTime(PartTimeEmployee partTimeEmployee, Subject subject) {
         double classType;
         switch (subject.getType()) {
-            case "Klasicno":  
+            case "Klas.":  
                 classType = 1;
                 break;
-            case "Hibridno":
+            case "Hibr.":
                 classType = 0.9;
                 break;
             case "Onlajn":
@@ -268,25 +272,25 @@ public class CalculatePayment {
                 break;
         }
                 break;
-            case "Niš":
-        switch (partTimeEmployee.getTeachingPosition()) {
-            case "Red. profesor":
-            case "Vanr.profesor":
-            case "Docent":
-                firstDependence = subject.getClassNumber() * 15 + 7 * classSum;
-                break;
-            case "Doktor nauka":
-                firstDependence = subject.getClassNumber() * 12 + 12 * classSum;
-                break;
-            case "Predavač":
-            case "Asistent":
-            case "Saradnik":
-                firstDependence = subject.getClassNumber() * 12 + 7 * classSum;
-                break;
-            default:
-                firstDependence = subject.getClassNumber() * 6 + 6 * classSum;
-                break;
-        }
+            case "Nis":
+                switch (partTimeEmployee.getTeachingPosition()) {
+                    case "Red. profesor":
+                    case "Vanr.profesor":
+                    case "Docent":
+                        firstDependence = subject.getClassNumber() * 15 + 7 * classSum;
+                        break;
+                    case "Doktor nauka":
+                        firstDependence = subject.getClassNumber() * 12 + 12 * classSum;
+                        break;
+                    case "Predavač":
+                    case "Asistent":
+                    case "Saradnik":
+                        firstDependence = subject.getClassNumber() * 12 + 7 * classSum;
+                        break;
+                    default:
+                        firstDependence = subject.getClassNumber() * 6 + 6 * classSum;
+                        break;
+                }
                 break;
             default:
                 firstDependence = 0;
