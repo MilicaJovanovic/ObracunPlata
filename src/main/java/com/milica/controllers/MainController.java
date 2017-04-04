@@ -11,6 +11,7 @@ import com.milica.entities.PartTimeEmployee;
 import com.milica.entities.Subject;
 import com.milica.services.CalculatePayment;
 import com.milica.services.DataUpdate;
+import com.milica.services.FirstPdf;
 import com.milica.services.PairTransporterEmployee;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -155,7 +156,7 @@ public class MainController {
     }
     
     @RequestMapping(value="/dataUpdate/update", method=RequestMethod.GET)
-    public String handlePost(ModelMap m) throws Exception {
+    public String doUpdate(ModelMap m) throws Exception {
         DataUpdate dataUpdate = new DataUpdate();
         dataUpdate.getDataFromIsum();
         List<Employee> employees = dataUpdate.returnEmployeeList();
@@ -180,6 +181,13 @@ public class MainController {
         }
         
         return "dataUpdate";
+    }
+    
+    @RequestMapping(value="/currentPayment/pay", method=RequestMethod.GET)
+    public String doPay(ModelMap m) throws Exception {
+        FirstPdf.generatePdf();
+        
+        return "currentPayment";
     }
     
     @RequestMapping(value = "/admin**", method = RequestMethod.GET)
