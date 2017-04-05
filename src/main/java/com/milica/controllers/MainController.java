@@ -273,6 +273,9 @@ public class MainController {
     public String doPay(ModelMap m) throws Exception {
         List<Person> employees = generateCurrentPayment();
         PdfGenerator.generatePdf(employees);
+        for(Person person: employees) {
+            PdfGenerator.generateSeparatePdf(person);
+        }
         
         return "currentPayment";
     }

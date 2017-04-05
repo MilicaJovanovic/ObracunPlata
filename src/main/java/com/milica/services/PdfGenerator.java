@@ -5,14 +5,11 @@ import java.util.Date;
 
 import com.itextpdf.text.Anchor;
 import com.itextpdf.text.BadElementException;
-import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chapter;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
-import com.itextpdf.text.List;
-import com.itextpdf.text.ListItem;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Section;
@@ -21,17 +18,17 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.milica.dto.Person;
 import java.io.FileNotFoundException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  *
  * @author Milica
  */
 public class PdfGenerator {
-    private static final String FILE = "c:/temp/ObracunPlataIzvestaj.pdf";
-    private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 24, Font.BOLD);
-    private static Font redFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.RED);
-    private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD);
-    private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+    private static final String FILE = "c:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/src/main/resources/izvestaji/ObracunPlataIzvestaj.pdf";
+    private static final Font CAT_FONT = new Font(Font.FontFamily.TIMES_ROMAN, 24, Font.BOLD);
+    private static final Font SUB_FONT = new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD);
 
     public static void generatePdf(java.util.List<Person> employees) {
         try {
@@ -55,25 +52,28 @@ public class PdfGenerator {
     private static void addTitlePage(Document document) throws DocumentException {
         Paragraph preface = new Paragraph();
         addEmptyLine(preface, 3);
-        preface.add(new Paragraph("Izvestaj o obracunu plata", catFont));
+        preface.add(new Paragraph("Izvestaj o obracunu plata", CAT_FONT));
 
         addEmptyLine(preface, 3);
-        preface.add(new Paragraph("Izvestaj je kreirao/la: " + System.getProperty("user.name"), subFont));
+        preface.add(new Paragraph("Izvestaj je kreirao/la: " + System.getProperty("user.name"), SUB_FONT));
         
         addEmptyLine(preface, 3);
-        preface.add(new Paragraph("Izvestaj je kreiran na dan: " + new Date(), subFont));
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String today = sdf.format(date);
+        preface.add(new Paragraph("Izvestaj je kreiran na dan: " + today, SUB_FONT));
 
         document.add(preface);
         document.newPage();
     }
 
     private static void addContent(Document document, java.util.List<Person> employees) throws DocumentException {
-        Anchor anchor = new Anchor("Izvestaj", catFont);
+        Anchor anchor = new Anchor("Izvestaj", CAT_FONT);
         anchor.setName("Izvestaj");
 
         Chapter catPart = new Chapter(new Paragraph(anchor), 1);
 
-        Paragraph subPara = new Paragraph("Spisak zaposlenih", subFont);
+        Paragraph subPara = new Paragraph("Spisak zaposlenih", SUB_FONT);
         addEmptyLine(subPara, 2);
         Section subCatPart = catPart.addSection(subPara);
 
@@ -122,6 +122,70 @@ public class PdfGenerator {
         }
         
         subCatPart.add(table);
+    }
+    
+    public static void generateSeparatePdf(Person person) {
+        String SEPARATE_FILE = "c:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/src/main/resources/obracuni/" + person.getName() + person.getLastname() + ".pdf";
+
+        try {
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(SEPARATE_FILE));
+            document.open();
+            addSeparateMetaData(document);
+            addSeparateTitlePage(document);
+            addSeparateContent(document, person);
+            document.close();
+        } catch (DocumentException | FileNotFoundException e) {
+        }
+    }
+    
+    private static void addSeparateMetaData(Document document) {
+        document.addTitle("Obracun plata");
+        document.addAuthor("Milica Jovanovic");
+        document.addCreator("Milica JOvanovic");
+    }
+
+    private static void addSeparateTitlePage(Document document) throws DocumentException {
+        Paragraph preface = new Paragraph();
+        addEmptyLine(preface, 3);
+        preface.add(new Paragraph("Obracun za isplatu plate", CAT_FONT));
+        
+        addEmptyLine(preface, 3);
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String today = sdf.format(date);
+        preface.add(new Paragraph("Isplata plata izvrsena je na dan: " + today, SUB_FONT));
+        
+        addEmptyLine(preface, 3);
+        preface.add(new Paragraph("Izvestaj je kreirao/la: " + System.getProperty("user.name"), SUB_FONT));
+
+        document.add(preface);
+        document.newPage();
+    }
+
+    private static void addSeparateContent(Document document, Person person) throws DocumentException {
+        Anchor anchor = new Anchor("Obracun", CAT_FONT);
+        anchor.setName("Obracun");
+
+        Chapter catPart = new Chapter(new Paragraph(anchor), 1);
+
+        Paragraph subPara = new Paragraph("Obracun o isplacenoj plati", SUB_FONT);
+        addEmptyLine(subPara, 2);
+        
+        subPara.add(new Paragraph("Ime i prezime: " + person.getName() + " " + person.getLastname(), SUB_FONT));
+        subPara.add(new Paragraph("Tip zaposlenja: " + person.getEmploymentType(), SUB_FONT));
+        subPara.add(new Paragraph("Fakutet: " + person.getFaculty(), SUB_FONT));
+        subPara.add(new Paragraph("Isplacena osnovna zarada: " + person.getSalaryNeto(), SUB_FONT));
+        subPara.add(new Paragraph("Isplacen autorski honorar: " + person.getAuthorFeeNeto(), SUB_FONT));
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String today = sdf.format(date);
+        subPara.add(new Paragraph("Datum isplate: " + today, SUB_FONT));
+        
+        Section subCatPart = catPart.addSection(subPara);
+
+        document.add(catPart);
     }
 
     private static void addEmptyLine(Paragraph paragraph, int number) {
