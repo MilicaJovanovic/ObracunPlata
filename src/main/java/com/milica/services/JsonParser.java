@@ -85,7 +85,7 @@ public class JsonParser {
     List<SubjectEmployee> partList;
     int subjectsInSpringSemesterEmployee = 0;
     int subjectsInAutumnSemesterEmployee = 0;
-    public Employee employeeFromNode(JSONObject jsonNodePerson) {
+    public PairTransporterEmployee employeeFromNode(JSONObject jsonNodePerson) {
         subjectListEmployee = new ArrayList<>();
         partList = new ArrayList<>();
         JSONArray jsonNodeAllClasses = (JSONArray) jsonNodePerson.get("classes");
@@ -194,15 +194,18 @@ public class JsonParser {
         employee.setIsumHoursSpring(isumHoursP);
         employee.setIsumMoneyAutumn(isumMoneyJ);
         employee.setIsumMoneySpring(isumMoneyP);
-
-        for (Subject subject : subjectListEmployee) {
-            SubjectEmployee pair = new SubjectEmployee();
-            pair.setEmployeeId(employee);
-            pair.setSubjectId(subject);
-            partList.add(pair);
-        }
         
-        return employee;
+//        for (Subject subject : subjectListEmployee) {
+//            SubjectEmployee pair = new SubjectEmployee();
+//            pair.setEmployeeId(employee);
+//            pair.setSubjectId(subject);
+//            partList.add(pair);
+//        }
+        PairTransporterEmployee transporter = new PairTransporterEmployee();
+        transporter.setEmployee(employee);
+        transporter.setSubjects(subjectListEmployee);
+        
+        return transporter;
     }
     public List<Subject> returnSubjectEmployee() {
         return subjectListEmployee;
@@ -215,7 +218,7 @@ public class JsonParser {
     List<SubjectPartTimeEmployee> partListPart;
     int subjectsInSpringSemesterPartTime = 0;
     int subjectsInAutumnSemesterPartTime = 0;
-    public PartTimeEmployee partTimeEmployeeFromNode(JSONObject jsonNodePerson) {
+    public PairTransporterPartTimeEmployee partTimeEmployeeFromNode(JSONObject jsonNodePerson) {
         subjectListPartTime = new ArrayList<>();
         partListPart = new ArrayList<>();
         JSONArray jsonNodeAllClasses = (JSONArray) jsonNodePerson.get("classes");
@@ -251,14 +254,17 @@ public class JsonParser {
         partTimeEmployee.setSubjectNumber(fixText(jsonNodePerson.get("subjectNumber").toString()));
         partTimeEmployee.setKt(fixText(jsonNodePerson.get("kt").toString()));
 
-        for (Subject subject : subjectListPartTime) {
-            SubjectPartTimeEmployee pair = new SubjectPartTimeEmployee();
-            pair.setPartTimeEmployeeId(partTimeEmployee);
-            pair.setSubjectId(subject);
-            partListPart.add(pair);
-        }
+//        for (Subject subject : subjectListPartTime) {
+//            SubjectPartTimeEmployee pair = new SubjectPartTimeEmployee();
+//            pair.setPartTimeEmployeeId(partTimeEmployee);
+//            pair.setSubjectId(subject);
+//            partListPart.add(pair);
+//        }
+        PairTransporterPartTimeEmployee transporter = new PairTransporterPartTimeEmployee();
+        transporter.setEmployee(partTimeEmployee);
+        transporter.setSubjects(subjectListPartTime);
         
-        return partTimeEmployee;
+        return transporter;
     }
     public List<Subject> returnSujbectListPartTime() {
         return subjectListPartTime;

@@ -9,16 +9,20 @@ import com.milica.dto.Person;
 import com.milica.entities.Employee;
 import com.milica.entities.PartTimeEmployee;
 import com.milica.entities.Subject;
+import com.milica.entities.SubjectEmployee;
+import com.milica.entities.SubjectPartTimeEmployee;
 import com.milica.services.CalculatePayment;
 import com.milica.services.DataUpdate;
 import com.milica.services.FirstPdf;
 import com.milica.services.PairTransporterEmployee;
+import com.milica.services.PairTransporterPartTimeEmployee;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import org.hibernate.TransientObjectException;
 import org.springframework.beans.factory.annotation.Autowired;
 /**
  *
@@ -159,28 +163,83 @@ public class MainController {
     public String doUpdate(ModelMap m) throws Exception {
         DataUpdate dataUpdate = new DataUpdate();
         dataUpdate.getDataFromIsum();
-        List<Employee> employees = dataUpdate.returnEmployeeList();
+        List<PairTransporterEmployee> employees = dataUpdate.returnEmployeeList();
         List<Subject> subjects = dataUpdate.returnSubjectEmplyeeList();
-        List<PartTimeEmployee> partEmployees = dataUpdate.returnPartTimeEmployeeList();
+        List<PairTransporterPartTimeEmployee> partEmployees = dataUpdate.returnPartTimeEmployeeList();
         List<Subject> partSubjects = dataUpdate.returnSubjectEmployeePartTimeList();
         List<PairTransporterEmployee> transporters = dataUpdate.returnTransporterList();
         
-        for (Employee employee : employees) {
+        saveEmployees(employees, partEmployees);
+        saveSubjects(subjects, partSubjects);
+        savePairsForEmployees(employees);
+        savePairsForPartTimeEmployees(partEmployees);
+//        for (PartTimeEmployee partTimeEmployee : partEmployees) {
+//            List<Subject> partTimeEmployeeSubjects = partTimeEmployee.getSubjectList();
+//            for (Subject partEmplSubject : partTimeEmployeeSubjects) {
+//                SubjectPartTimeEmployee pair = new SubjectPartTimeEmployee();
+//                pair.setPartTimeEmployeeId(partTimeEmployee);
+//                pair.setSubjectId(partEmplSubject);
+//                subjectPartTimeEmployeeDao.addSubjectPartTimeEmployee(pair);
+//            }
+//        }
+        
+        return "dataUpdate";
+    }
+    
+    private void saveEmployees(List<PairTransporterEmployee> employees,
+            List<PairTransporterPartTimeEmployee> partEmployees) {
+        for (PairTransporterEmployee transporter : employees) {
+            Employee employee = transporter.getEmployee();
             employeeDao.addEmployee(employee);
             System.out.println("Upisan je employee");
         }
-        for (PartTimeEmployee part : partEmployees) {
-            partTimeEmployeeDao.addPartTimeEmployee(part);
+        for (PairTransporterPartTimeEmployee transporter : partEmployees) {
+            PartTimeEmployee employee = transporter.getEmployee();
+            partTimeEmployeeDao.addPartTimeEmployee(employee);
             System.out.println("Upisan je part time employee");
         }
+    }
+    
+    private void saveSubjects(List<Subject> subjects, List<Subject> partSubjects) {
         for (Subject subject : subjects) {
             subjectDao.addSubject(subject);
         }
         for (Subject subject : partSubjects) {
             subjectDao.addSubject(subject);
         }
-        
-        return "dataUpdate";
+    }
+    
+    private void savePairsForEmployees(List<PairTransporterEmployee> transporters) {
+        for (PairTransporterEmployee transporter : transporters) {
+            List<Subject> employeeSubjects = transporter.getSubjects();
+            for (Subject emplSubject : employeeSubjects) {
+                System.out.println("Predmet je: " + emplSubject);
+                SubjectEmployee pair = new SubjectEmployee();
+                pair.setEmployeeId(transporter.getEmployee());
+                pair.setSubjectId(emplSubject);
+                Subject existingSubject = subjectDao.getSubjectById(emplSubject.getSubjectId());
+                System.out.println("Predmet za upis: " + existingSubject);
+                if (existingSubject != null) {
+                    subjectEmployeeDao.addSubjectEmployee(pair);
+                }
+            }
+            System.out.println("Upisan je employee i njegovi predmeti");
+        }
+    }
+    
+    private void savePairsForPartTimeEmployees(List<PairTransporterPartTimeEmployee> transporters) {
+        for (PairTransporterPartTimeEmployee transporter : transporters) {
+            List<Subject> employeeSubjects = transporter.getSubjects();
+            for (Subject emplSubject : employeeSubjects) {
+                SubjectPartTimeEmployee pair = new SubjectPartTimeEmployee();
+                pair.setPartTimeEmployeeId(transporter.getEmployee());
+                pair.setSubjectId(emplSubject);
+                Subject existingSubject = subjectDao.getSubjectById(emplSubject.getSubjectId());
+                if (existingSubject != null) {
+                    subjectPartTimeEmployeeDao.addSubjectPartTimeEmployee(pair);
+                }
+            }
+        }
     }
     
     @RequestMapping(value="/currentPayment/pay", method=RequestMethod.GET)

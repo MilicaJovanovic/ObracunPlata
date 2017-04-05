@@ -1,5 +1,6 @@
 package com.milica.entities;
 
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,7 +37,7 @@ public class Employee {
 	private double isumHoursSpring;
 	private double isumMoneySpring;
 	private double isumMoneyAutumn;
-	
+        
 	@Id
 	@GeneratedValue
 	@Column(name="employee_id")

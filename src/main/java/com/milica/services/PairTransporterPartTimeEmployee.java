@@ -1,23 +1,22 @@
 package com.milica.services;
 
-import com.milica.entities.Employee;
+import com.milica.entities.PartTimeEmployee;
 import com.milica.entities.Subject;
-import com.milica.entities.SubjectEmployee;
 import java.util.List;
 
 /**
  *
  * @author Milica
  */
-public class PairTransporterEmployee {
-    private Employee employee;
+public class PairTransporterPartTimeEmployee {
+    private PartTimeEmployee employee;
     private List<Subject> subjects;
 
-    public Employee getEmployee() {
+    public PartTimeEmployee getEmployee() {
         return employee;
     }
 
-    public void setEmployee(Employee employee) {
+    public void setEmployee(PartTimeEmployee employee) {
         this.employee = employee;
     }
 
@@ -28,5 +27,4 @@ public class PairTransporterEmployee {
     public void setSubjects(List<Subject> subjects) {
         this.subjects = subjects;
     }
-//    
 }

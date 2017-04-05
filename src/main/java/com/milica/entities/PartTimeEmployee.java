@@ -1,5 +1,6 @@
 package com.milica.entities;
 
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,7 +27,7 @@ public class PartTimeEmployee {
     private String employmentPercentage;
     private String subjectNumber;
     private String kt;
-
+    
     @Id
     @GeneratedValue()
     @Column(name = "part_time_employee_id")

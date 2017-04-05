@@ -20,9 +20,9 @@ import org.json.JSONObject;
  */
 public class DataUpdate {
 
-    private List<Employee> employeeList;
+    private List<PairTransporterEmployee> employeeList;
     private List<Subject> subjectEmployeeList;
-    private List<PartTimeEmployee> partTimeEmployeeList;
+    private List<PairTransporterPartTimeEmployee> partTimeEmployeeList;
     private List<Subject> subjectEmployeePartTimeList;
     private List<PairTransporterEmployee> transporters;
     
@@ -45,24 +45,24 @@ public class DataUpdate {
             JSONObject obj = temp.getJSONObject(i);
             JsonParser jsonParser = new JsonParser();
             if (obj.get("employmentType").equals("Radni odnos")) {
-                Employee createdEmployee = jsonParser.employeeFromNode(obj);
+                PairTransporterEmployee createdEmployee = jsonParser.employeeFromNode(obj);
                 employeeList.add(createdEmployee);
                 subjectEmployeeList.addAll(jsonParser.returnSubjectEmployee());
             } else if (obj.get("employmentType").equals("Honorarni odnos")) {
-                PartTimeEmployee createdPartTimeEmployee = jsonParser.partTimeEmployeeFromNode(obj);
+                PairTransporterPartTimeEmployee createdPartTimeEmployee = jsonParser.partTimeEmployeeFromNode(obj);
                 partTimeEmployeeList.add(createdPartTimeEmployee);
                 subjectEmployeePartTimeList.addAll(jsonParser.returnSujbectListPartTime());
             }
         }
     }
     
-    public List<Employee> returnEmployeeList() {
+    public List<PairTransporterEmployee> returnEmployeeList() {
         return employeeList;
     }
     public List<Subject> returnSubjectEmplyeeList() {
         return subjectEmployeeList;
     }
-    public List<PartTimeEmployee> returnPartTimeEmployeeList() {
+    public List<PairTransporterPartTimeEmployee> returnPartTimeEmployeeList() {
         return partTimeEmployeeList;
     }
     public List<Subject> returnSubjectEmployeePartTimeList() {
