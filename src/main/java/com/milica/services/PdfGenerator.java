@@ -19,27 +19,28 @@ import com.itextpdf.text.Section;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.milica.dto.Person;
 import java.io.FileNotFoundException;
 
 /**
  *
  * @author Milica
  */
-public class FirstPdf {
+public class PdfGenerator {
     private static final String FILE = "c:/temp/ObracunPlataIzvestaj.pdf";
     private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 24, Font.BOLD);
     private static Font redFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.RED);
     private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD);
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
 
-    public static void generatePdf() {
+    public static void generatePdf(java.util.List<Person> employees) {
         try {
             Document document = new Document();
             PdfWriter.getInstance(document, new FileOutputStream(FILE));
             document.open();
             addMetaData(document);
             addTitlePage(document);
-            addContent(document);
+            addContent(document, employees);
             document.close();
         } catch (DocumentException | FileNotFoundException e) {
         }
@@ -66,87 +67,61 @@ public class FirstPdf {
         document.newPage();
     }
 
-    private static void addContent(Document document) throws DocumentException {
-        Anchor anchor = new Anchor("First Chapter", catFont);
-        anchor.setName("First Chapter");
+    private static void addContent(Document document, java.util.List<Person> employees) throws DocumentException {
+        Anchor anchor = new Anchor("Izvestaj", catFont);
+        anchor.setName("Izvestaj");
 
-        // Second parameter is the number of the chapter
         Chapter catPart = new Chapter(new Paragraph(anchor), 1);
 
-        Paragraph subPara = new Paragraph("Subcategory 1", subFont);
+        Paragraph subPara = new Paragraph("Spisak zaposlenih", subFont);
+        addEmptyLine(subPara, 2);
         Section subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph("Hello"));
 
-        subPara = new Paragraph("Subcategory 2", subFont);
-        subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph("Paragraph 1"));
-        subCatPart.add(new Paragraph("Paragraph 2"));
-        subCatPart.add(new Paragraph("Paragraph 3"));
+        createTable(subCatPart, employees);
 
-        // add a list
-        createList(subCatPart);
-        Paragraph paragraph = new Paragraph();
-        addEmptyLine(paragraph, 5);
-        subCatPart.add(paragraph);
-
-        // add a table
-        createTable(subCatPart);
-
-        // now add all this to the document
-        document.add(catPart);
-
-        // Next section
-        anchor = new Anchor("Second Chapter", catFont);
-        anchor.setName("Second Chapter");
-
-        // Second parameter is the number of the chapter
-        catPart = new Chapter(new Paragraph(anchor), 1);
-
-        subPara = new Paragraph("Subcategory", subFont);
-        subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph("This is a very important message"));
-
-        // now add all this to the document
         document.add(catPart);
     }
 
-    private static void createTable(Section subCatPart) throws BadElementException {
-        PdfPTable table = new PdfPTable(3);
+    private static void createTable(Section subCatPart, java.util.List<Person> employees) throws BadElementException {
+        PdfPTable table = new PdfPTable(6);
 
-        // t.setBorderColor(BaseColor.GRAY);
-        // t.setPadding(4);
-        // t.setSpacing(4);
-        // t.setBorderWidth(1);
+        table.setWidthPercentage(100);
 
-        PdfPCell c1 = new PdfPCell(new Phrase("Table Header 1"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        PdfPCell c1 = new PdfPCell(new Phrase("Ime"));
+        c1.setHorizontalAlignment(Element.ALIGN_LEFT);
         table.addCell(c1);
 
-        c1 = new PdfPCell(new Phrase("Table Header 2"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1 = new PdfPCell(new Phrase("Prezime"));
+        c1.setHorizontalAlignment(Element.ALIGN_LEFT);
         table.addCell(c1);
 
-        c1 = new PdfPCell(new Phrase("Table Header 3"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        c1 = new PdfPCell(new Phrase("Tip zaposlenja"));
+        c1.setHorizontalAlignment(Element.ALIGN_LEFT);
+        table.addCell(c1);
+        
+        c1 = new PdfPCell(new Phrase("Fakultet"));
+        c1.setHorizontalAlignment(Element.ALIGN_LEFT);
+        table.addCell(c1);
+        
+        c1 = new PdfPCell(new Phrase("Osnovna zarada"));
+        c1.setHorizontalAlignment(Element.ALIGN_LEFT);
+        table.addCell(c1);
+        
+        c1 = new PdfPCell(new Phrase("Autorski honorar"));
+        c1.setHorizontalAlignment(Element.ALIGN_LEFT);
         table.addCell(c1);
         table.setHeaderRows(1);
-
-        table.addCell("1.0");
-        table.addCell("1.1");
-        table.addCell("1.2");
-        table.addCell("2.1");
-        table.addCell("2.2");
-        table.addCell("2.3");
-
+        
+        for (Person person : employees) {
+            table.addCell(person.getName());
+            table.addCell(person.getLastname());
+            table.addCell(person.getEmploymentType());
+            table.addCell(person.getFaculty());
+            table.addCell(person.getSalaryNeto() + "");
+            table.addCell(person.getAuthorFeeNeto() + "");   
+        }
+        
         subCatPart.add(table);
-    }
-
-    private static void createList(Section subCatPart) {
-        List list = new List(true, false, 10);
-        list.add(new ListItem("First point"));
-        list.add(new ListItem("Second point"));
-        list.add(new ListItem("Third point"));
-        subCatPart.add(list);
     }
 
     private static void addEmptyLine(Paragraph paragraph, int number) {
