@@ -13,6 +13,7 @@ import com.milica.entities.SubjectEmployee;
 import com.milica.entities.SubjectPartTimeEmployee;
 import com.milica.services.CalculatePayment;
 import com.milica.services.DataUpdate;
+import com.milica.services.EmailSender;
 import com.milica.services.PdfGenerator;
 import com.milica.services.PairTransporterEmployee;
 import com.milica.services.PairTransporterPartTimeEmployee;
@@ -275,6 +276,7 @@ public class MainController {
         PdfGenerator.generatePdf(employees);
         for(Person person: employees) {
             PdfGenerator.generateSeparatePdf(person);
+            EmailSender.sendMail("Postovani,/n u prilogu se nalazi obracun o isplati plate./n S postovanjem, /n Finansijska sluzba Univerziteta Metropolitan", person);
         }
         
         return "currentPayment";
