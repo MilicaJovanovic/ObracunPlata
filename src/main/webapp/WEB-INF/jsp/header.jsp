@@ -18,15 +18,23 @@ String pageName = uri.substring(uri.lastIndexOf("/") + 1);
             $(document).ready(function(){
                 $("table").DataTable();
             });
+            function formSubmit() {
+                document.getElementById("logoutForm").submit();
+            } 
         </script>
         <title>Obracun plata</title>
     </head>
     <body>
+        <c:url value="/j_spring_security_logout" var="logoutUrl" />
+        <form action="${logoutUrl}" method="post" id="logoutForm">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        </form>
         <nav class="navbar navbar-default">
             <div class="container"
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                         <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -45,6 +53,11 @@ String pageName = uri.substring(uri.lastIndexOf("/") + 1);
                         <li class="<%=(pageName.equals("currentPayment.jsp")) ? "active" : ""%>"><a href="${current}">Trenutna isplata</a></li>
                         <li class="<%=(pageName.equals("grossPayment.jsp")) ? "active" : ""%>"><a href="${gross}">Bruto isplata</a></li>
                         <li class="<%=(pageName.equals("history.jsp")) ? "active" : ""%>"><a href="${history}">Istorija isplata</a></li>
+                        <li>
+                            <c:if test="${pageContext.request.userPrincipal.name != null}">
+                                <a href="javascript:formSubmit()"> Logout</a>
+                            </c:if>
+                        </li>
                     </ul>
                 </div>
             </div>
