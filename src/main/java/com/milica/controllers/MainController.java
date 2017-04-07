@@ -17,14 +17,21 @@ import com.milica.services.EmailSender;
 import com.milica.services.PdfGenerator;
 import com.milica.services.PairTransporterEmployee;
 import com.milica.services.PairTransporterPartTimeEmployee;
+import com.milica.services.Semester;
+import java.io.FileInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import org.hibernate.TransientObjectException;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 /**
  *
  * @author Milica
@@ -35,6 +42,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.Validator;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 
 @Controller
 @RequestMapping("/")
@@ -53,6 +64,15 @@ public class MainController {
     
     private final CalculatePayment calculatePayment = new CalculatePayment();
 	
+    @Autowired
+    @Qualifier("semesterValidator")
+    private Validator validator;
+    
+    @InitBinder("semesterValidator")
+    private void initBinder(WebDataBinder binder) {
+        binder.setValidator(validator);
+    }
+    
     @RequestMapping(method = RequestMethod.GET)
     public String printHello(ModelMap model) {
         return "login";
@@ -118,10 +138,18 @@ public class MainController {
 //            person.setAuthorFeeNeto(0);
 //            employees.add(person);
 //        }
+
+        List semesters = new ArrayList();
+        semesters.add("Jesenji");
+        semesters.add("Prolecni");
+
+        Semester semester = new Semester();
         
         List<Person> employees = generateCurrentPayment();
+        model.addObject("semester", semester);
         model.addObject("employees", employees);
         model.addObject("employee", new Person());
+        model.addObject("semesterList", semesters);
         return model;
     }
     
@@ -160,6 +188,55 @@ public class MainController {
     @RequestMapping(value = "/history", method = RequestMethod.GET)
     public String showHistory(ModelMap model) {
         return "history";
+    }
+    
+    @RequestMapping(value = "/history/download", method = RequestMethod.GET)
+    public void doDownload(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int BUFFER_SIZE = 4096;
+        
+        String filePath = "c:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/src/main/resources/izvestaji/ObracunPlataIzvestaj.pdf";
+        // get absolute path of the application
+        ServletContext context = request.getServletContext();
+        String appPath = context.getRealPath("");
+        System.out.println("appPath = " + appPath);
+ 
+        // construct the complete absolute path of the file
+        String fullPath = filePath;      
+        File downloadFile = new File(fullPath);
+        FileInputStream inputStream = new FileInputStream(downloadFile);
+         
+        // get MIME type of the file
+        String mimeType = context.getMimeType(fullPath);
+        if (mimeType == null) {
+            // set to binary type if MIME mapping not found
+            mimeType = "application/octet-stream";
+        }
+        System.out.println("MIME type: " + mimeType);
+ 
+        // set content attributes for the response
+        response.setContentType(mimeType);
+        response.setContentLength((int) downloadFile.length());
+ 
+        // set headers for the response
+        String headerKey = "Content-Disposition";
+        String headerValue = String.format("attachment; filename=\"%s\"",
+                downloadFile.getName());
+        response.setHeader(headerKey, headerValue);
+ 
+        // get output stream of the response
+        OutputStream outStream = response.getOutputStream();
+ 
+        byte[] buffer = new byte[BUFFER_SIZE];
+        int bytesRead = -1;
+ 
+        // write bytes read from the input stream into the output stream
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outStream.write(buffer, 0, bytesRead);
+        }
+ 
+        inputStream.close();
+        outStream.close();
+ 
     }
     
     @RequestMapping(value="/dataUpdate/update", method=RequestMethod.GET)
@@ -271,12 +348,13 @@ public class MainController {
     }
     
     @RequestMapping(value="/currentPayment/pay", method=RequestMethod.GET)
-    public String doPay(ModelMap m) throws Exception {
+    public String doPay(ModelMap m, @Validated Semester semester) throws Exception {
+        System.out.println("ODABRANI SEMESTAR JE: " + semester.getSemesterName());
         List<Person> employees = generateCurrentPayment();
         PdfGenerator.generatePdf(employees);
         for(Person person: employees) {
             PdfGenerator.generateSeparatePdf(person);
-            EmailSender.sendMail("Postovani,/n u prilogu se nalazi obracun o isplati plate./n S postovanjem, /n Finansijska sluzba Univerziteta Metropolitan", person);
+            EmailSender.sendMail("Postovani, u prilogu se nalazi obracun o isplati plate. S postovanjem, Finansijska sluzba Univerziteta Metropolitan", person);
         }
         
         return "currentPayment";

@@ -3,8 +3,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <%@include file="header.jsp" %>
-<div class="container">
+
     <h1>Lista trenutnih neto zarada zaposlenih</h1>
+    <p>Odaberite semestar:</p>
+    <form:form method="POST" commandName="semester">
+        <form:select path="semesterName" items="${semesterList}" />
+    </form:form>
     <c:if test="${!empty employees}">
         <table class="table table-striped" style="margin-top: 20px;">
             <tr>
@@ -32,5 +36,5 @@
     <form action="<c:url value="/currentPayment/pay" />" method="GET">
         <input type="submit" name="action" value="Isplati" class="btn btn-primary" style="background-color: #19B396; margin-top: 30px;" />
     </form>
-</div>
+
 <%@include file="footer.jsp" %>
