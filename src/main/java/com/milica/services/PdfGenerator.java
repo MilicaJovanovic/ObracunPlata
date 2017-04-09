@@ -27,20 +27,22 @@ import javax.mail.MessagingException;
  * @author Milica
  */
 public class PdfGenerator {
-    private static final String FILE = "c:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/src/main/resources/izvestaji/ObracunPlataIzvestaj.pdf";
     private static final Font CAT_FONT = new Font(Font.FontFamily.TIMES_ROMAN, 24, Font.BOLD);
     private static final Font SUB_FONT = new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD);
 
     public static void generatePdf(java.util.List<Person> employees) throws MessagingException {
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String today = sdf.format(date);
+        String file = "c:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/src/main/resources/izvestaji/ObracunPlataIzvestaj" + today + ".pdf";
         try {
             Document document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream(FILE));
+            PdfWriter.getInstance(document, new FileOutputStream(file));
             document.open();
             addMetaData(document);
             addTitlePage(document);
             addContent(document, employees);
             document.close();
-//            EmailSender.sendMail("Postovani,\nU prilogu se nalazi obracun o isplati Vase zarade.\nS postovanjem,\nFinansijska sluzba");
         } catch (DocumentException | FileNotFoundException e) {
         }
     }
@@ -129,7 +131,6 @@ public class PdfGenerator {
     public static void generateSeparatePdf(Person person) throws MessagingException {
         String SEPARATE_FILE = "c:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/src/main/resources/obracuni/" + person.getName() + person.getLastname() + ".pdf";
 
-        
         try {
             Document document = new Document();
             PdfWriter.getInstance(document, new FileOutputStream(SEPARATE_FILE));
@@ -139,6 +140,8 @@ public class PdfGenerator {
             addSeparateContent(document, person);
             document.close();
         } catch (DocumentException | FileNotFoundException e) {
+            System.out.println("GRESKA PRI GENERISANJU FAJLOVA");
+            e.printStackTrace();
         }
     }
     

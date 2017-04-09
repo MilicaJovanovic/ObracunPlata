@@ -29,6 +29,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -118,10 +120,16 @@ public class MainController {
     
     @RequestMapping(value = "/currentPayment", method = RequestMethod.GET)
     public ModelAndView showCurrentPayment(ModelAndView model) {
+        System.out.println("UCITANA JE STRANA CURRENT PAYMENT");
         List semesters = new ArrayList();
         semesters.add("Jesenji");
         semesters.add("Prolecni");
 
+        Map<String, Object> previousData = model.getModel();
+        for (String key : previousData.keySet()) {
+            System.out.println("KLJUC: " + key);
+        }
+        
         Semester semester = new Semester();
         
         List<Person> employees = generateCurrentPayment();
@@ -195,32 +203,25 @@ public class MainController {
         ServletContext context = request.getServletContext();
              
         File downloadFile = new File(filePath);
-        FileInputStream inputStream = new FileInputStream(downloadFile);
-         
-        String mimeType = context.getMimeType(filePath);
-        if (mimeType == null) {
-            mimeType = "application/octet-stream";
+        OutputStream outStream;
+        try (FileInputStream inputStream = new FileInputStream(downloadFile)) {
+            String mimeType = context.getMimeType(filePath);
+            if (mimeType == null) {
+                mimeType = "application/octet-stream";
+            }   System.out.println("MIME type: " + mimeType);
+            response.setContentType(mimeType);
+            response.setContentLength((int) downloadFile.length());
+            String headerKey = "Content-Disposition";
+            String headerValue = String.format("attachment; filename=\"%s\"",
+                    downloadFile.getName());
+            response.setHeader(headerKey, headerValue);
+            outStream = response.getOutputStream();
+            byte[] buffer = new byte[BUFFER_SIZE];
+            int bytesRead = -1;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outStream.write(buffer, 0, bytesRead);
+            }
         }
-        System.out.println("MIME type: " + mimeType);
- 
-        response.setContentType(mimeType);
-        response.setContentLength((int) downloadFile.length());
- 
-        String headerKey = "Content-Disposition";
-        String headerValue = String.format("attachment; filename=\"%s\"",
-                downloadFile.getName());
-        response.setHeader(headerKey, headerValue);
- 
-        OutputStream outStream = response.getOutputStream();
- 
-        byte[] buffer = new byte[BUFFER_SIZE];
-        int bytesRead = -1;
- 
-        while ((bytesRead = inputStream.read(buffer)) != -1) {
-            outStream.write(buffer, 0, bytesRead);
-        }
- 
-        inputStream.close();
         outStream.close();
     }
     
@@ -333,18 +334,36 @@ public class MainController {
     }
     
     @RequestMapping(value="/currentPayment/pay", method=RequestMethod.GET)
-    public String doPay(ModelMap m, @Validated Semester semester) throws Exception {
+    public ModelAndView doPay(ModelMap m, @Validated Semester semester) throws Exception {
         System.out.println("Objekat semestra: " + semester.toString());
         System.out.println("ODABRANI SEMESTAR JE: " + semester.getSemesterName());
         List<Person> employees = generateCurrentPayment();
 //        PdfGenerator.generatePdf(employees);
   
-        for(Person person: employees) {
-//            PdfGenerator.generateSeparatePdf(person);
-            EmailSender.sendMail("Postovani,\nU prilogu se nalazi obracun o isplati Vase zarade.\nS postovanjem,\nFinansijska sluzba", person);
-        }
+        generatePdfs(employees);
         
-        return "currentPayment";
+        ModelAndView page = new ModelAndView("currentPayment");
+        page.addObject("employees", employees);
+        page.addObject("generated", true);
+        return page;
+    }
+    
+    private void sendMails(List<Person> employees) {
+        try {
+            EmailSender.sendMail("Postovani,\nU prilogu se nalazi obracun o isplati Vase zarade.\nS postovanjem,\nFinansijska sluzba", employees);
+        } catch ( MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void generatePdfs(List<Person> employees) {
+        try {
+            for(Person person: employees) {
+                PdfGenerator.generateSeparatePdf(person);
+            }
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
     
     @RequestMapping(value = "/admin**", method = RequestMethod.GET)
