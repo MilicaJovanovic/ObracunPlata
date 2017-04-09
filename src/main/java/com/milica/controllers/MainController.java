@@ -113,32 +113,6 @@ public class MainController {
     
     @RequestMapping(value = "/currentPayment", method = RequestMethod.GET)
     public ModelAndView showCurrentPayment(ModelAndView model) {
-//        List<Employee> employeeList = employeeDao.getAllEmployees();
-//        List<PartTimeEmployee> partTimeEmployeeList = partTimeEmployeeDao.getPartTimeEmployees();
-//        List<Person> employees = new ArrayList<>();
-//        for (Employee employee : employeeList) {
-//            List<Subject> subjectList = subjectEmployeeDao.getSubjectsForEmployee(employee);
-//            Person person = new Person();
-//            person.setName(employee.getName());
-//            person.setLastname(employee.getLastname());
-//            person.setFaculty(employee.getFaculty());
-//            person.setEmploymentType("Radni odnos");
-//            person.setSalaryNeto(calculatePayment.employeeNetoBasicPayment(employee, "Prolecni semestar", subjectList));
-//            person.setAuthorFeeNeto(calculatePayment.empoyeeNetoAuthorFee(employee, "Prolecni semestar", subjectList));
-//            employees.add(person);
-//        }
-//        for (PartTimeEmployee partTimeEmployee : partTimeEmployeeList) {
-//            List<Subject> subjectList = subjectPartTimeEmployeeDao.getSubjectsForPartTimeEmployee(partTimeEmployee);
-//            Person person = new Person();
-//            person.setName(partTimeEmployee.getName());
-//            person.setLastname(partTimeEmployee.getLastname());
-//            person.setFaculty(partTimeEmployee.getFaculty());
-//            person.setEmploymentType("Honorarni odnos");
-//            person.setSalaryNeto(calculatePayment.partTimeEmpoyeeBasicPayment(partTimeEmployee, "Jesenji semestar", subjectList));
-//            person.setAuthorFeeNeto(0);
-//            employees.add(person);
-//        }
-
         List semesters = new ArrayList();
         semesters.add("Jesenji");
         semesters.add("Prolecni");
@@ -186,8 +160,29 @@ public class MainController {
     }
     
     @RequestMapping(value = "/history", method = RequestMethod.GET)
-    public String showHistory(ModelMap model) {
-        return "history";
+    public ModelAndView showHistory(ModelAndView model) {
+        final File folder = new File("c:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/src/main/resources/obracuni");
+        List<String> files = listFilesForFolder(folder);
+        for (int i = 0; i < files.size(); i ++) {
+            System.out.println("NAZIV FAJLA JE: " + files.get(i));
+        }
+        
+        model.addObject("files", files);
+        model.addObject("file", new String());
+
+        return model;
+    }
+    
+    public List listFilesForFolder(final File folder) {
+        List<String> files = new ArrayList<>();
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isDirectory()) {
+                listFilesForFolder(fileEntry);
+            } else {
+                files.add(fileEntry.getName());
+            }
+        }
+        return files;
     }
     
     @RequestMapping(value = "/history/download", method = RequestMethod.GET)
