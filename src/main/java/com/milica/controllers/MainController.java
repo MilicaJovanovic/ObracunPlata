@@ -21,7 +21,9 @@ import com.milica.services.Semester;
 import java.io.FileInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -32,6 +34,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.FileSystemResource;
 /**
  *
  * @author Milica
@@ -46,6 +49,8 @@ import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/")
@@ -161,11 +166,8 @@ public class MainController {
     
     @RequestMapping(value = "/history", method = RequestMethod.GET)
     public ModelAndView showHistory(ModelAndView model) {
-        final File folder = new File("c:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/src/main/resources/obracuni");
+        final File folder = new File("c:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/src/main/resources/izvestaji");
         List<String> files = listFilesForFolder(folder);
-        for (int i = 0; i < files.size(); i ++) {
-            System.out.println("NAZIV FAJLA JE: " + files.get(i));
-        }
         
         model.addObject("files", files);
         model.addObject("file", new String());
@@ -185,53 +187,41 @@ public class MainController {
         return files;
     }
     
-    @RequestMapping(value = "/history/download", method = RequestMethod.GET)
-    public void doDownload(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @RequestMapping(value = "/history/download/{fileName:.+}", method = RequestMethod.GET)
+    public void doDownload(HttpServletRequest request, HttpServletResponse response, @PathVariable("fileName") String fileName) throws IOException {
         int BUFFER_SIZE = 4096;
         
-        String filePath = "c:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/src/main/resources/izvestaji/ObracunPlataIzvestaj.pdf";
-        // get absolute path of the application
+        String filePath = "c:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/src/main/resources/izvestaji/" + fileName;
         ServletContext context = request.getServletContext();
-        String appPath = context.getRealPath("");
-        System.out.println("appPath = " + appPath);
- 
-        // construct the complete absolute path of the file
-        String fullPath = filePath;      
-        File downloadFile = new File(fullPath);
+             
+        File downloadFile = new File(filePath);
         FileInputStream inputStream = new FileInputStream(downloadFile);
          
-        // get MIME type of the file
-        String mimeType = context.getMimeType(fullPath);
+        String mimeType = context.getMimeType(filePath);
         if (mimeType == null) {
-            // set to binary type if MIME mapping not found
             mimeType = "application/octet-stream";
         }
         System.out.println("MIME type: " + mimeType);
  
-        // set content attributes for the response
         response.setContentType(mimeType);
         response.setContentLength((int) downloadFile.length());
  
-        // set headers for the response
         String headerKey = "Content-Disposition";
         String headerValue = String.format("attachment; filename=\"%s\"",
                 downloadFile.getName());
         response.setHeader(headerKey, headerValue);
  
-        // get output stream of the response
         OutputStream outStream = response.getOutputStream();
  
         byte[] buffer = new byte[BUFFER_SIZE];
         int bytesRead = -1;
  
-        // write bytes read from the input stream into the output stream
         while ((bytesRead = inputStream.read(buffer)) != -1) {
             outStream.write(buffer, 0, bytesRead);
         }
  
         inputStream.close();
         outStream.close();
- 
     }
     
     @RequestMapping(value="/dataUpdate/update", method=RequestMethod.GET)

@@ -55,7 +55,7 @@ String pageName = uri.substring(uri.lastIndexOf("/") + 1);
                         <li class="<%=(pageName.equals("history.jsp")) ? "active" : ""%>"><a href="${history}">Istorija isplata</a></li>
                         <li>
                             <c:if test="${pageContext.request.userPrincipal.name != null}">
-                                <a href="javascript:formSubmit()"> Logout</a>
+                                <a href="javascript:formSubmit()"> Odjavi se </a>
                             </c:if>
                         </li>
                     </ul>
