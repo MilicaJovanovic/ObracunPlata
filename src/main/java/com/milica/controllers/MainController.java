@@ -349,12 +349,14 @@ public class MainController {
     
     @RequestMapping(value="/currentPayment/pay", method=RequestMethod.GET)
     public String doPay(ModelMap m, @Validated Semester semester) throws Exception {
+        System.out.println("Objekat semestra: " + semester.toString());
         System.out.println("ODABRANI SEMESTAR JE: " + semester.getSemesterName());
         List<Person> employees = generateCurrentPayment();
-        PdfGenerator.generatePdf(employees);
+//        PdfGenerator.generatePdf(employees);
+  
         for(Person person: employees) {
-            PdfGenerator.generateSeparatePdf(person);
-            EmailSender.sendMail("Postovani, u prilogu se nalazi obracun o isplati plate. S postovanjem, Finansijska sluzba Univerziteta Metropolitan", person);
+//            PdfGenerator.generateSeparatePdf(person);
+            EmailSender.sendMail("Postovani,\nU prilogu se nalazi obracun o isplati Vase zarade.\nS postovanjem,\nFinansijska sluzba", person);
         }
         
         return "currentPayment";

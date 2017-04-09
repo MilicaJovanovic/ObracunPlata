@@ -20,6 +20,7 @@ import com.milica.dto.Person;
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import javax.mail.MessagingException;
 
 /**
  *
@@ -30,7 +31,7 @@ public class PdfGenerator {
     private static final Font CAT_FONT = new Font(Font.FontFamily.TIMES_ROMAN, 24, Font.BOLD);
     private static final Font SUB_FONT = new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD);
 
-    public static void generatePdf(java.util.List<Person> employees) {
+    public static void generatePdf(java.util.List<Person> employees) throws MessagingException {
         try {
             Document document = new Document();
             PdfWriter.getInstance(document, new FileOutputStream(FILE));
@@ -39,6 +40,7 @@ public class PdfGenerator {
             addTitlePage(document);
             addContent(document, employees);
             document.close();
+//            EmailSender.sendMail("Postovani,\nU prilogu se nalazi obracun o isplati Vase zarade.\nS postovanjem,\nFinansijska sluzba");
         } catch (DocumentException | FileNotFoundException e) {
         }
     }
@@ -124,9 +126,10 @@ public class PdfGenerator {
         subCatPart.add(table);
     }
     
-    public static void generateSeparatePdf(Person person) {
+    public static void generateSeparatePdf(Person person) throws MessagingException {
         String SEPARATE_FILE = "c:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/src/main/resources/obracuni/" + person.getName() + person.getLastname() + ".pdf";
 
+        
         try {
             Document document = new Document();
             PdfWriter.getInstance(document, new FileOutputStream(SEPARATE_FILE));

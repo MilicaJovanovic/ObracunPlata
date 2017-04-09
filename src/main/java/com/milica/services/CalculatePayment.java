@@ -66,7 +66,6 @@ public class CalculatePayment {
     public double partTimeEmpoyeeBasicPayment(PartTimeEmployee partTimeEmployee, String semester, List<Subject> subjectList) {
         double subjectPaymentAutumn = 0;
         double subjectPaymentSpring = 0;
-        System.out.println("BROJ PREDMETA U LISTI ZA PART: " + subjectList.size());
         for (int i = 0; i < subjectList.size(); i++) {
             if (subjectList.get(i).getSemester().equals("J")) {
                 subjectPaymentAutumn = subjectPaymentAutumn + subjectPaymentPartTime(partTimeEmployee, subjectList.get(i));
@@ -74,9 +73,6 @@ public class CalculatePayment {
                 subjectPaymentSpring = subjectPaymentSpring + subjectPaymentPartTime(partTimeEmployee, subjectList.get(i));
             } 
         }
-        
-        System.out.println("subject payment autumn: " + subjectPaymentAutumn);
-        System.out.println("subject payment spring: " + subjectPaymentSpring);
         
         switch (semester) {
             case "Jesenji semestar":

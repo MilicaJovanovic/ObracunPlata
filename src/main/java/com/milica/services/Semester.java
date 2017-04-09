@@ -15,4 +15,9 @@ public class Semester {
     public String getSemesterName() {
         return semesterName;
     }
+    
+    @Override
+    public String toString() {
+            return "Semester [semesterName=" + semesterName + "]";
+    }
 }
