@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 07, 2017 at 10:48 AM
+-- Generation Time: Apr 10, 2017 at 11:51 AM
 -- Server version: 10.1.8-MariaDB
 -- PHP Version: 5.6.14
 
@@ -19,6 +19,17 @@ SET time_zone = "+00:00";
 --
 -- Database: `obracunplata`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `email_flag`
+--
+
+CREATE TABLE `email_flag` (
+  `email_flag_id` int(11) NOT NULL,
+  `flag` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -51,32 +62,14 @@ CREATE TABLE `employee` (
   `isum_money_spring` float NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `mdita`
+-- Dumping data for table `employee`
 --
 
-CREATE TABLE `mdita` (
-  `mdita_id` int(11) NOT NULL,
-  `broj_reci` float NOT NULL DEFAULT '0',
-  `broj_objekata_ucenja` float NOT NULL DEFAULT '0',
-  `assesment` float NOT NULL DEFAULT '0',
-  `multiple_choice` float NOT NULL DEFAULT '0',
-  `question_and_answers` float NOT NULL DEFAULT '0',
-  `java_grader` float NOT NULL DEFAULT '0',
-  `forum` float NOT NULL DEFAULT '0',
-  `noticeboard` float NOT NULL DEFAULT '0',
-  `notebook` float NOT NULL DEFAULT '0',
-  `chat` float NOT NULL DEFAULT '0',
-  `submit_files` float NOT NULL DEFAULT '0',
-  `shared_resources` float NOT NULL DEFAULT '0',
-  `picture_gallery` float NOT NULL DEFAULT '0',
-  `video` float NOT NULL DEFAULT '0',
-  `audio` float NOT NULL DEFAULT '0',
-  `id` int(11) NOT NULL DEFAULT '0',
-  `mditaId` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+INSERT INTO `employee` (`employee_id`, `semester_number`, `subjects_in_spring_semester`, `subjects_in_autumn_semester`, `special_add_value`, `functions_add_value`, `name`, `lastname`, `faculty`, `bank_account`, `email`, `teaching_position`, `employment_percentage`, `subject_number`, `kbp`, `kro`, `kt`, `kpr`, `isum_hours_autumn`, `isum_hours_spring`, `isum_money_autumn`, `isum_money_spring`) VALUES
+(102, 2, 5, 5, 0, 0, 'Svetlana', 'Cvetanvoic', 'Fakultet informacionih tehnologija', '123456789', 'svetlana.cvetanvoic@metropolitan.ac.rs', 'Docent', '100', '12', '1.0', '1.0', '1.2', '1.0', 0, 0, 0, 0),
+(105, 2, 5, 5, 0, 0, 'Svetlana', 'Cvetanvoic', 'Fakultet informacionih tehnologija', '123456789', 'svetlana.cvetanvoic@metropolitan.ac.rs', 'Docent', '100', '12', '1.0', '1.0', '1.2', '1.0', 0, 0, 0, 0),
+(106, 2, 5, 5, 0, 0, 'Svetlana', 'Cvetanvoic', 'Fakultet informacionih tehnologija', '123456789', 'svetlana.cvetanvoic@metropolitan.ac.rs', 'Docent', '100', '12', '1.0', '1.0', '1.2', '1.0', 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -98,6 +91,15 @@ CREATE TABLE `part_time_employee` (
   `subject_number` varchar(250) COLLATE utf8_bin NOT NULL,
   `kt` varchar(250) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `part_time_employee`
+--
+
+INSERT INTO `part_time_employee` (`part_time_employee_id`, `name`, `lastname`, `subjects_in_spring_semester`, `subjects_in_autumn_semester`, `faculty`, `bank_account`, `email`, `teaching_position`, `employment_percentage`, `subject_number`, `kt`) VALUES
+(98, 'Jovana', 'Jovic', 5, 5, 'Fakultet informacionih tehnologija', '123456789', 'jovana.jovic@metropolitan.ac.rs', 'Master', '100', '12', '1.2'),
+(101, 'Jovana', 'Jovic', 5, 5, 'Fakultet informacionih tehnologija', '123456789', 'jovana.jovic@metropolitan.ac.rs', 'Master', '100', '12', '1.2'),
+(102, 'Jovana', 'Jovic', 5, 5, 'Fakultet informacionih tehnologija', '123456789', 'jovana.jovic@metropolitan.ac.rs', 'Master', '100', '12', '1.2');
 
 -- --------------------------------------------------------
 
@@ -126,6 +128,15 @@ CREATE TABLE `subject` (
   `fkv` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+--
+-- Dumping data for table `subject`
+--
+
+INSERT INTO `subject` (`subject_id`, `name`, `location`, `type`, `semester`, `code`, `class_number`, `group_exercise_number`, `individual_exercise_number`, `espb`, `groups_number`, `words_number`, `fpm`, `fob`, `fin1`, `fin2`, `fmm`, `fkv`) VALUES
+(133, 'CS101 Uvod u OO Programiranje', 'NiÅ¡', 'Klas.', 'J', '', 3, 1, 3, 10, 2, 4000, 1, 0.9, 1.1, 0.975, 1.1, 0.8),
+(134, 'CS102 Algoritmi i strukture podataka', 'NiÅ¡', 'Klas.', 'P', '', 3, 1, 3, 10, 2, 4000, 1, 0.9, 1.1, 0.975, 1.1, 0.8),
+(135, 'IT350 Baze podataka', 'Beograd', 'Hibr.', 'P', '', 3, 1, 3, 10, 2, 4000, 1, 0.9, 1.1, 0.975, 1.1, 0.8);
+
 -- --------------------------------------------------------
 
 --
@@ -137,6 +148,15 @@ CREATE TABLE `subject_employee` (
   `employee_id` int(11) NOT NULL,
   `subject_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `subject_employee`
+--
+
+INSERT INTO `subject_employee` (`subject_employee_id`, `employee_id`, `subject_id`) VALUES
+(16, 102, 133),
+(17, 102, 134),
+(18, 102, 135);
 
 -- --------------------------------------------------------
 
@@ -194,16 +214,16 @@ INSERT INTO `user_roles` (`user_role_id`, `username`, `role`) VALUES
 --
 
 --
+-- Indexes for table `email_flag`
+--
+ALTER TABLE `email_flag`
+  ADD PRIMARY KEY (`email_flag_id`);
+
+--
 -- Indexes for table `employee`
 --
 ALTER TABLE `employee`
   ADD PRIMARY KEY (`employee_id`);
-
---
--- Indexes for table `mdita`
---
-ALTER TABLE `mdita`
-  ADD PRIMARY KEY (`mdita_id`);
 
 --
 -- Indexes for table `part_time_employee`
@@ -250,40 +270,40 @@ ALTER TABLE `user_roles`
 --
 
 --
+-- AUTO_INCREMENT for table `email_flag`
+--
+ALTER TABLE `email_flag`
+  MODIFY `email_flag_id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
---
--- AUTO_INCREMENT for table `mdita`
---
-ALTER TABLE `mdita`
-  MODIFY `mdita_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 --
 -- AUTO_INCREMENT for table `part_time_employee`
 --
 ALTER TABLE `part_time_employee`
-  MODIFY `part_time_employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `part_time_employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 --
 -- AUTO_INCREMENT for table `subject`
 --
 ALTER TABLE `subject`
-  MODIFY `subject_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `subject_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
 --
 -- AUTO_INCREMENT for table `subject_employee`
 --
 ALTER TABLE `subject_employee`
-  MODIFY `subject_employee_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `subject_employee_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `subject_part_time_employee`
 --
 ALTER TABLE `subject_part_time_employee`
-  MODIFY `subject_part_time_employee_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `subject_part_time_employee_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `user_roles`
 --

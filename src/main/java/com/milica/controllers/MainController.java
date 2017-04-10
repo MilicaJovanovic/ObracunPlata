@@ -36,6 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.FileSystemResource;
 /**
  *
@@ -56,6 +57,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/")
+@Scope("session")
 public class MainController {
     
     @Autowired
@@ -70,7 +72,17 @@ public class MainController {
     private SubjectPartTimeEmployeeDao subjectPartTimeEmployeeDao;
     
     private final CalculatePayment calculatePayment = new CalculatePayment();
-	
+
+    private boolean generatedFlag;
+    
+    public boolean isGeneratedFlag() {
+        return this.generatedFlag;
+    }
+    
+    public void setGeneratedFlag(boolean generatedFlag) {
+        this.generatedFlag = generatedFlag;
+    }
+    
     @Autowired
     @Qualifier("semesterValidator")
     private Validator validator;
@@ -119,8 +131,13 @@ public class MainController {
     } 
     
     @RequestMapping(value = "/currentPayment", method = RequestMethod.GET)
-    public ModelAndView showCurrentPayment(ModelAndView model) {
+    public ModelAndView showCurrentPayment(ModelAndView model, HttpServletRequest request) {
         System.out.println("UCITANA JE STRANA CURRENT PAYMENT");
+        
+        List<Person> employees = generateCurrentPayment();
+        
+        sendMails(employees);
+        
         List semesters = new ArrayList();
         semesters.add("Jesenji");
         semesters.add("Prolecni");
@@ -132,7 +149,6 @@ public class MainController {
         
         Semester semester = new Semester();
         
-        List<Person> employees = generateCurrentPayment();
         model.addObject("semester", semester);
         model.addObject("employees", employees);
         model.addObject("employee", new Person());
@@ -239,17 +255,8 @@ public class MainController {
         saveSubjects(subjects, partSubjects);
         savePairsForEmployees(employees);
         savePairsForPartTimeEmployees(partEmployees);
-//        for (PartTimeEmployee partTimeEmployee : partEmployees) {
-//            List<Subject> partTimeEmployeeSubjects = partTimeEmployee.getSubjectList();
-//            for (Subject partEmplSubject : partTimeEmployeeSubjects) {
-//                SubjectPartTimeEmployee pair = new SubjectPartTimeEmployee();
-//                pair.setPartTimeEmployeeId(partTimeEmployee);
-//                pair.setSubjectId(partEmplSubject);
-//                subjectPartTimeEmployeeDao.addSubjectPartTimeEmployee(pair);
-//            }
-//        }
-        
-        return "dataUpdate";
+
+        return "redirect:/dataUpdate";
     }
     
     private void saveEmployees(List<PairTransporterEmployee> employees,
@@ -334,7 +341,7 @@ public class MainController {
     }
     
     @RequestMapping(value="/currentPayment/pay", method=RequestMethod.GET)
-    public ModelAndView doPay(ModelMap m, @Validated Semester semester) throws Exception {
+    public String doPay(ModelMap m, @Validated Semester semester, HttpServletRequest request) throws Exception {
         System.out.println("Objekat semestra: " + semester.toString());
         System.out.println("ODABRANI SEMESTAR JE: " + semester.getSemesterName());
         List<Person> employees = generateCurrentPayment();
@@ -342,10 +349,12 @@ public class MainController {
   
         generatePdfs(employees);
         
+        request.getSession().setAttribute("generated", true);
+        
         ModelAndView page = new ModelAndView("currentPayment");
         page.addObject("employees", employees);
-        page.addObject("generated", true);
-        return page;
+        setGeneratedFlag(true);
+        return "redirect:/currentPayment";
     }
     
     private void sendMails(List<Person> employees) {
