@@ -35,12 +35,12 @@
     </bean>
     
     <bean id="employeeDao" name="employeeDao" class="com.milica.dao.impl.EmployeeDaoImpl"></bean>
-    <bean id="mditaDao" name="mditaDao" class="com.milica.dao.impl.MDitaDaoImpl"></bean>
     <bean id="userDao" name="userDao" class="com.milica.dao.impl.UserDaoImpl"></bean>
     <bean id="partTimeEmployeeDao" name="partTimeEmployeeDao" class="com.milica.dao.impl.PartTimeEmployeeDaoImpl"></bean>
     <bean id="subjectDao" name="subjectDao" class="com.milica.dao.impl.SubjectDaoImpl"></bean>
     <bean id="subjectEmployeeDao" name="subjectEmployeeDao" class="com.milica.dao.impl.SubjectEmployeeDaoImpl"></bean>
     <bean id="subjectPartTimeEmployeeDao" name="subjectPartTimeEmployeeDao" class="com.milica.dao.impl.SubjectPartTimeEmployeeDaoImpl"></bean>
+    <bean id="emailFlagDao" name="emailFlagDao" class="com.milica.dao.impl.EmailFlagDaoImpl"></bean>
     
     <bean id="persistenceExceptionTranslationPostProcessor" class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
     

@@ -21,6 +21,28 @@ public class EmailFlagDaoImpl implements EmailFlagDao {
     public EmailFlagDaoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
+    
+    @Override
+    @Transactional
+    public void setGenerated() {
+        EmailFlag currentEmailFlag = (EmailFlag) sessionFactory.getCurrentSession()
+            .createCriteria(EmailFlag.class)
+            .add(Restrictions.eq("emailFlagId", 1))
+            .uniqueResult();
+        currentEmailFlag.setFlag(1);
+        sessionFactory.getCurrentSession().update(currentEmailFlag);
+    }
+    
+    @Override
+    @Transactional
+    public void setUngenerated() {
+        EmailFlag currentEmailFlag = (EmailFlag) sessionFactory.getCurrentSession()
+            .createCriteria(EmailFlag.class)
+            .add(Restrictions.eq("emailFlagId", 1))
+            .uniqueResult();
+        currentEmailFlag.setFlag(2);
+        sessionFactory.getCurrentSession().update(currentEmailFlag);
+    }
 
     @Override
     @Transactional
@@ -41,10 +63,11 @@ public class EmailFlagDaoImpl implements EmailFlagDao {
             EmailFlag currentEmailFlag = currentEmailFlag(emailFlag);
 
             if (currentEmailFlag == null) {
+                    currentEmailFlag.setFlag(emailFlag.getFlag());
+                    sessionFactory.getCurrentSession().update(emailFlag);
                     return false;
             }
 
-            sessionFactory.getCurrentSession().update(emailFlag);
             return true;
     }
 

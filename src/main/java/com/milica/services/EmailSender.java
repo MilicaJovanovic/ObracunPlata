@@ -22,7 +22,6 @@ public class EmailSender {
     final static String username = "milica.jovanovic@metropolitan.ac.rs";
     final static String password = "Monopol123";
     final static String to ="milica.jovanovic.2317@metropolitan.ac.rs";
-//    private static final String FILE = "c:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/src/main/resources/izvestaji/ObracunPlataIzvestaj.pdf";
     
     
     
@@ -50,9 +49,7 @@ public class EmailSender {
         textBodyPart.setContent(mail, "text/html; charset=utf-8");
             
         for (Person person : employees) {
-            System.out.println(person.toString());
             String FILE = "c:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/src/main/resources/obracuni/" + person.getName() + person.getLastname() + ".pdf";
-            System.out.println(FILE);
             
             MimeBodyPart messageBodyPart = new MimeBodyPart();
             Multipart multipart = new MimeMultipart();
@@ -65,7 +62,6 @@ public class EmailSender {
             multipart.addBodyPart(textBodyPart);
             multipart.addBodyPart(messageBodyPart);
             message.setContent(multipart);
-            System.out.println(message.toString());
             Transport.send(message);
         }
     }

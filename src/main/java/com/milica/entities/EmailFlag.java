@@ -28,7 +28,7 @@ public class EmailFlag {
         this.emailFlagId = emailFlagId;
     }
     
-    @Column(name = "enabled")
+    @Column(name = "flag")
     public int getFlag() {
         return flag;
     }

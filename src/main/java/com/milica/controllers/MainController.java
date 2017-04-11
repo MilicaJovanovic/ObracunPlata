@@ -1,11 +1,13 @@
 package com.milica.controllers;
 
+import com.milica.dao.EmailFlagDao;
 import com.milica.dao.EmployeeDao;
 import com.milica.dao.PartTimeEmployeeDao;
 import com.milica.dao.SubjectDao;
 import com.milica.dao.SubjectEmployeeDao;
 import com.milica.dao.SubjectPartTimeEmployeeDao;
 import com.milica.dto.Person;
+import com.milica.entities.EmailFlag;
 import com.milica.entities.Employee;
 import com.milica.entities.PartTimeEmployee;
 import com.milica.entities.Subject;
@@ -70,18 +72,10 @@ public class MainController {
     private SubjectEmployeeDao subjectEmployeeDao;
     @Autowired
     private SubjectPartTimeEmployeeDao subjectPartTimeEmployeeDao;
+    @Autowired
+    private EmailFlagDao emailFlagDao;
     
     private final CalculatePayment calculatePayment = new CalculatePayment();
-
-    private boolean generatedFlag;
-    
-    public boolean isGeneratedFlag() {
-        return this.generatedFlag;
-    }
-    
-    public void setGeneratedFlag(boolean generatedFlag) {
-        this.generatedFlag = generatedFlag;
-    }
     
     @Autowired
     @Qualifier("semesterValidator")
@@ -132,11 +126,12 @@ public class MainController {
     
     @RequestMapping(value = "/currentPayment", method = RequestMethod.GET)
     public ModelAndView showCurrentPayment(ModelAndView model, HttpServletRequest request) {
-        System.out.println("UCITANA JE STRANA CURRENT PAYMENT");
-        
         List<Person> employees = generateCurrentPayment();
         
-        sendMails(employees);
+        EmailFlag flag = emailFlagDao.getEmailFlagById(1);
+        if (flag.getFlag() == 1) {
+            sendMails(employees);
+        }
         
         List semesters = new ArrayList();
         semesters.add("Jesenji");
@@ -154,6 +149,21 @@ public class MainController {
         model.addObject("employee", new Person());
         model.addObject("semesterList", semesters);
         return model;
+    }
+    
+    @RequestMapping(value="/currentPayment/send", method=RequestMethod.GET)
+    public String doPay(ModelMap m) throws Exception {
+        List<Person> employees = generateCurrentPayment();
+
+        EmailFlag flag = emailFlagDao.getEmailFlagById(1);
+        if (flag.getFlag() == 1) {
+            sendMails(employees);
+        }
+        
+        ModelAndView page = new ModelAndView("currentPayment");
+        page.addObject("employees", employees);
+        
+        return "redirect:/currentPayment";
     }
     
     @RequestMapping(value = "/grossPayment", method = RequestMethod.GET)
@@ -341,19 +351,17 @@ public class MainController {
     }
     
     @RequestMapping(value="/currentPayment/pay", method=RequestMethod.GET)
-    public String doPay(ModelMap m, @Validated Semester semester, HttpServletRequest request) throws Exception {
+    public String doPay(ModelMap m, @Validated Semester semester) throws Exception {
         System.out.println("Objekat semestra: " + semester.toString());
         System.out.println("ODABRANI SEMESTAR JE: " + semester.getSemesterName());
         List<Person> employees = generateCurrentPayment();
-//        PdfGenerator.generatePdf(employees);
+        PdfGenerator.generatePdf(employees);
   
         generatePdfs(employees);
         
-        request.getSession().setAttribute("generated", true);
-        
         ModelAndView page = new ModelAndView("currentPayment");
         page.addObject("employees", employees);
-        setGeneratedFlag(true);
+        
         return "redirect:/currentPayment";
     }
     
@@ -363,6 +371,8 @@ public class MainController {
         } catch ( MessagingException e) {
             e.printStackTrace();
         }
+        
+        emailFlagDao.setUngenerated();
     }
     
     private void generatePdfs(List<Person> employees) {
@@ -373,6 +383,8 @@ public class MainController {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+        
+        emailFlagDao.setGenerated();
     }
     
     @RequestMapping(value = "/admin**", method = RequestMethod.GET)
