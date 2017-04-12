@@ -12,21 +12,24 @@ import com.milica.entities.Employee;
 import com.milica.entities.Subject;
 import com.milica.entities.SubjectEmployee;
 
+/**
+ * Klasa sadrzi sve metode vezane za rad sa entitetom SubjectEmployee
+ * @author Milica
+ */ 
 @Controller
 @RequestMapping("/subjectemployee")
 public class SubjectEmployeeController {
 
-	@Autowired
-	private SubjectEmployeeDao subjectEmployeeDao;
-	
-	@RequestMapping(value="/addsubjectemployee", method=RequestMethod.GET)
-	public boolean addSubjectEmployee(SubjectEmployee pair) {
-		return subjectEmployeeDao.addSubjectEmployee(pair);
-	}
-	
-	@RequestMapping(value="/getsubjectsforemployee", method=RequestMethod.GET)
-	public List<Subject> getSubjectsForEmployee(Employee employee) {
-		return subjectEmployeeDao.getSubjectsForEmployee(employee);
-	}
-	
+    @Autowired
+    private SubjectEmployeeDao subjectEmployeeDao;
+
+    @RequestMapping(value="/addsubjectemployee", method=RequestMethod.GET)
+    public boolean addSubjectEmployee(SubjectEmployee pair) {
+            return subjectEmployeeDao.addSubjectEmployee(pair);
+    }
+
+    @RequestMapping(value="/getsubjectsforemployee", method=RequestMethod.GET)
+    public List<Subject> getSubjectsForEmployee(Employee employee) {
+            return subjectEmployeeDao.getSubjectsForEmployee(employee);
+    }
 }

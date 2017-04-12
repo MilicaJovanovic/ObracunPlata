@@ -1,6 +1,6 @@
 package com.milica.entities;
 
-import java.util.List;
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +13,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="employee")
-public class Employee {
+public class Employee implements Serializable {
 	
 	private int employeeId;
 	private int semesterNumber;

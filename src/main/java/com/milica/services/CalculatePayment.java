@@ -9,7 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- *
+ * Klasa sadrzi sve metode koje obracunavaju zaradu zaposlenih na osnovu faktora i koeficijenata
  * @author Milica
  */
 public class CalculatePayment {
@@ -35,9 +35,9 @@ public class CalculatePayment {
         }
         
         double payment = 0;
-        if (semester.equals("Jesenji semestar")) {
+        if (semester.equals("A")) {
             payment = basicPaymentMoney * 6 + subjectPaymentAutumn * 15;
-        } else if (semester.equals("Prolecni semestar")) {
+        } else if (semester.equals("S")) {
             payment = basicPaymentMoney * 6 + subjectPaymentSpring * 15;
         }
         return Math.round(payment);
@@ -75,9 +75,9 @@ public class CalculatePayment {
         }
         
         switch (semester) {
-            case "Jesenji semestar":
+            case "A":
                 return Math.round(subjectPaymentAutumn);
-            case "Prolecni semestar":
+            case "S":
                 return Math.round(subjectPaymentSpring);
             default:
                 return 0;

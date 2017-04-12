@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * DAO sloj koji se koristi za pristup tabeli "subject" u bazi podataka
+/** 
  *
  * @author Milica
+ * DAO sloj koji se koristi za pristup tabeli "subject" u bazi podataka
  */
 @Repository
 public class SubjectDaoImpl implements SubjectDao {
@@ -70,9 +70,9 @@ public class SubjectDaoImpl implements SubjectDao {
     @Transactional
     public Subject getSubjectById(int id) {
         Subject currentSubject = (Subject) sessionFactory.getCurrentSession()
-                .createCriteria(Subject.class)
-                .add(Restrictions.eq("subjectId", id))
-                .uniqueResult();
+            .createCriteria(Subject.class)
+            .add(Restrictions.eq("subjectId", id))
+            .uniqueResult();
         return currentSubject;
     }
 
@@ -81,8 +81,8 @@ public class SubjectDaoImpl implements SubjectDao {
     @Transactional
     public List<Subject> getSubjects() {
         return sessionFactory.getCurrentSession()
-                .createCriteria(Subject.class)
-                .list();
+            .createCriteria(Subject.class)
+            .list();
     }
 
     @Override
@@ -98,11 +98,10 @@ public class SubjectDaoImpl implements SubjectDao {
 
     private Subject currentSubject(Subject subject) {
         Subject currentSubject = (Subject) sessionFactory.getCurrentSession()
-                .createCriteria(Subject.class)
-                .add(Restrictions.eq("name", subject.getName()))
-                .add(Restrictions.eq("code", subject.getCode()))
-                .uniqueResult();
+            .createCriteria(Subject.class)
+            .add(Restrictions.eq("name", subject.getName()))
+            .add(Restrictions.eq("code", subject.getCode()))
+            .uniqueResult();
         return currentSubject;
     }
-
 }

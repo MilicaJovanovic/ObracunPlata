@@ -1,5 +1,6 @@
 package com.milica.entities;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,12 +10,11 @@ import javax.persistence.Table;
 
 /**
  * Entitet klasa koja mapira tabelu "subject"
- *
  * @author Milica
  */
 @Entity
 @Table(name = "subject")
-public class Subject {
+public class Subject implements Serializable {
 
     private int subjectId;
     private String name;

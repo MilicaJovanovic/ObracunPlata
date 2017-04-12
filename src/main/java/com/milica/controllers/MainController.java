@@ -17,9 +17,8 @@ import com.milica.services.CalculatePayment;
 import com.milica.services.DataUpdate;
 import com.milica.services.EmailSender;
 import com.milica.services.PdfGenerator;
-import com.milica.services.PairTransporterEmployee;
-import com.milica.services.PairTransporterPartTimeEmployee;
-import com.milica.services.Semester;
+import com.milica.dto.PairTransporterEmployee;
+import com.milica.dto.PairTransporterPartTimeEmployee;
 import java.io.FileInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -29,13 +28,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import javax.mail.MessagingException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,16 +40,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.Validator;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**
- *
+ * Klasa sadrzi sve metode vezane za povezivanje JSP strana i Java klasa
+ * Vecina metoda izvrsava se onda kada softver prepozna putanju koja je navedena uz metodu
+ * Ostale metode koriste se za upis u bazu i dobijanje potrebnih podataka
  * @author Milica
  */
-
 @Controller
 @RequestMapping("/")
 @Scope("session")
@@ -73,17 +68,8 @@ public class MainController {
     
     private final CalculatePayment calculatePayment = new CalculatePayment();
     
-    @Autowired
-    @Qualifier("semesterValidator")
-    private Validator validator;
-    
-    @InitBinder("semesterValidator")
-    private void initBinder(WebDataBinder binder) {
-        binder.setValidator(validator);
-    }
-    
     @RequestMapping(method = RequestMethod.GET)
-    public String printHello(ModelMap model) {
+    public String startApp(ModelMap model) {
         return "login";
     }
     
@@ -118,6 +104,24 @@ public class MainController {
         return model;
     } 
     
+    @RequestMapping(value="/dataUpdate/update", method=RequestMethod.GET)
+    public String doUpdate(ModelMap m) throws Exception {
+        DataUpdate dataUpdate = new DataUpdate();
+        dataUpdate.getDataFromIsum();
+        List<PairTransporterEmployee> employees = dataUpdate.returnEmployeeList();
+        List<Subject> subjects = dataUpdate.returnSubjectEmplyeeList();
+        List<PairTransporterPartTimeEmployee> partEmployees = dataUpdate.returnPartTimeEmployeeList();
+        List<Subject> partSubjects = dataUpdate.returnSubjectEmployeePartTimeList();
+        List<PairTransporterEmployee> transporters = dataUpdate.returnTransporterList();
+        
+        saveEmployees(employees, partEmployees);
+        saveSubjects(subjects, partSubjects);
+        savePairsForEmployees(employees);
+        savePairsForPartTimeEmployees(partEmployees);
+
+        return "redirect:/dataUpdate";
+    }
+    
     @RequestMapping(value = "/currentPayment", method = RequestMethod.GET)
     public ModelAndView showCurrentPayment(ModelAndView model, HttpServletRequest request) {
         List<Person> employees = generateCurrentPayment();
@@ -127,38 +131,47 @@ public class MainController {
             sendMails(employees);
         }
         
-//        List semesters = new ArrayList();
-//        semesters.add("Jesenji");
-//        semesters.add("Prolecni");
-//
-//        Map<String, Object> previousData = model.getModel();
-//        for (String key : previousData.keySet()) {
-//            System.out.println("KLJUC: " + key);
-//        }
-//        
-//        Semester semester = new Semester();
-//        
-//        model.addObject("semester", semester);
         model.addObject("employees", employees);
         model.addObject("employee", new Person());
-//        model.addObject("semesterList", semesters);
         return model;
     }
     
-//    @RequestMapping(value="/currentPayment/send", method=RequestMethod.GET)
-//    public String doPay(ModelMap m) throws Exception {
-//        List<Person> employees = generateCurrentPayment();
-//
-//        EmailFlag flag = emailFlagDao.getEmailFlagById(1);
-//        if (flag.getFlag() == 1) {
-//            sendMails(employees);
-//        }
-//        
-//        ModelAndView page = new ModelAndView("currentPayment");
-//        page.addObject("employees", employees);
-//        
-//        return "redirect:/currentPayment";
-//    }
+    @RequestMapping(value="/currentPayment/pay", method=RequestMethod.GET)
+    public String doPay(ModelMap m) throws Exception {
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String today = sdf.format(date);
+        String month = today.substring(3, 4);
+        String semester = "";
+        switch (month) {
+            case "09":
+            case "10":
+            case "11":
+            case "12":
+            case "01":
+            case "02":
+                semester = "A";
+                break;
+            case "03":
+            case "04":
+            case "05":
+            case "06":
+            case "07":
+            case "08":
+                semester = "S";
+                break;
+        }
+        
+        List<Person> employees = generateCurrentPayment();
+        PdfGenerator.generatePdf(employees, semester);
+  
+        generatePdfs(employees, semester);
+        
+        ModelAndView page = new ModelAndView("currentPayment");
+        page.addObject("employees", employees);
+        
+        return "redirect:/currentPayment";
+    }
     
     @RequestMapping(value = "/grossPayment", method = RequestMethod.GET)
     public ModelAndView showGrossPayment(ModelAndView model) {
@@ -208,18 +221,6 @@ public class MainController {
         return model;
     }
     
-    public List listFilesForFolder(final File folder) {
-        List<String> files = new ArrayList<>();
-        for (final File fileEntry : folder.listFiles()) {
-            if (fileEntry.isDirectory()) {
-                listFilesForFolder(fileEntry);
-            } else {
-                files.add(fileEntry.getName());
-            }
-        }
-        return files;
-    }
-    
     @RequestMapping(value = "/history/download/{fileName:.+}", method = RequestMethod.GET)
     public void doDownload(HttpServletRequest request, HttpServletResponse response, @PathVariable("fileName") String fileName) throws IOException {
         int BUFFER_SIZE = 4096;
@@ -250,22 +251,16 @@ public class MainController {
         outStream.close();
     }
     
-    @RequestMapping(value="/dataUpdate/update", method=RequestMethod.GET)
-    public String doUpdate(ModelMap m) throws Exception {
-        DataUpdate dataUpdate = new DataUpdate();
-        dataUpdate.getDataFromIsum();
-        List<PairTransporterEmployee> employees = dataUpdate.returnEmployeeList();
-        List<Subject> subjects = dataUpdate.returnSubjectEmplyeeList();
-        List<PairTransporterPartTimeEmployee> partEmployees = dataUpdate.returnPartTimeEmployeeList();
-        List<Subject> partSubjects = dataUpdate.returnSubjectEmployeePartTimeList();
-        List<PairTransporterEmployee> transporters = dataUpdate.returnTransporterList();
-        
-        saveEmployees(employees, partEmployees);
-        saveSubjects(subjects, partSubjects);
-        savePairsForEmployees(employees);
-        savePairsForPartTimeEmployees(partEmployees);
-
-        return "redirect:/dataUpdate";
+    public List listFilesForFolder(final File folder) {
+        List<String> files = new ArrayList<>();
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isDirectory()) {
+                listFilesForFolder(fileEntry);
+            } else {
+                files.add(fileEntry.getName());
+            }
+        }
+        return files;
     }
     
     private void saveEmployees(List<PairTransporterEmployee> employees,
@@ -353,48 +348,12 @@ public class MainController {
         return employees;
     }
     
-    @RequestMapping(value="/currentPayment/pay", method=RequestMethod.GET)
-    public String doPay(ModelMap m) throws Exception {
-        Date date = Calendar.getInstance().getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        String today = sdf.format(date);
-        String month = today.substring(3, 4);
-        String semester = "";
-        switch (month) {
-            case "09":
-            case "10":
-            case "11":
-            case "12":
-            case "01":
-            case "02":
-                semester = "A";
-                break;
-            case "03":
-            case "04":
-            case "05":
-            case "06":
-            case "07":
-            case "08":
-                semester = "S";
-                break;
-        }
-        
-        List<Person> employees = generateCurrentPayment();
-        PdfGenerator.generatePdf(employees, semester);
-  
-        generatePdfs(employees, semester);
-        
-        ModelAndView page = new ModelAndView("currentPayment");
-        page.addObject("employees", employees);
-        
-        return "redirect:/currentPayment";
-    }
+    
     
     private void sendMails(List<Person> employees) {
         try {
             EmailSender.sendMail("Postovani,\nU prilogu se nalazi obracun o isplati Vase zarade.\nS postovanjem,\nFinansijska sluzba", employees);
         } catch ( MessagingException e) {
-            e.printStackTrace();
         }
         
         emailFlagDao.setUngenerated();
@@ -406,7 +365,6 @@ public class MainController {
                 PdfGenerator.generateSeparatePdf(person, semester);
             }
         } catch (MessagingException e) {
-            e.printStackTrace();
         }
         
         emailFlagDao.setGenerated();
@@ -414,12 +372,12 @@ public class MainController {
     
     @RequestMapping(value = "/admin**", method = RequestMethod.GET)
     public ModelAndView showAdminPage() {
-            ModelAndView adminPage = new ModelAndView();
+        ModelAndView adminPage = new ModelAndView();
 
-            adminPage.addObject("message", "Admin stranica");
-            adminPage.setViewName("index");
+        adminPage.addObject("message", "Admin stranica");
+        adminPage.setViewName("index");
 
-            return adminPage;
+        return adminPage;
     }
     
     @RequestMapping(value = "/login", method = RequestMethod.GET)

@@ -9,8 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * DAO sloj koji se koristi za pristup tabeli "email_flag" u bazi podataka
+ * 
  * @author Milica
+ * DAO sloj koji se koristi za pristup tabeli "email_flag" u bazi podataka
  */
 public class EmailFlagDaoImpl implements EmailFlagDao {
     @Autowired
@@ -50,8 +51,8 @@ public class EmailFlagDaoImpl implements EmailFlagDao {
         EmailFlag currentEmailFlag = currentEmailFlag(emailFlag);
 
         if (currentEmailFlag == null) {
-                sessionFactory.getCurrentSession().save(emailFlag);
-                return true;
+            sessionFactory.getCurrentSession().save(emailFlag);
+            return true;
         }
 
         return false;
@@ -60,65 +61,65 @@ public class EmailFlagDaoImpl implements EmailFlagDao {
     @Override
     @Transactional
     public boolean editEmailFlag(EmailFlag emailFlag) {
-            EmailFlag currentEmailFlag = currentEmailFlag(emailFlag);
+        EmailFlag currentEmailFlag = currentEmailFlag(emailFlag);
 
-            if (currentEmailFlag == null) {
-                    currentEmailFlag.setFlag(emailFlag.getFlag());
-                    sessionFactory.getCurrentSession().update(emailFlag);
-                    return false;
-            }
+        if (currentEmailFlag == null) {
+            currentEmailFlag.setFlag(emailFlag.getFlag());
+            sessionFactory.getCurrentSession().update(emailFlag);
+            return false;
+        }
 
-            return true;
+        return true;
     }
 
     @Override
     @Transactional
     public boolean deleteEmailFlag(EmailFlag emailFlag) {
-            EmailFlag currentEmailFlag = currentEmailFlag(emailFlag);
+        EmailFlag currentEmailFlag = currentEmailFlag(emailFlag);
 
-            if (currentEmailFlag == null) {
-                    return false;
-            }
+        if (currentEmailFlag == null) {
+            return false;
+        }
 
-            sessionFactory.getCurrentSession().delete(currentEmailFlag);
-            return true;
+        sessionFactory.getCurrentSession().delete(currentEmailFlag);
+        return true;
     }
 
     @Override
     @Transactional
     public EmailFlag getEmailFlagById(int id) {
-            EmailFlag currentEmailFlag = (EmailFlag) sessionFactory.getCurrentSession()
-                            .createCriteria(EmailFlag.class)
-                            .add(Restrictions.eq("emailFlagId", id))
-                            .uniqueResult();
-            return currentEmailFlag;
+        EmailFlag currentEmailFlag = (EmailFlag) sessionFactory.getCurrentSession()
+            .createCriteria(EmailFlag.class)
+            .add(Restrictions.eq("emailFlagId", id))
+            .uniqueResult();
+        return currentEmailFlag;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Transactional
     public List<EmailFlag> getEmailFlags() {
-            return sessionFactory.getCurrentSession()
-                            .createCriteria(EmailFlag.class)
-                            .list();
+        return sessionFactory.getCurrentSession()
+            .createCriteria(EmailFlag.class)
+            .list();
     }
 
     @Override
     @Transactional
     public int getCountEmailFlags() {
-            List<EmailFlag> allEmailFlags = getEmailFlags();
+        List<EmailFlag> allEmailFlags = getEmailFlags();
 
-            if (allEmailFlags == null) {
-                    return 0;
-            }
-            return allEmailFlags.size();
+        if (allEmailFlags == null) {
+            return 0;
+        }
+        return allEmailFlags.size();
     }
 
     private EmailFlag currentEmailFlag(EmailFlag EmailFlag) {
-            EmailFlag currentEmailFlag = (EmailFlag) sessionFactory.getCurrentSession()
-                            .createCriteria(EmailFlag.class)
-                            .add(Restrictions.eq("emailFlagId", EmailFlag.getEmailFlagId()))
-                            .uniqueResult();
-            return currentEmailFlag;
+        EmailFlag currentEmailFlag = (EmailFlag) sessionFactory.getCurrentSession()
+            .createCriteria(EmailFlag.class)
+            .add(Restrictions.eq("emailFlagId", EmailFlag.getEmailFlagId()))
+            .uniqueResult();
+        return currentEmailFlag;
     }
 }

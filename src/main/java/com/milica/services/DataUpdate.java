@@ -1,5 +1,7 @@
 package com.milica.services;
 
+import com.milica.dto.PairTransporterPartTimeEmployee;
+import com.milica.dto.PairTransporterEmployee;
 import com.milica.entities.Employee;
 import com.milica.entities.PartTimeEmployee;
 import com.milica.entities.Subject;
@@ -15,7 +17,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- *
+ * Klasa sadrzi potrebne atribute i metode koje se koriste za azuriranje podataka sa ISUM-a
+ * Ova klasa kontroleru prosledjuje formatirane podatke koji se pamte u bazi
  * @author Milica
  */
 public class DataUpdate {

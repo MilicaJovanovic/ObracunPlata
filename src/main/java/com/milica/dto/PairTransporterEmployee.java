@@ -1,12 +1,12 @@
-package com.milica.services;
+package com.milica.dto;
 
 import com.milica.entities.Employee;
 import com.milica.entities.Subject;
-import com.milica.entities.SubjectEmployee;
 import java.util.List;
 
 /**
- *
+ * Klasa se koristi za trasport podataka
+ * Ona sadrzi dva atributa koji predstavljaju liste elemanata koji se cuvaju u bazi podataka
  * @author Milica
  */
 public class PairTransporterEmployee {
@@ -27,6 +27,5 @@ public class PairTransporterEmployee {
 
     public void setSubjects(List<Subject> subjects) {
         this.subjects = subjects;
-    }
-//    
+    }    
 }

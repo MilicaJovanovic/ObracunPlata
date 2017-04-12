@@ -15,53 +15,53 @@ import com.milica.entities.Subject;
 import com.milica.entities.SubjectPartTimeEmployee;
 
 /**
- * DAO sloj koji se koristi za pristup tabeli "subject_part_time_employee" u bazi podataka
+ * 
  * @author Milica
+ * DAO sloj koji se koristi za pristup tabeli "subject_part_time_employee" u bazi podataka
  */
 @Repository
 public class SubjectPartTimeEmployeeDaoImpl implements SubjectPartTimeEmployeeDao {
 
-	@Autowired
-	private SessionFactory sessionFactory;
-	
-	@Override
-	@Transactional
-	public boolean addSubjectPartTimeEmployee(SubjectPartTimeEmployee pair) {
-		SubjectPartTimeEmployee currentPair = currentPair(pair);
-		
-		if (currentPair == null) {
-			sessionFactory.getCurrentSession().save(pair);
-			return true;
-		}
-		
-		return false;
-	}
+    @Autowired
+    private SessionFactory sessionFactory;
 
-	@SuppressWarnings("unchecked")
-	@Override
-	@Transactional
-	public List<Subject> getSubjectsForPartTimeEmployee(PartTimeEmployee employee) {
-		List<SubjectPartTimeEmployee> tempSubjects = sessionFactory.getCurrentSession()
-				.createCriteria(SubjectPartTimeEmployee.class)
-				.add(Restrictions.eq("partTimeEmployeeId", employee))
-				.list();
-		
-		List<Subject> toRet = new ArrayList<>();
-		
-		for (SubjectPartTimeEmployee pair : tempSubjects) {
-			toRet.add(pair.getSubjectId());
-		}
-		
-		return toRet;
-	}
+    @Override
+    @Transactional
+    public boolean addSubjectPartTimeEmployee(SubjectPartTimeEmployee pair) {
+        SubjectPartTimeEmployee currentPair = currentPair(pair);
 
-	private SubjectPartTimeEmployee currentPair(SubjectPartTimeEmployee pair) {
-		SubjectPartTimeEmployee currentPair = (SubjectPartTimeEmployee) sessionFactory.getCurrentSession()
-				.createCriteria(SubjectPartTimeEmployee.class)
-				.add(Restrictions.eq("partTimeEmployeeId", pair.getPartTimeEmployeeId()))
-				.add(Restrictions.eq("subjectId", pair.getSubjectId()))
-				.uniqueResult();
-		return currentPair;
-	}
-	
+        if (currentPair == null) {
+            sessionFactory.getCurrentSession().save(pair);
+            return true;
+        }
+
+        return false;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Transactional
+    public List<Subject> getSubjectsForPartTimeEmployee(PartTimeEmployee employee) {
+        List<SubjectPartTimeEmployee> tempSubjects = sessionFactory.getCurrentSession()
+            .createCriteria(SubjectPartTimeEmployee.class)
+            .add(Restrictions.eq("partTimeEmployeeId", employee))
+            .list();
+
+        List<Subject> toRet = new ArrayList<>();
+
+        for (SubjectPartTimeEmployee pair : tempSubjects) {
+            toRet.add(pair.getSubjectId());
+        }
+
+        return toRet;
+    }
+
+    private SubjectPartTimeEmployee currentPair(SubjectPartTimeEmployee pair) {
+        SubjectPartTimeEmployee currentPair = (SubjectPartTimeEmployee) sessionFactory.getCurrentSession()
+            .createCriteria(SubjectPartTimeEmployee.class)
+            .add(Restrictions.eq("partTimeEmployeeId", pair.getPartTimeEmployeeId()))
+            .add(Restrictions.eq("subjectId", pair.getSubjectId()))
+            .uniqueResult();
+        return currentPair;
+    }
 }

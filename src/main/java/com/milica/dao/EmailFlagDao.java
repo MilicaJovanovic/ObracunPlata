@@ -6,6 +6,7 @@ import java.util.List;
 /**
  *
  * @author Milica
+ * Interfejs sadrzi metode koje se koriste za komunikacija sa bazom podataka
  */
 public interface EmailFlagDao {
     public void setGenerated();

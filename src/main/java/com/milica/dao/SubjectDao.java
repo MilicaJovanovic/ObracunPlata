@@ -6,6 +6,7 @@ import com.milica.entities.Subject;
 /**
  *
  * @author Milica
+ * Interfejs sadrzi metode koje se koriste za komunikacija sa bazom podataka
  */
 public interface SubjectDao {
 

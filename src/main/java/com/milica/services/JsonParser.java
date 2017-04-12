@@ -1,5 +1,7 @@
 package com.milica.services;
 
+import com.milica.dto.PairTransporterPartTimeEmployee;
+import com.milica.dto.PairTransporterEmployee;
 import com.milica.dao.EmployeeDao;
 import com.milica.dao.PartTimeEmployeeDao;
 import com.milica.dao.SubjectDao;
@@ -18,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
 /**
- *
+ * Metode ove klase koriste se za parsiranje podataka dobijenih iz ISUM servisa
  * @author Milica
  */
 @Configurable
@@ -44,7 +46,6 @@ public class JsonParser {
         String location = fixText(jsonNodeClass.get("location").toString());
         String type = fixText(jsonNodeClass.get("type").toString());
         String semester = fixText(jsonNodeClass.get("semester").toString());
-//        String code = fixText(jsonNodeClass.get("code").toString());
         String code = "";
         int classNumber = Integer.parseInt(fixText(jsonNodeClass.get("classNumber").toString()));
         int groupExcerciseNumber = Integer.parseInt(fixText(jsonNodeClass.get("groupExcerciseNumber").toString()));
@@ -101,7 +102,6 @@ public class JsonParser {
                         subjectsInSpringSemesterEmployee++;
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
         }
@@ -195,12 +195,6 @@ public class JsonParser {
         employee.setIsumMoneyAutumn(isumMoneyJ);
         employee.setIsumMoneySpring(isumMoneyP);
         
-//        for (Subject subject : subjectListEmployee) {
-//            SubjectEmployee pair = new SubjectEmployee();
-//            pair.setEmployeeId(employee);
-//            pair.setSubjectId(subject);
-//            partList.add(pair);
-//        }
         PairTransporterEmployee transporter = new PairTransporterEmployee();
         transporter.setEmployee(employee);
         transporter.setSubjects(subjectListEmployee);
@@ -254,12 +248,6 @@ public class JsonParser {
         partTimeEmployee.setSubjectNumber(fixText(jsonNodePerson.get("subjectNumber").toString()));
         partTimeEmployee.setKt(fixText(jsonNodePerson.get("kt").toString()));
 
-//        for (Subject subject : subjectListPartTime) {
-//            SubjectPartTimeEmployee pair = new SubjectPartTimeEmployee();
-//            pair.setPartTimeEmployeeId(partTimeEmployee);
-//            pair.setSubjectId(subject);
-//            partListPart.add(pair);
-//        }
         PairTransporterPartTimeEmployee transporter = new PairTransporterPartTimeEmployee();
         transporter.setEmployee(partTimeEmployee);
         transporter.setSubjects(subjectListPartTime);

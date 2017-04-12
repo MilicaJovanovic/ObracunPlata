@@ -1,5 +1,6 @@
 package com.milica.entities;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +14,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="email_flag")
-public class EmailFlag {
+public class EmailFlag implements Serializable {
     
     private int emailFlagId;
     private int flag;

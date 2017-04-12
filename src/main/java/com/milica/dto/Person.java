@@ -3,6 +3,7 @@ package com.milica.dto;
 /**
  *
  * @author Milica
+ * Klasa je kreirana za potrebe prenosa podataka izmedju kontrolera i JSP strana
  */
 public class Person {
     private String name;

@@ -15,8 +15,9 @@ import com.milica.entities.Subject;
 import com.milica.entities.SubjectEmployee;
 
 /**
- * DAO sloj koji se koristi za pristup tabeli "subject_employee" u bazi podataka
+ *  
  * @author Milica
+ * DAO sloj koji se koristi za pristup tabeli "subject_employee" u bazi podataka
  */
 @Repository
 public class SubjectEmployeeDaoImpl implements SubjectEmployeeDao {

@@ -23,7 +23,9 @@ import java.util.Calendar;
 import javax.mail.MessagingException;
 
 /**
- *
+ * Klasa je kreirana za potrebe generisanja PDF fajlova
+ * Metode koje postoje sluze za generisanje razlicith delova ovoih fajlova
+ * Klasa ima dva staticna atributa koji predstavljaju fontove koji se koriste u fajlovima
  * @author Milica
  */
 public class PdfGenerator {
@@ -128,7 +130,6 @@ public class PdfGenerator {
                 table.addCell(person.getSalaryNetoS() + "");
                 table.addCell(person.getAuthorFeeNetoS() + "");   
             }
-            
         }
         
         subCatPart.add(table);
@@ -147,7 +148,6 @@ public class PdfGenerator {
             document.close();
         } catch (DocumentException | FileNotFoundException e) {
             System.out.println("GRESKA PRI GENERISANJU FAJLOVA");
-            e.printStackTrace();
         }
     }
     
@@ -188,7 +188,7 @@ public class PdfGenerator {
         subPara.add(new Paragraph("Ime i prezime: " + person.getName() + " " + person.getLastname(), SUB_FONT));
         subPara.add(new Paragraph("Tip zaposlenja: " + person.getEmploymentType(), SUB_FONT));
         subPara.add(new Paragraph("Fakutet: " + person.getFaculty(), SUB_FONT));
-        String semesterPayment = "";
+        String semesterPayment;
         if (semester.equals("A")) {
             subPara.add(new Paragraph("Isplacena osnovna zarada: " + person.getSalaryNetoA(), SUB_FONT));
             subPara.add(new Paragraph("Isplacen autorski honorar: " + person.getAuthorFeeNetoA(), SUB_FONT));
@@ -203,7 +203,6 @@ public class PdfGenerator {
         String today = sdf.format(date);
         subPara.add(new Paragraph("Datum isplate: " + today, SUB_FONT));
         subPara.add("Isplata za semestar: " + semesterPayment);
-        
         
         Section subCatPart = catPart.addSection(subPara);
 

@@ -9,6 +9,7 @@ import com.milica.entities.SubjectEmployee;
 /**
  * 
  * @author Milica
+ * Interfejs sadrzi metode koje se koriste za komunikacija sa bazom podataka
  */
 public interface SubjectEmployeeDao {
 

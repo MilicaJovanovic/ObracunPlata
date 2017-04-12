@@ -16,12 +16,8 @@
     <context:spring-configured/>
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="configLocation" >
-            <!--Dodavanje path-a na kome se nalaze podešavanja za Hibernate--> 
             <value>classpath:hibernate.cfg.xml</value>
         </property>
-		<!-- Dodavanje path-a paketa u kome se nalaze entity
-        fajlovi na osnovu kojih
-        će Hibernate kreirati bazu i upisivati u nju-->
         <property name="packagesToScan">
             <list>
                 <value>com.milica.entities</value>
@@ -51,7 +47,5 @@
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/" />
         <property name="suffix" value=".jsp" />
-    </bean>
-    
-    
+    </bean>    
 </beans>

@@ -10,8 +10,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * DAO sloj koji se koristi za pristup tabeli "employee" u bazi podataka
+ *
  * @author Milica
+ * DAO sloj koji se koristi za pristup tabeli "employee" u bazi podataka
  */
 @Repository
 public class EmployeeDaoImpl implements EmployeeDao {
@@ -30,8 +31,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
         Employee currentEmployee = currentEmployee(employee);
 
         if (currentEmployee == null) {
-                sessionFactory.getCurrentSession().save(employee);
-                return true;
+            sessionFactory.getCurrentSession().save(employee);
+            return true;
         }
 
         return false;
@@ -43,7 +44,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         Employee currentEmployee = currentEmployee(employee);
 
         if (currentEmployee == null) {
-                return false;
+            return false;
         }
 
         sessionFactory.getCurrentSession().update(employee);
@@ -56,7 +57,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         Employee currentEmployee = currentEmployee(employee);
 
         if (currentEmployee == null) {
-                return false;
+            return false;
         }
 
         sessionFactory.getCurrentSession().delete(currentEmployee);
@@ -67,9 +68,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
     @Transactional
     public Employee getEmployeeById(int id) {
         Employee currentEmployee = (Employee) sessionFactory.getCurrentSession()
-                        .createCriteria(Employee.class)
-                        .add(Restrictions.eq("employeeId", id))
-                        .uniqueResult();
+            .createCriteria(Employee.class)
+            .add(Restrictions.eq("employeeId", id))
+            .uniqueResult();
         return currentEmployee;
     }
 

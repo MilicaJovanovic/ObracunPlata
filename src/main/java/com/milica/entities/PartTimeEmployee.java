@@ -1,5 +1,6 @@
 package com.milica.entities;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +14,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="part_time_employee")
-public class PartTimeEmployee {
+public class PartTimeEmployee implements Serializable {
     
     private int partTimeEmployeeId;
     private int subjectsInSpringSemester;
