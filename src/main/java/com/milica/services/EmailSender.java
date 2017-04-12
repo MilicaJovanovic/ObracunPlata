@@ -40,54 +40,31 @@ public class EmailSender {
             
         for (Person person : employees) {
             String to = person.getName() + "." + person.getLastname() + "@metropolitan.ac.rs";
-//            if (person.getName().equals("Nikola") && person.getLastname().equals("Dimitrijevic")) {
-//                MimeMessage message = new MimeMessage(session);
-//                message.setFrom(new InternetAddress(USERNAME));
-//                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(TO));
-//                message.setSubject("Informacija o zaradi");
-//                message.setText(mail);
-//
-//                MimeBodyPart textBodyPart = new MimeBodyPart();
-//                textBodyPart.setContent(mail, "text/html; charset=utf-8");
-//
-//                String FILE = "c:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/src/main/resources/obracuni/" + person.getName() + person.getLastname() + ".pdf";
-//
-//                MimeBodyPart messageBodyPart = new MimeBodyPart();
-//                Multipart multipart = new MimeMultipart();
-//                messageBodyPart = new MimeBodyPart();
-//                String file = FILE;
-//                String fileName = "Obracun plate.pdf";
-//                DataSource source = new FileDataSource(file);
-//                messageBodyPart.setDataHandler(new DataHandler(source));
-//                messageBodyPart.setFileName(fileName);
-//                multipart.addBodyPart(textBodyPart);
-//                multipart.addBodyPart(messageBodyPart);
-//                message.setContent(multipart);
-//                Transport.send(message);
-//            }
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(USERNAME));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(TO));
-            message.setSubject("Informacija o zaradi");
-            message.setText(mail);
+            if (person.getName().equals("Nikola") && person.getLastname().equals("Dimitrijevic")) {
+                MimeMessage message = new MimeMessage(session);
+                message.setFrom(new InternetAddress(USERNAME));
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(TO));
+                message.setSubject("Informacija o zaradi");
+                message.setText(mail);
 
-            MimeBodyPart textBodyPart = new MimeBodyPart();
-            textBodyPart.setContent(mail, "text/html; charset=utf-8");
-        
-            String FILE = "c:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/src/main/resources/obracuni/" + person.getName() + person.getLastname() + ".pdf";
-            
-            MimeBodyPart messageBodyPart = new MimeBodyPart();
-            Multipart multipart = new MimeMultipart();
-            messageBodyPart = new MimeBodyPart();
-            String file = FILE;
-            String fileName = "Obracun plate.pdf";
-            DataSource source = new FileDataSource(file);
-            messageBodyPart.setDataHandler(new DataHandler(source));
-            messageBodyPart.setFileName(fileName);
-            multipart.addBodyPart(textBodyPart);
-            multipart.addBodyPart(messageBodyPart);
-            message.setContent(multipart);
-            Transport.send(message);
+                MimeBodyPart textBodyPart = new MimeBodyPart();
+                textBodyPart.setContent(mail, "text/html; charset=utf-8");
+
+                String FILE = "c:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/src/main/resources/obracuni/" + person.getName() + person.getLastname() + ".pdf";
+
+                MimeBodyPart messageBodyPart = new MimeBodyPart();
+                Multipart multipart = new MimeMultipart();
+                messageBodyPart = new MimeBodyPart();
+                String file = FILE;
+                String fileName = "Obracun plate.pdf";
+                DataSource source = new FileDataSource(file);
+                messageBodyPart.setDataHandler(new DataHandler(source));
+                messageBodyPart.setFileName(fileName);
+                multipart.addBodyPart(textBodyPart);
+                multipart.addBodyPart(messageBodyPart);
+                message.setContent(multipart);
+                Transport.send(message);
+            }
         }
     }
 }

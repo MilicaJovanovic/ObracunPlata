@@ -212,7 +212,7 @@ public class MainController {
     
     @RequestMapping(value = "/history", method = RequestMethod.GET)
     public ModelAndView showHistory(ModelAndView model) {
-        final File folder = new File("c:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/src/main/resources/izvestaji");
+        final File folder = new File("c:/Users/Dusan Nesic/Documents/git/ObracunPlata/src/main/resources/izvestaji");
         List<String> files = listFilesForFolder(folder);
         
         model.addObject("files", files);
@@ -225,7 +225,7 @@ public class MainController {
     public void doDownload(HttpServletRequest request, HttpServletResponse response, @PathVariable("fileName") String fileName) throws IOException {
         int BUFFER_SIZE = 4096;
         
-        String filePath = "c:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/src/main/resources/izvestaji/" + fileName;
+        String filePath = "c:/Users/Dusan Nesic/Documents/git/ObracunPlata/src/main/resources/izvestaji/" + fileName;
         ServletContext context = request.getServletContext();
              
         File downloadFile = new File(filePath);
