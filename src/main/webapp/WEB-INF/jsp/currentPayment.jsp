@@ -5,10 +5,6 @@
 <%@include file="header.jsp" %>
 <div class="container">
     <h1>Lista trenutnih neto zarada zaposlenih</h1>
-    <p>Odaberite semestar:</p>
-    <form:form method="POST" commandName="semester">
-        <form:select path="semesterName" items="${semesterList}" />
-    </form:form>
     <c:if test="${!empty employees}">
         <table class="table table-striped" style="margin-top: 20px;">
             <tr>
@@ -16,8 +12,10 @@
                 <th width="500"> Prezime</th>
                 <th width="500"> Tip zaposlenja</th>
                 <th width="500"> Fakultet</th>
-                <th width="500"> Osnovna zarada</th>
-                <th width="500"> Autorski honorar</th>
+                <th width="500"> Osnovna zarada jesenji semestar</th>
+                <th width="500"> Autorski honorar jesenji semestar</th>
+                <th width="500"> Osnovna zarada prolecni semestar</th>
+                <th width="500"> Autorski honorar prolecni semestar</th>
             </tr>
             <c:forEach items="${employees}" var="employee">
                 <div class="row">
@@ -26,8 +24,10 @@
                         <td>${employee.lastname}</td>
                         <td>${employee.employmentType}</td>
                         <td>${employee.faculty}</td>
-                        <td>${employee.salaryNeto}</td>
-                        <td>${employee.authorFeeNeto}</td>
+                        <td>${employee.salaryNetoA}</td>
+                        <td>${employee.authorFeeNetoA}</td>
+                        <td>${employee.salaryNetoS}</td>
+                        <td>${employee.authorFeeNetoS}</td>
                     </tr>
                 </div>
             </c:forEach>

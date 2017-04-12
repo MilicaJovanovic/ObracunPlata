@@ -30,7 +30,7 @@ public class PdfGenerator {
     private static final Font CAT_FONT = new Font(Font.FontFamily.TIMES_ROMAN, 24, Font.BOLD);
     private static final Font SUB_FONT = new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD);
 
-    public static void generatePdf(java.util.List<Person> employees) throws MessagingException {
+    public static void generatePdf(java.util.List<Person> employees, String semester) throws MessagingException {
         Date date = Calendar.getInstance().getTime();
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         String today = sdf.format(date);
@@ -41,7 +41,7 @@ public class PdfGenerator {
             document.open();
             addMetaData(document);
             addTitlePage(document);
-            addContent(document, employees);
+            addContent(document, employees, semester);
             document.close();
         } catch (DocumentException | FileNotFoundException e) {
         }
@@ -71,7 +71,7 @@ public class PdfGenerator {
         document.newPage();
     }
 
-    private static void addContent(Document document, java.util.List<Person> employees) throws DocumentException {
+    private static void addContent(Document document, java.util.List<Person> employees, String semester) throws DocumentException {
         Anchor anchor = new Anchor("Izvestaj", CAT_FONT);
         anchor.setName("Izvestaj");
 
@@ -81,12 +81,12 @@ public class PdfGenerator {
         addEmptyLine(subPara, 2);
         Section subCatPart = catPart.addSection(subPara);
 
-        createTable(subCatPart, employees);
+        createTable(subCatPart, employees, semester);
 
         document.add(catPart);
     }
 
-    private static void createTable(Section subCatPart, java.util.List<Person> employees) throws BadElementException {
+    private static void createTable(Section subCatPart, java.util.List<Person> employees, String semester) throws BadElementException {
         PdfPTable table = new PdfPTable(6);
 
         table.setWidthPercentage(100);
@@ -121,14 +121,20 @@ public class PdfGenerator {
             table.addCell(person.getLastname());
             table.addCell(person.getEmploymentType());
             table.addCell(person.getFaculty());
-            table.addCell(person.getSalaryNeto() + "");
-            table.addCell(person.getAuthorFeeNeto() + "");   
+            if (semester.equals("A")) {
+                table.addCell(person.getSalaryNetoA() + "");
+                table.addCell(person.getAuthorFeeNetoA() + "");   
+            } else {
+                table.addCell(person.getSalaryNetoS() + "");
+                table.addCell(person.getAuthorFeeNetoS() + "");   
+            }
+            
         }
         
         subCatPart.add(table);
     }
     
-    public static void generateSeparatePdf(Person person) throws MessagingException {
+    public static void generateSeparatePdf(Person person, String semester) throws MessagingException {
         String SEPARATE_FILE = "c:/Users/Milica/Documents/NetBeansProjects/ObracunPlata/src/main/resources/obracuni/" + person.getName() + person.getLastname() + ".pdf";
 
         try {
@@ -137,7 +143,7 @@ public class PdfGenerator {
             document.open();
             addSeparateMetaData(document);
             addSeparateTitlePage(document);
-            addSeparateContent(document, person);
+            addSeparateContent(document, person, semester);
             document.close();
         } catch (DocumentException | FileNotFoundException e) {
             System.out.println("GRESKA PRI GENERISANJU FAJLOVA");
@@ -170,7 +176,7 @@ public class PdfGenerator {
         document.newPage();
     }
 
-    private static void addSeparateContent(Document document, Person person) throws DocumentException {
+    private static void addSeparateContent(Document document, Person person, String semester) throws DocumentException {
         Anchor anchor = new Anchor("Obracun", CAT_FONT);
         anchor.setName("Obracun");
 
@@ -182,12 +188,22 @@ public class PdfGenerator {
         subPara.add(new Paragraph("Ime i prezime: " + person.getName() + " " + person.getLastname(), SUB_FONT));
         subPara.add(new Paragraph("Tip zaposlenja: " + person.getEmploymentType(), SUB_FONT));
         subPara.add(new Paragraph("Fakutet: " + person.getFaculty(), SUB_FONT));
-        subPara.add(new Paragraph("Isplacena osnovna zarada: " + person.getSalaryNeto(), SUB_FONT));
-        subPara.add(new Paragraph("Isplacen autorski honorar: " + person.getAuthorFeeNeto(), SUB_FONT));
+        String semesterPayment = "";
+        if (semester.equals("A")) {
+            subPara.add(new Paragraph("Isplacena osnovna zarada: " + person.getSalaryNetoA(), SUB_FONT));
+            subPara.add(new Paragraph("Isplacen autorski honorar: " + person.getAuthorFeeNetoA(), SUB_FONT));
+            semesterPayment = "jesenji semestar";
+        } else {
+            subPara.add(new Paragraph("Isplacena osnovna zarada: " + person.getSalaryNetoS(), SUB_FONT));
+            subPara.add(new Paragraph("Isplacen autorski honorar: " + person.getAuthorFeeNetoS(), SUB_FONT)); 
+            semesterPayment = "prolecni semestar";
+        }
         Date date = Calendar.getInstance().getTime();
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         String today = sdf.format(date);
         subPara.add(new Paragraph("Datum isplate: " + today, SUB_FONT));
+        subPara.add("Isplata za semestar: " + semesterPayment);
+        
         
         Section subCatPart = catPart.addSection(subPara);
 

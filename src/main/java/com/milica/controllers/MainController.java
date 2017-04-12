@@ -23,27 +23,20 @@ import com.milica.services.Semester;
 import java.io.FileInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
-import org.springframework.core.io.FileSystemResource;
-/**
- *
- * @author Milica
- */
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -51,11 +44,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.Validator;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+
+/**
+ *
+ * @author Milica
+ */
 
 @Controller
 @RequestMapping("/")
@@ -115,8 +111,6 @@ public class MainController {
             person.setLastname(partTimeEmployee.getLastname());
             person.setFaculty(partTimeEmployee.getFaculty());
             person.setEmploymentType("Honorarni odnos");
-            person.setSalaryNeto(2000);
-            person.setAuthorFeeNeto(0);
             employees.add(person);
         }
         model.addObject("employees", employees);
@@ -133,44 +127,45 @@ public class MainController {
             sendMails(employees);
         }
         
-        List semesters = new ArrayList();
-        semesters.add("Jesenji");
-        semesters.add("Prolecni");
-
-        Map<String, Object> previousData = model.getModel();
-        for (String key : previousData.keySet()) {
-            System.out.println("KLJUC: " + key);
-        }
-        
-        Semester semester = new Semester();
-        
-        model.addObject("semester", semester);
+//        List semesters = new ArrayList();
+//        semesters.add("Jesenji");
+//        semesters.add("Prolecni");
+//
+//        Map<String, Object> previousData = model.getModel();
+//        for (String key : previousData.keySet()) {
+//            System.out.println("KLJUC: " + key);
+//        }
+//        
+//        Semester semester = new Semester();
+//        
+//        model.addObject("semester", semester);
         model.addObject("employees", employees);
         model.addObject("employee", new Person());
-        model.addObject("semesterList", semesters);
+//        model.addObject("semesterList", semesters);
         return model;
     }
     
-    @RequestMapping(value="/currentPayment/send", method=RequestMethod.GET)
-    public String doPay(ModelMap m) throws Exception {
-        List<Person> employees = generateCurrentPayment();
-
-        EmailFlag flag = emailFlagDao.getEmailFlagById(1);
-        if (flag.getFlag() == 1) {
-            sendMails(employees);
-        }
-        
-        ModelAndView page = new ModelAndView("currentPayment");
-        page.addObject("employees", employees);
-        
-        return "redirect:/currentPayment";
-    }
+//    @RequestMapping(value="/currentPayment/send", method=RequestMethod.GET)
+//    public String doPay(ModelMap m) throws Exception {
+//        List<Person> employees = generateCurrentPayment();
+//
+//        EmailFlag flag = emailFlagDao.getEmailFlagById(1);
+//        if (flag.getFlag() == 1) {
+//            sendMails(employees);
+//        }
+//        
+//        ModelAndView page = new ModelAndView("currentPayment");
+//        page.addObject("employees", employees);
+//        
+//        return "redirect:/currentPayment";
+//    }
     
     @RequestMapping(value = "/grossPayment", method = RequestMethod.GET)
     public ModelAndView showGrossPayment(ModelAndView model) {
         List<Employee> employeeList = employeeDao.getAllEmployees();
         List<PartTimeEmployee> partTimeEmployeeList = partTimeEmployeeDao.getPartTimeEmployees();
         List<Person> employees = new ArrayList<>();
+   
         for (Employee employee : employeeList) {
             List<Subject> subjectList = subjectEmployeeDao.getSubjectsForEmployee(employee);
             Person person = new Person();
@@ -178,8 +173,10 @@ public class MainController {
             person.setLastname(employee.getLastname());
             person.setFaculty(employee.getFaculty());
             person.setEmploymentType("Radni odnos");
-            person.setSalaryGross(calculatePayment.employeeGrossBasicPayment(employee, "Prolecni semestar", subjectList));
-            person.setAuthorFeeGross(calculatePayment.empoyeeGrossAuthorFee(employee, "Prolecni semestar", subjectList));
+            person.setSalaryGrossS(calculatePayment.employeeGrossBasicPayment(employee, "S", subjectList));
+            person.setAuthorFeeGrossS(calculatePayment.empoyeeGrossAuthorFee(employee, "S", subjectList));
+            person.setSalaryGrossA(calculatePayment.employeeGrossBasicPayment(employee, "A", subjectList));
+            person.setAuthorFeeGrossA(calculatePayment.empoyeeGrossAuthorFee(employee, "A", subjectList));
             employees.add(person);
         }
         for (PartTimeEmployee partTimeEmployee : partTimeEmployeeList) {
@@ -189,8 +186,10 @@ public class MainController {
             person.setLastname(partTimeEmployee.getLastname());
             person.setFaculty(partTimeEmployee.getFaculty());
             person.setEmploymentType("Honorarni odnos");
-            person.setSalaryGross(calculatePayment.partTimeEmployeeGrossBasicPayment(partTimeEmployee, "Prolecni semestar", subjectList));
-            person.setAuthorFeeGross(0);
+            person.setSalaryGrossA(calculatePayment.partTimeEmployeeGrossBasicPayment(partTimeEmployee, "A", subjectList));
+            person.setAuthorFeeGrossA(0);
+            person.setSalaryGrossS(calculatePayment.partTimeEmployeeGrossBasicPayment(partTimeEmployee, "S", subjectList));
+            person.setAuthorFeeGrossS(0);
             employees.add(person);
         }
         model.addObject("employees", employees);
@@ -331,8 +330,10 @@ public class MainController {
             person.setLastname(employee.getLastname());
             person.setFaculty(employee.getFaculty());
             person.setEmploymentType("Radni odnos");
-            person.setSalaryNeto(calculatePayment.employeeNetoBasicPayment(employee, "Prolecni semestar", subjectList));
-            person.setAuthorFeeNeto(calculatePayment.empoyeeNetoAuthorFee(employee, "Prolecni semestar", subjectList));
+            person.setSalaryNetoA(calculatePayment.employeeNetoBasicPayment(employee, "A", subjectList));
+            person.setAuthorFeeNetoA(calculatePayment.empoyeeNetoAuthorFee(employee, "A", subjectList));
+            person.setSalaryNetoS(calculatePayment.employeeNetoBasicPayment(employee, "S", subjectList));
+            person.setAuthorFeeNetoS(calculatePayment.empoyeeNetoAuthorFee(employee, "S", subjectList));
             employees.add(person);
         }
         for (PartTimeEmployee partTimeEmployee : partTimeEmployeeList) {
@@ -342,8 +343,10 @@ public class MainController {
             person.setLastname(partTimeEmployee.getLastname());
             person.setFaculty(partTimeEmployee.getFaculty());
             person.setEmploymentType("Honorarni odnos");
-            person.setSalaryNeto(calculatePayment.partTimeEmpoyeeBasicPayment(partTimeEmployee, "Jesenji semestar", subjectList));
-            person.setAuthorFeeNeto(0);
+            person.setSalaryNetoA(calculatePayment.partTimeEmpoyeeBasicPayment(partTimeEmployee, "A", subjectList));
+            person.setAuthorFeeNetoA(0);
+            person.setSalaryNetoS(calculatePayment.partTimeEmpoyeeBasicPayment(partTimeEmployee, "S", subjectList));
+            person.setAuthorFeeNetoS(0);
             employees.add(person);
         }
         
@@ -351,13 +354,35 @@ public class MainController {
     }
     
     @RequestMapping(value="/currentPayment/pay", method=RequestMethod.GET)
-    public String doPay(ModelMap m, @Validated Semester semester) throws Exception {
-        System.out.println("Objekat semestra: " + semester.toString());
-        System.out.println("ODABRANI SEMESTAR JE: " + semester.getSemesterName());
+    public String doPay(ModelMap m) throws Exception {
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String today = sdf.format(date);
+        String month = today.substring(3, 4);
+        String semester = "";
+        switch (month) {
+            case "09":
+            case "10":
+            case "11":
+            case "12":
+            case "01":
+            case "02":
+                semester = "A";
+                break;
+            case "03":
+            case "04":
+            case "05":
+            case "06":
+            case "07":
+            case "08":
+                semester = "S";
+                break;
+        }
+        
         List<Person> employees = generateCurrentPayment();
-        PdfGenerator.generatePdf(employees);
+        PdfGenerator.generatePdf(employees, semester);
   
-        generatePdfs(employees);
+        generatePdfs(employees, semester);
         
         ModelAndView page = new ModelAndView("currentPayment");
         page.addObject("employees", employees);
@@ -375,10 +400,10 @@ public class MainController {
         emailFlagDao.setUngenerated();
     }
     
-    private void generatePdfs(List<Person> employees) {
+    private void generatePdfs(List<Person> employees, String semester) {
         try {
             for(Person person: employees) {
-                PdfGenerator.generateSeparatePdf(person);
+                PdfGenerator.generateSeparatePdf(person, semester);
             }
         } catch (MessagingException e) {
             e.printStackTrace();

@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2017 at 11:51 AM
--- Server version: 10.1.8-MariaDB
--- PHP Version: 5.6.14
+-- Generation Time: Apr 12, 2017 at 11:56 AM
+-- Server version: 10.1.10-MariaDB
+-- PHP Version: 5.6.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -30,6 +30,13 @@ CREATE TABLE `email_flag` (
   `email_flag_id` int(11) NOT NULL,
   `flag` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `email_flag`
+--
+
+INSERT INTO `email_flag` (`email_flag_id`, `flag`) VALUES
+(1, 2);
 
 -- --------------------------------------------------------
 
@@ -67,9 +74,7 @@ CREATE TABLE `employee` (
 --
 
 INSERT INTO `employee` (`employee_id`, `semester_number`, `subjects_in_spring_semester`, `subjects_in_autumn_semester`, `special_add_value`, `functions_add_value`, `name`, `lastname`, `faculty`, `bank_account`, `email`, `teaching_position`, `employment_percentage`, `subject_number`, `kbp`, `kro`, `kt`, `kpr`, `isum_hours_autumn`, `isum_hours_spring`, `isum_money_autumn`, `isum_money_spring`) VALUES
-(102, 2, 5, 5, 0, 0, 'Svetlana', 'Cvetanvoic', 'Fakultet informacionih tehnologija', '123456789', 'svetlana.cvetanvoic@metropolitan.ac.rs', 'Docent', '100', '12', '1.0', '1.0', '1.2', '1.0', 0, 0, 0, 0),
-(105, 2, 5, 5, 0, 0, 'Svetlana', 'Cvetanvoic', 'Fakultet informacionih tehnologija', '123456789', 'svetlana.cvetanvoic@metropolitan.ac.rs', 'Docent', '100', '12', '1.0', '1.0', '1.2', '1.0', 0, 0, 0, 0),
-(106, 2, 5, 5, 0, 0, 'Svetlana', 'Cvetanvoic', 'Fakultet informacionih tehnologija', '123456789', 'svetlana.cvetanvoic@metropolitan.ac.rs', 'Docent', '100', '12', '1.0', '1.0', '1.2', '1.0', 0, 0, 0, 0);
+(1, 2, 5, 5, 0, 0, 'Svetlana', 'Cvetanvoic', 'Fakultet informacionih tehnologija', '123456789', 'svetlana.cvetanvoic@metropolitan.ac.rs', 'Docent', '100', '12', '1.0', '1.0', '1.2', '1.0', 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -97,9 +102,7 @@ CREATE TABLE `part_time_employee` (
 --
 
 INSERT INTO `part_time_employee` (`part_time_employee_id`, `name`, `lastname`, `subjects_in_spring_semester`, `subjects_in_autumn_semester`, `faculty`, `bank_account`, `email`, `teaching_position`, `employment_percentage`, `subject_number`, `kt`) VALUES
-(98, 'Jovana', 'Jovic', 5, 5, 'Fakultet informacionih tehnologija', '123456789', 'jovana.jovic@metropolitan.ac.rs', 'Master', '100', '12', '1.2'),
-(101, 'Jovana', 'Jovic', 5, 5, 'Fakultet informacionih tehnologija', '123456789', 'jovana.jovic@metropolitan.ac.rs', 'Master', '100', '12', '1.2'),
-(102, 'Jovana', 'Jovic', 5, 5, 'Fakultet informacionih tehnologija', '123456789', 'jovana.jovic@metropolitan.ac.rs', 'Master', '100', '12', '1.2');
+(1, 'Jovana', 'Jovic', 5, 5, 'Fakultet informacionih tehnologija', '123456789', 'jovana.jovic@metropolitan.ac.rs', 'Master', '100', '12', '1.2');
 
 -- --------------------------------------------------------
 
@@ -133,9 +136,9 @@ CREATE TABLE `subject` (
 --
 
 INSERT INTO `subject` (`subject_id`, `name`, `location`, `type`, `semester`, `code`, `class_number`, `group_exercise_number`, `individual_exercise_number`, `espb`, `groups_number`, `words_number`, `fpm`, `fob`, `fin1`, `fin2`, `fmm`, `fkv`) VALUES
-(133, 'CS101 Uvod u OO Programiranje', 'NiÅ¡', 'Klas.', 'J', '', 3, 1, 3, 10, 2, 4000, 1, 0.9, 1.1, 0.975, 1.1, 0.8),
-(134, 'CS102 Algoritmi i strukture podataka', 'NiÅ¡', 'Klas.', 'P', '', 3, 1, 3, 10, 2, 4000, 1, 0.9, 1.1, 0.975, 1.1, 0.8),
-(135, 'IT350 Baze podataka', 'Beograd', 'Hibr.', 'P', '', 3, 1, 3, 10, 2, 4000, 1, 0.9, 1.1, 0.975, 1.1, 0.8);
+(1, 'CS101 Uvod u OO Programiranje', 'NiÅ¡', 'Klas.', 'J', '', 3, 1, 3, 10, 2, 4000, 1, 0.9, 1.1, 0.975, 1.1, 0.8),
+(2, 'CS102 Algoritmi i strukture podataka', 'NiÅ¡', 'Klas.', 'P', '', 3, 1, 3, 10, 2, 4000, 1, 0.9, 1.1, 0.975, 1.1, 0.8),
+(3, 'IT350 Baze podataka', 'Beograd', 'Hibr.', 'P', '', 3, 1, 3, 10, 2, 4000, 1, 0.9, 1.1, 0.975, 1.1, 0.8);
 
 -- --------------------------------------------------------
 
@@ -154,9 +157,9 @@ CREATE TABLE `subject_employee` (
 --
 
 INSERT INTO `subject_employee` (`subject_employee_id`, `employee_id`, `subject_id`) VALUES
-(16, 102, 133),
-(17, 102, 134),
-(18, 102, 135);
+(1, 1, 1),
+(2, 1, 2),
+(3, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -273,27 +276,27 @@ ALTER TABLE `user_roles`
 -- AUTO_INCREMENT for table `email_flag`
 --
 ALTER TABLE `email_flag`
-  MODIFY `email_flag_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `email_flag_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `part_time_employee`
 --
 ALTER TABLE `part_time_employee`
-  MODIFY `part_time_employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+  MODIFY `part_time_employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `subject`
 --
 ALTER TABLE `subject`
-  MODIFY `subject_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
+  MODIFY `subject_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `subject_employee`
 --
 ALTER TABLE `subject_employee`
-  MODIFY `subject_employee_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `subject_employee_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `subject_part_time_employee`
 --

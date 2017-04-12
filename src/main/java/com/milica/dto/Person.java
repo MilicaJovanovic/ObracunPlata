@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.milica.dto;
 
 /**
@@ -14,45 +9,53 @@ public class Person {
     private String lastname;
     private String faculty;
     private String employmentType;
-    private double salaryNeto;
-    private double authorFeeNeto;
-    private double salaryGross;
-    private double authorFeeGross;
+    private double salaryNetoA;
+    private double authorFeeNetoA;
+    private double salaryGrossA;
+    private double authorFeeGrossA;
+    private double salaryNetoS;
+    private double authorFeeNetoS;
+    private double salaryGrossS;
+    private double authorFeeGrossS;
     
     public Person() {}
 
-    public Person(String name, String lastname, String faculty, String employmentType, double salaryNeto, double authorFeeNeto) {
+    public Person(String name, String lastname, String faculty, String employmentType, double salaryNetoA, double authorFeeNetoA, double salaryNetoS, double authorFeeNetoS) {
         this.name = name;
         this.lastname = lastname;
         this.faculty = faculty;
         this.employmentType = employmentType;
-        this.salaryNeto = salaryNeto;
-        this.authorFeeNeto = authorFeeNeto;
+        this.salaryNetoA = salaryNetoA;
+        this.authorFeeNetoA = authorFeeNetoA;
+        this.salaryNetoS = salaryNetoS;
+        this.authorFeeNetoS = authorFeeNetoS;
     }
     
-    public Person(double salaryGross, double authorFeeGross, String name, String lastname, String faculty, String employmentType) {
+    public Person(double salaryGrossA, double authorFeeGrossA, double salaryGrossS, double authorFeeGrossS, String name, String lastname, String faculty, String employmentType) {
         this.name = name;
         this.lastname = lastname;
         this.faculty = faculty;
         this.employmentType = employmentType;
-        this.salaryGross = salaryGross;
-        this.authorFeeGross = authorFeeGross;
+        this.salaryGrossA = salaryGrossA;
+        this.authorFeeGrossA = authorFeeGrossA;
+        this.salaryGrossS = salaryGrossS;
+        this.authorFeeGrossS = authorFeeGrossS;
     }
     
-    public Person(String name, String lastname, String faculty, String employmentType, double salaryNeto) {
+    public Person(String name, String lastname, String faculty, String employmentType, double salaryNetoA) {
         this.name = name;
         this.lastname = lastname;
         this.faculty = faculty;
         this.employmentType = employmentType;
-        this.salaryNeto = salaryNeto;
+        this.salaryNetoA = salaryNetoA;
     }
     
-    public Person(double salaryGross, String name, String lastname, String faculty, String employmentType) {
+    public Person(double salaryGrossA, String name, String lastname, String faculty, String employmentType) {
         this.name = name;
         this.lastname = lastname;
         this.faculty = faculty;
         this.employmentType = employmentType;
-        this.salaryGross = salaryGross;
+        this.salaryGrossA = salaryGrossA;
     }
 
     public String getName() {
@@ -87,40 +90,72 @@ public class Person {
         this.employmentType = employmentType;
     }
 
-    public double getSalaryNeto() {
-        return salaryNeto;
+    public double getSalaryNetoA() {
+        return salaryNetoA;
     }
 
-    public void setSalaryNeto(double salaryNeto) {
-        this.salaryNeto = salaryNeto;
+    public void setSalaryNetoA(double salaryNetoA) {
+        this.salaryNetoA = salaryNetoA;
     }
 
-    public double getAuthorFeeNeto() {
-        return authorFeeNeto;
+    public double getAuthorFeeNetoA() {
+        return authorFeeNetoA;
     }
 
-    public void setAuthorFeeNeto(double authorFeeNeto) {
-        this.authorFeeNeto = authorFeeNeto;
+    public void setAuthorFeeNetoA(double authorFeeNetoA) {
+        this.authorFeeNetoA = authorFeeNetoA;
     }
 
-    public double getSalaryGross() {
-        return salaryGross;
+    public double getSalaryGrossA() {
+        return salaryGrossA;
     }
 
-    public void setSalaryGross(double salaryGross) {
-        this.salaryGross = salaryGross;
+    public void setSalaryGrossA(double salaryGrossA) {
+        this.salaryGrossA = salaryGrossA;
     }
 
-    public double getAuthorFeeGross() {
-        return authorFeeGross;
+    public double getAuthorFeeGrossA() {
+        return authorFeeGrossA;
     }
 
-    public void setAuthorFeeGross(double authorFeeGross) {
-        this.authorFeeGross = authorFeeGross;
+    public void setAuthorFeeGrossA(double authorFeeGrossA) {
+        this.authorFeeGrossA = authorFeeGrossA;
+    }
+
+    public double getSalaryNetoS() {
+        return salaryNetoS;
+    }
+
+    public void setSalaryNetoS(double salaryNetoS) {
+        this.salaryNetoS = salaryNetoS;
+    }
+
+    public double getAuthorFeeNetoS() {
+        return authorFeeNetoS;
+    }
+
+    public void setAuthorFeeNetoS(double authorFeeNetoS) {
+        this.authorFeeNetoS = authorFeeNetoS;
+    }
+
+    public double getSalaryGrossS() {
+        return salaryGrossS;
+    }
+
+    public void setSalaryGrossS(double salaryGrossS) {
+        this.salaryGrossS = salaryGrossS;
+    }
+
+    public double getAuthorFeeGrossS() {
+        return authorFeeGrossS;
+    }
+
+    public void setAuthorFeeGrossS(double authorFeeGrossS) {
+        this.authorFeeGrossS = authorFeeGrossS;
     }
 
     @Override
     public String toString() {
-        return "Person{" + "name=" + name + ", lastname=" + lastname + ", faculty=" + faculty + ", employmentType=" + employmentType + ", salaryNeto=" + salaryNeto + ", authorFeeNeto=" + authorFeeNeto + ", salaryGross=" + salaryGross + ", authorFeeGross=" + authorFeeGross + '}';
+        return "Person{" + "name=" + name + ", lastname=" + lastname + ", faculty=" + faculty + ", employmentType=" + employmentType + ", salaryNetoA=" + salaryNetoA + ", authorFeeNetoA=" + authorFeeNetoA + ", salaryGrossA=" + salaryGrossA + ", authorFeeGrossA=" + authorFeeGrossA + ", salaryNetoS=" + salaryNetoS + ", authorFeeNetoS=" + authorFeeNetoS + ", salaryGrossS=" + salaryGrossS + ", authorFeeGrossS=" + authorFeeGrossS + '}';
     }
 }

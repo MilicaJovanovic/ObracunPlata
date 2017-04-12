@@ -12,8 +12,10 @@
                 <th width="500"> Prezime</th>
                 <th width="500"> Tip zaposlenja</th>
                 <th width="500"> Fakultet</th>
-                <th width="500"> Osnovna zarada</th>
-                <th width="500"> Autorski honorar</th>
+                <th width="500"> Osnovna zarada jesenji semestar</th>
+                <th width="500"> Autorski honorar jesenji semester</th>
+                <th width="500"> Osnovna zarada prolecni semestar</th>
+                <th width="500"> Autorski honorar prolecni semestar</th>
             </tr>
             <c:forEach items="${employees}" var="employee">
                 <div class="row">
@@ -22,8 +24,10 @@
                         <td>${employee.lastname}</td>
                         <td>${employee.employmentType}</td>
                         <td>${employee.faculty}</td>
-                        <td>${employee.salaryGross}</td>
-                        <td>${employee.authorFeeGross}</td>
+                        <td>${employee.salaryGrossA}</td>
+                        <td>${employee.authorFeeGrossA}</td>
+                        <td>${employee.salaryGrossS}</td>
+                        <td>${employee.authorFeeGrossS}</td>
                     </tr>
                 </div>
             </c:forEach>
